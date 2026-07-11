@@ -109,24 +109,24 @@ public abstract class MixinTileEntityMachineCompressorBase extends TileEntityMac
                 processTime = timeBase / speed / over;
                 powerRequirement = TileEntityMachineCompressorBase.powerRequirementBase / (powerLevel + 1);
                 powerRequirement = powerRequirement * speed * over;
-                if (uCount > 0) {
-                    int speedFactor = 1 + uCount * 4;
-                    processTime = Math.max(processTime / speedFactor, 1);
-                    powerRequirement = (int)(powerRequirement * Math.pow(0.5D, uCount));
-                }
+                powerRequirement = (int)(powerRequirement * Math.pow(0.5D, uCount));
                 if (processTime <= 0) processTime = 1;
-                if (te.canProcess()) {
-                    progress++;
-                    isOn = true;
-                    power -= powerRequirement;
-                    if (progress >= processTime) {
+                int speedFactor = 1 + uCount * 4;
+                for (int i = 0; i < speedFactor; i++) {
+                    if (te.canProcess()) {
+                        progress++;
+                        isOn = true;
+                        power -= powerRequirement;
+                        if (progress >= processTime) {
+                            progress = 0;
+                            te.process();
+                            te.markChanged();
+                        }
+                    } else {
                         progress = 0;
-                        te.process();
-                        te.markChanged();
+                        isOn = false;
+                        break;
                     }
-                } else {
-                    progress = 0;
-                    isOn = false;
                 }
                 for (DirPos pos : getConPos()) {
                     te.tryProvide(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());

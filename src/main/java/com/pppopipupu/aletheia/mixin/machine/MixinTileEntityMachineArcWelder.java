@@ -112,35 +112,37 @@ public abstract class MixinTileEntityMachineArcWelder extends TileEntityMachineB
                     processTime = recipe.duration * (4 - redLevel) / 4 / black;
                     consumption = recipe.consumption * (4 - blueLevel) / 4 * (redLevel + 1) * black;
                     intendedMaxPower = recipe.consumption * 20 * black;
-                    int speedFactor = 1 + uCount * 4;
                     double powerFactor = Math.pow(0.5D, uCount);
-                    processTime = Math.max(processTime / speedFactor, 1);
-                    consumption = (long) (consumption * powerFactor * speedFactor);
-                    intendedMaxPower = intendedMaxPower * speedFactor;
-                    if (te.canProcess(recipe)) {
-                        progress++;
-                        power -= consumption;
-                        if (progress >= processTime) {
-                            progress = 0;
-                            te.consumeItems(recipe);
-                            int mult = 1 << uCount;
-                            if (slots[3] == null) {
-                                slots[3] = recipe.output.copy();
-                                slots[3].stackSize *= mult;
-                            } else {
-                                slots[3].stackSize += recipe.output.stackSize * mult;
+                    consumption = (long) (consumption * powerFactor);
+                    intendedMaxPower = intendedMaxPower * (1 + uCount * 4);
+                    int speedFactor = 1 + uCount * 4;
+                    for (int i = 0; i < speedFactor; i++) {
+                        if (te.canProcess(recipe)) {
+                            progress++;
+                            power -= consumption;
+                            if (progress >= processTime) {
+                                progress = 0;
+                                te.consumeItems(recipe);
+                                int mult = 1 << uCount;
+                                if (slots[3] == null) {
+                                    slots[3] = recipe.output.copy();
+                                    slots[3].stackSize *= mult;
+                                } else {
+                                    slots[3].stackSize += recipe.output.stackSize * mult;
+                                }
+                                te.markDirty();
                             }
-                            te.markDirty();
+                            if (worldObj.getTotalWorldTime() % 2 == 0) {
+                                ForgeDirection dir = ForgeDirection.getOrientation(te.getBlockMetadata() - 10);
+                                NBTTagCompound dPart = new NBTTagCompound();
+                                dPart.setString("type", worldObj.getTotalWorldTime() % 20 == 0 ? "tau" : "hadron");
+                                dPart.setByte("count", (byte) 5);
+                                PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(dPart, xCoord + 0.5 - dir.offsetX * 0.5, yCoord + 1.25, zCoord + 0.5 - dir.offsetZ * 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 25));
+                            }
+                        } else {
+                            progress = 0;
+                            break;
                         }
-                        if (worldObj.getTotalWorldTime() % 2 == 0) {
-                            ForgeDirection dir = ForgeDirection.getOrientation(te.getBlockMetadata() - 10);
-                            NBTTagCompound dPart = new NBTTagCompound();
-                            dPart.setString("type", worldObj.getTotalWorldTime() % 20 == 0 ? "tau" : "hadron");
-                            dPart.setByte("count", (byte) 5);
-                            PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(dPart, xCoord + 0.5 - dir.offsetX * 0.5, yCoord + 1.25, zCoord + 0.5 - dir.offsetZ * 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 25));
-                        }
-                    } else {
-                        progress = 0;
                     }
                 } else {
                     progress = 0;

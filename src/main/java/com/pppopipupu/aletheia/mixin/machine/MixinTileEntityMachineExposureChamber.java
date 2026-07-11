@@ -68,8 +68,6 @@ public abstract class MixinTileEntityMachineExposureChamber extends TileEntityMa
                 consumption /= (powerLevel + 1);
                 processTime /= overdrive;
                 consumption *= overdrive;
-                int speedFactor = 1 + uCount * 4;
-                processTime = Math.max(processTime / speedFactor, 1);
                 consumption = (int)(consumption * Math.pow(0.5D, uCount));
                 if (slots[1] == null && slots[0] != null && slots[3] != null && savedParticles <= 0) {
                     ExposureChamberRecipe recipe = te.getRecipe(slots[0], slots[3]);
@@ -94,25 +92,29 @@ public abstract class MixinTileEntityMachineExposureChamber extends TileEntityMa
                     }
                 }
                 if (slots[1] != null && savedParticles > 0 && power >= consumption) {
-                    ExposureChamberRecipe recipe = te.getRecipe(slots[1], slots[3]);
-                    int mult = 1 << uCount;
-                    if (recipe != null && (slots[4] == null || (slots[4].getItem() == recipe.output.getItem() && slots[4].getItemDamage() == recipe.output.getItemDamage() && slots[4].stackSize + recipe.output.stackSize * mult <= slots[4].getMaxStackSize()))) {
-                        progress++;
-                        power -= consumption;
-                        isOn = true;
-                        if (progress >= processTime) {
-                            progress = 0;
-                            savedParticles--;
-                            te.decrStackSize(3, 1);
-                            if (slots[4] == null) {
-                                slots[4] = recipe.output.copy();
-                                slots[4].stackSize *= mult;
-                            } else {
-                                slots[4].stackSize += recipe.output.stackSize * mult;
+                    int speedFactor = 1 + uCount * 4;
+                    for (int i = 0; i < speedFactor; i++) {
+                        ExposureChamberRecipe recipe = te.getRecipe(slots[1], slots[3]);
+                        int mult = 1 << uCount;
+                        if (power >= consumption && recipe != null && (slots[4] == null || (slots[4].getItem() == recipe.output.getItem() && slots[4].getItemDamage() == recipe.output.getItemDamage() && slots[4].stackSize + recipe.output.stackSize * mult <= slots[4].getMaxStackSize()))) {
+                            progress++;
+                            power -= consumption;
+                            isOn = true;
+                            if (progress >= processTime) {
+                                progress = 0;
+                                savedParticles--;
+                                te.decrStackSize(3, 1);
+                                if (slots[4] == null) {
+                                    slots[4] = recipe.output.copy();
+                                    slots[4].stackSize *= mult;
+                                } else {
+                                    slots[4].stackSize += recipe.output.stackSize * mult;
+                                }
                             }
+                        } else {
+                            progress = 0;
+                            break;
                         }
-                    } else {
-                        progress = 0;
                     }
                 } else {
                     progress = 0;

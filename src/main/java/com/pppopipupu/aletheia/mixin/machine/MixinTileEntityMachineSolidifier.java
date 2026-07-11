@@ -126,13 +126,31 @@ public abstract class MixinTileEntityMachineSolidifier extends TileEntityMachine
                 int over = aletheia$overdriveSpeeds[upgradeManager.getLevel(UpgradeType.OVERDRIVE)];
                 processTime = TileEntityMachineSolidifier.processTimeBase * (4 - speed) / 4 / over;
                 usage = TileEntityMachineSolidifier.usageBase * (speed + 1) * over / (powerLvl + 1);
-                int speedFactor = 1 + uCount * 4;
-                processTime = Math.max(processTime / speedFactor, 1);
                 usage = (int)(usage * Math.pow(0.5D, uCount));
-                if (((TileEntityMachineSolidifier)(Object)this).canProcess()) {
-                    ((TileEntityMachineSolidifier)(Object)this).process();
-                } else {
-                    progress = 0;
+                int speedFactor = 1 + uCount * 4;
+                for (int i = 0; i < speedFactor; i++) {
+                    if (((TileEntityMachineSolidifier)(Object)this).canProcess()) {
+                        progress++;
+                        power -= usage;
+                        if (progress >= processTime) {
+                            progress = 0;
+                            Pair<Integer, ItemStack> out = SolidificationRecipes.getOutput(tank.getTankType());
+                            int req = out.getKey();
+                            ItemStack stack = out.getValue();
+                            tank.setFill(tank.getFill() - req);
+                            int mult = 1 << uCount;
+                            if (slots[0] == null) {
+                                slots[0] = stack.copy();
+                                slots[0].stackSize *= mult;
+                            } else {
+                                slots[0].stackSize += stack.stackSize * mult;
+                            }
+                            markDirty();
+                        }
+                    } else {
+                        progress = 0;
+                        break;
+                    }
                 }
                 networkPackNT(50);
                 ci.cancel();

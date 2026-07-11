@@ -122,8 +122,6 @@ public abstract class MixinTileEntityMachineCrystallizer extends TileEntityMachi
                 int powerReq = te.getPowerRequired();
                 powerReq = (int) (powerReq * Math.pow(0.5D, uCount));
                 duration = te.getDuration();
-                int speedFactor = 1 + uCount * 4;
-                duration = (short) Math.max(duration / speedFactor, 1);
                 for (int i = 0; i < cycles; i++) {
                     if (canProcess()) {
                         progress++;

@@ -143,16 +143,26 @@ public abstract class MixinTileEntityMachineMixer extends TileEntityMachineBase 
                 }
                 wasOn = ((TileEntityMachineMixer)(Object)this).canProcess();
                 if (wasOn) {
-                    progress++;
-                    power -= ((TileEntityMachineMixer)(Object)this).getConsumption();
-                    processTime -= processTime * speedLevel / 4;
-                    processTime /= over;
                     int speedFactor = 1 + uCount * 4;
-                    processTime = Math.max(processTime / speedFactor, 1);
-                    if (processTime <= 0) processTime = 1;
-                    if (progress >= processTime) {
-                        process();
-                        progress = 0;
+                    for (int i = 0; i < speedFactor; i++) {
+                        if (((TileEntityMachineMixer)(Object)this).canProcess()) {
+                            progress++;
+                            power -= ((TileEntityMachineMixer)(Object)this).getConsumption();
+                            if (progress >= processTime) {
+                                progress = 0;
+                                MixerRecipe[] recipes = MixerRecipes.getOutput(tanks[2].getTankType());
+                                MixerRecipe recipe = recipes[recipeIndex % recipes.length];
+                                if (recipe.input1 != null) tanks[0].setFill(tanks[0].getFill() - recipe.input1.fill);
+                                if (recipe.input2 != null) tanks[1].setFill(tanks[1].getFill() - recipe.input2.fill);
+                                if (recipe.solidInput != null) ((TileEntityMachineMixer)(Object)this).decrStackSize(1, recipe.solidInput.stacksize);
+                                int mult = 1 << uCount;
+                                tanks[2].setFill(tanks[2].getFill() + recipe.output * mult);
+                                markDirty();
+                            }
+                        } else {
+                            progress = 0;
+                            break;
+                        }
                     }
                 } else {
                     progress = 0;

@@ -61,6 +61,10 @@ public abstract class MixinTileEntityMachineExcavator extends TileEntityMachineB
         }
     }
 
+    private int aletheia$lastSlotHash;
+
+    private int aletheia$prevChuteTimer;
+
     @Inject(method = "updateEntity", at = @At("HEAD"), cancellable = true)
     private void aletheia$updateEntity(CallbackInfo ci) {
         upgradeManager.checkSlots(slots, 2, 3);
@@ -103,6 +107,17 @@ public abstract class MixinTileEntityMachineExcavator extends TileEntityMachineB
                 } else {
                     targetDepth = 0;
                 }
+                if (chuteTimer > aletheia$prevChuteTimer) {
+                    int mult = 1 << uCount;
+                    if (mult > 1) {
+                        for (int s = 5; s <= 13; s++) {
+                            if (slots[s] != null) {
+                                slots[s].stackSize *= mult;
+                            }
+                        }
+                    }
+                }
+                aletheia$prevChuteTimer = chuteTimer;
                 networkPackNT(150);
             } else {
                 prevDrillExtension = drillExtension;
