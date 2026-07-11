@@ -1,0 +1,35 @@
+item.upgrade_ultimate.name=Ultimate Machine Upgrade
+desc.item.upgrade_ultimate=Implements anti-entropy mechanics
+
+tile.ams_base.name=AMS Base
+tile.ams_emitter.name=AMS Emitter
+tile.ams_limiter.name=AMS Limiter
+
+item.bucket_qgp.name=QGP Bucket
+item.qgp_mining_bomb.name=QGP Mining Bomb
+fluid.qgp=Quark-Gluon Plasma
+fluid.qgp_fluid=Quark-Gluon Plasma
+hbmfluid.qgp=Quark-Gluon Plasma
+hbmfluid.qgp_fluid=Quark-Gluon Plasma
+container.amsBase=AMS Base
+container.amsEmitter=AMS Emitter
+container.amsLimiter=AMS Limiter
+tile.qgp_block.name=Quark-Gluon Plasma
+item.gun_pppop.name=PPPOP Gun
+
+item.aletheia:upgrade_ultimate.name=Ultimate Machine Upgrade
+tile.aletheia:ams_base.name=AMS Base
+tile.aletheia:ams_emitter.name=AMS Emitter
+tile.aletheia:ams_limiter.name=AMS Limiter
+item.aletheia:bucket_qgp.name=QGP Bucket
+item.aletheia:qgp_mining_bomb.name=QGP Mining Bomb
+tile.aletheia:qgp_block.name=Quark-Gluon Plasma
+item.aletheia:gun_pppop.name=PPPOP Gun
+item.ams_focus_blank.name=AMS Blank Focus Chip
+item.ams_focus_limiter.name=AMS Limiting Focus Chip
+item.ams_focus_booster.name=AMS Boosting Focus Chip
+item.ams_muzzle.name=AMS Antimatter Muzzle
+item.aletheia:ams_focus_blank.name=AMS Blank Focus Chip
+item.aletheia:ams_focus_limiter.name=AMS Limiting Focus Chip
+item.aletheia:ams_focus_booster.name=AMS Boosting Focus Chip
+item.aletheia:ams_muzzle.name=AMS Antimatter Muzzle

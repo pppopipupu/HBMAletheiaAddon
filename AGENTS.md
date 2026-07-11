@@ -1,0 +1,62 @@
+# Aletheia 开发者指南 (AGENTS.md)
+
+本文件为开发智能体 (Agent) 提供关于 Hbm's Nuclear Tech Mod (NTMC) 的独立 Addon 模组 Aletheia 项目的架构、技术栈与开发规约介绍，以便于快速上手并遵守项目规范。
+
+## 1. 技术栈介绍
+
+* **目标游戏版本**: Minecraft 1.7.10
+* **开发框架**: Minecraft Forge (1.7.10)
+* **核心语言**: Java
+* **编译与构建工具**: Gradle (配备 Jabel 编译器插件)
+  * 注: 本地构建采用的高版本 JDK (如 JDK 25) 搭配 Jabel 进行编译，编译输出目标保持 Java 8 兼容性，构建指令为 `.\gradlew.bat compileJava`。
+* **主要依赖与支持**:
+  * **Hbm's Nuclear Tech Mod (Space Branch)**: 作为核心前置模组，依赖本地构建包 `NTMC-Space-GOLDEN-X5751.34.1-dev.jar`。
+  * **NotEnoughItems (NEI)**: 配方与物品检索支持。
+  * **Sedna 枪械框架**: 模组重用了 NTMC 的模块化枪械系统，支持复杂的 3D 渲染和自定义枪械配置。
+  * **Mixin**: 使用 Mixin 框架向原版 HBM 中织入自定义的升级机制以及爆炸拦截逻辑。
+
+## 2. 项目结构介绍
+
+项目的核心源代码位于 `src/main/java`，资源文件位于 `src/main/resources`。
+
+### 2.1 源代码结构 (`src/main/java`)
+
+所有核心逻辑均位于包 `com.pppopipupu.aletheia` 下：
+
+* **`com.pppopipupu.aletheia`**:
+  * 模组的入口点与主注册类。
+  * `Aletheia.java`: 各种方块、物品的实例化与注册，以及 `FMLMissingMappingsEvent` 重映射处理器（实现与旧版私货命名空间的存档兼容）。
+  * `CommonProxy.java` / `ClientProxy.java`: 服务端和客户端代理，处理 TileEntity 注册、IItemRenderer 和 TileEntitySpecialRenderer 绑定。
+* **`com.pppopipupu.aletheia.block`**:
+  * 包含 QGP 流体方块、流体类以及 AMS 反应堆方块（AMS Base, Emitter, Limiter）。
+* **`com.pppopipupu.aletheia.item`**:
+  * 包含 QGP 桶、QGP 采矿炸弹。终极升级插件和 PPPOP 枪直接在主类中调用原版类进行配置实例化。
+* **`com.pppopipupu.aletheia.tileentity`**:
+  * 包含 `TileEntityAMSBase`、`TileEntityAMSEmitter` 和 `TileEntityAMSLimiter` 反应堆机器逻辑的实现。
+* **`com.pppopipupu.aletheia.render`**:
+  * 包含 QGP 流体、AMS 特殊渲染以及 PPPOP 枪等自定义 3D 物品渲染器（`ItemRenderPPPOP` 等）。
+* **`com.pppopipupu.aletheia.mixin`**:
+  * `MixinUpgradeManagerNT.java`: 拦截升级槽并计算终极升级的 `ultimateCount`。
+  * `MixinExplosionFilter.java`: 重写原版爆炸过滤器 `ExplosionFilter` 的 `shouldBlock` 方法，以同时兼容老版和 Addon 注册的新 PPPOP 炮护盾功能。
+* **`com.pppopipupu.aletheia.explosion`**:
+  * 包含 `ExplosionFilter.java` 的实现，用以判断世界中是否装有 PPPOP 枪并吸收爆炸。
+* **`com.pppopipupu.aletheia.packet`**:
+  * 包含 QGP 相关的包数据传输逻辑。
+
+### 2.2 资源文件结构 (`src/main/resources`)
+
+* **`assets/aletheia/lang`**:
+  * 语言本地化文件，如 `en_US.lang`（英文）和 `zh_CN.lang`（中文）。
+* **`assets/aletheia/sounds.json`**:
+  * 注册枪械发射和音效资源。
+* **`assets/aletheia/textures` / `models` / `shaders`**:
+  * 存放夸克-胶子等离子体、枪支模型和着色器资源。
+
+## 3. 编码规约
+
+* **注释规范**: 不要在函数或逻辑内部编写任何的内联注释。不要在shader中编写任何注释。
+* **Mixin规范**: 绝对不要使用任何的 `@Overwrite`，除非不用就无法实现功能，如果要使用也必须由用户 review 确认。应当优先使用 `@Inject` 配合 Duck 接口或 `@Redirect` 等安全的注入机制。
+* **导入规范**: 绝对不要使用任何包名全称，能import包必须使用import。绝对不可以偷懒直接写全称，必须用编辑工具正常在顶部插入import。
+* **编译校验**: 每次修改完代码后，必须通过本地终端运行 `$env:JAVA_HOME="C:\Program Files\Java\jdk-25.0.3"; .\gradlew.bat compileJava` 进行编译校验，确保没有语法和编译期报错。
+* **日志规范**: 绝对禁止使用 `System.out` 或 `System.err` 输出调试或运行日志。在进行日志记录时，必须使用 Log4j 2 Logger，且必须只使用 `com.pppopipupu.aletheia.Aletheia.LOG`。
+

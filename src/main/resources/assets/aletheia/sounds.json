@@ -1,0 +1,10 @@
+{
+  "weapon.zomgShoot": {
+    "category": "player",
+    "sounds": [{"name": "aletheia:weapon/zomgShoot", "stream": false}]
+  },
+  "weapon.osiprShoot": {
+    "category": "player",
+    "sounds": [{"name": "aletheia:weapon/osiprShoot", "stream": false}]
+  }
+}
