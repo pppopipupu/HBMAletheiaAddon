@@ -1,7 +1,16 @@
 package com.pppopipupu.aletheia.mixin.machine;
 
-import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluidmk2.IFluidReceiverMK2;
+import java.util.HashMap;
+
+import net.minecraft.item.ItemStack;
+
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
 import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.SolidificationRecipes;
@@ -11,15 +20,10 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.oil.TileEntityMachineSolidifier;
 import com.hbm.util.Tuple.Pair;
 import com.hbm.util.fauxpointtwelve.DirPos;
-import net.minecraft.item.ItemStack;
 import com.pppopipupu.aletheia.interfaces.IUpgradeManagerAccess;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import java.util.HashMap;
+
+import api.hbm.energymk2.IEnergyReceiverMK2;
+import api.hbm.fluidmk2.IFluidReceiverMK2;
 
 @Mixin(value = TileEntityMachineSolidifier.class, remap = false)
 public abstract class MixinTileEntityMachineSolidifier extends TileEntityMachineBase implements IEnergyReceiverMK2 {
@@ -28,15 +32,25 @@ public abstract class MixinTileEntityMachineSolidifier extends TileEntityMachine
         super(size);
     }
 
-    private static final int[] aletheia$overdriveSpeeds = {1, 2, 5, 10, 20, 50, 100};
+    private static final int[] aletheia$overdriveSpeeds = { 1, 2, 5, 10, 20, 50, 100 };
 
-    @Shadow(remap = false) public UpgradeManagerNT upgradeManager;
-    @Shadow(remap = false) public long power;
-    @Shadow(remap = false) public int progress;
-    @Shadow(remap = false) public int processTime;
-    @Shadow(remap = false) public int usage;
-    @Shadow(remap = false) public FluidTank tank;
-    @Shadow(remap = false) private DirPos[] getConPos() { return null; }
+    @Shadow(remap = false)
+    public UpgradeManagerNT upgradeManager;
+    @Shadow(remap = false)
+    public long power;
+    @Shadow(remap = false)
+    public int progress;
+    @Shadow(remap = false)
+    public int processTime;
+    @Shadow(remap = false)
+    public int usage;
+    @Shadow(remap = false)
+    public FluidTank tank;
+
+    @Shadow(remap = false)
+    private DirPos[] getConPos() {
+        return null;
+    }
 
     @Inject(method = "getValidUpgrades", at = @At("RETURN"))
     private void aletheia$getValidUpgrades(CallbackInfoReturnable<HashMap<UpgradeType, Integer>> cir) {
@@ -103,7 +117,7 @@ public abstract class MixinTileEntityMachineSolidifier extends TileEntityMachine
                     slots[0].stackSize += stack.stackSize * mult;
                 }
                 progress = 0;
-                ((TileEntityMachineSolidifier)(Object)this).markDirty();
+                ((TileEntityMachineSolidifier) (Object) this).markDirty();
             }
             ci.cancel();
         }
@@ -119,17 +133,18 @@ public abstract class MixinTileEntityMachineSolidifier extends TileEntityMachine
                 tank.setType(4, slots);
                 for (DirPos pos : getConPos()) {
                     this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-                    ((IFluidReceiverMK2) this).trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+                    ((IFluidReceiverMK2) this)
+                        .trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
                 }
                 int speed = upgradeManager.getLevel(UpgradeType.SPEED);
                 int powerLvl = upgradeManager.getLevel(UpgradeType.POWER);
                 int over = aletheia$overdriveSpeeds[upgradeManager.getLevel(UpgradeType.OVERDRIVE)];
                 processTime = TileEntityMachineSolidifier.processTimeBase * (4 - speed) / 4 / over;
                 usage = TileEntityMachineSolidifier.usageBase * (speed + 1) * over / (powerLvl + 1);
-                usage = (int)(usage * Math.pow(0.5D, uCount));
+                usage = (int) (usage * Math.pow(0.5D, uCount));
                 int speedFactor = 1 + uCount * 4;
                 for (int i = 0; i < speedFactor; i++) {
-                    if (((TileEntityMachineSolidifier)(Object)this).canProcess()) {
+                    if (((TileEntityMachineSolidifier) (Object) this).canProcess()) {
                         progress++;
                         power -= usage;
                         if (progress >= processTime) {

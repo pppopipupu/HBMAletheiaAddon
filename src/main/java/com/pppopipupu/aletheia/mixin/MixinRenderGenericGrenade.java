@@ -1,11 +1,5 @@
 package com.pppopipupu.aletheia.mixin;
 
-import com.hbm.entity.grenade.EntityDisperserCanister;
-import com.hbm.entity.grenade.EntityGrenadeBouncyGeneric;
-import com.hbm.entity.grenade.IGenericGrenade;
-import com.hbm.inventory.fluid.FluidType;
-import com.hbm.render.entity.projectile.RenderGenericGrenade;
-import com.hbm.render.shader.Shader;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -14,6 +8,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,6 +16,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.hbm.entity.grenade.EntityDisperserCanister;
+import com.hbm.entity.grenade.EntityGrenadeBouncyGeneric;
+import com.hbm.entity.grenade.IGenericGrenade;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.render.entity.projectile.RenderGenericGrenade;
+import com.hbm.render.shader.Shader;
 
 @Mixin(value = RenderGenericGrenade.class, remap = false)
 public abstract class MixinRenderGenericGrenade extends Render {
@@ -33,8 +35,9 @@ public abstract class MixinRenderGenericGrenade extends Render {
         if (entity instanceof EntityGrenadeBouncyGeneric) {
             EntityGrenadeBouncyGeneric bouncy = (EntityGrenadeBouncyGeneric) entity;
             Item grenadeItem = bouncy.getGrenade();
-            if (grenadeItem != null && grenadeItem.getUnlocalizedName() != null &&
-                    grenadeItem.getUnlocalizedName().contains("qgp_mining_bomb")) {
+            if (grenadeItem != null && grenadeItem.getUnlocalizedName() != null
+                && grenadeItem.getUnlocalizedName()
+                    .contains("qgp_mining_bomb")) {
                 cir.setReturnValue(TextureMap.locationBlocksTexture);
             }
         }
@@ -44,12 +47,13 @@ public abstract class MixinRenderGenericGrenade extends Render {
     private void aletheia$doRender(Entity entity, double x, double y, double z, float f0, float f1, CallbackInfo ci) {
         boolean disperser = entity instanceof EntityDisperserCanister;
         boolean isMiningBomb = false;
-        
+
         if (entity instanceof EntityGrenadeBouncyGeneric) {
             EntityGrenadeBouncyGeneric bouncy = (EntityGrenadeBouncyGeneric) entity;
             Item grenadeItem = bouncy.getGrenade();
-            if (grenadeItem != null && grenadeItem.getUnlocalizedName() != null &&
-                    grenadeItem.getUnlocalizedName().contains("qgp_mining_bomb")) {
+            if (grenadeItem != null && grenadeItem.getUnlocalizedName() != null
+                && grenadeItem.getUnlocalizedName()
+                    .contains("qgp_mining_bomb")) {
                 isMiningBomb = true;
             }
         }
@@ -61,7 +65,8 @@ public abstract class MixinRenderGenericGrenade extends Render {
                     EntityDisperserCanister canister = (EntityDisperserCanister) entity;
                     FluidType fluid = canister.getFluid();
                     if (fluid != null) {
-                        iicon = canister.getType().getIconFromDamageForRenderPass(fluid.getID(), i);
+                        iicon = canister.getType()
+                            .getIconFromDamageForRenderPass(fluid.getID(), i);
                         if (i == 1) {
                             int hex = fluid.getColor();
                             int r = (hex & 0xFF0000) >> 16;
@@ -98,8 +103,7 @@ public abstract class MixinRenderGenericGrenade extends Render {
                         if (aletheia$qgpShader == null) {
                             aletheia$qgpShader = new Shader(
                                 new ResourceLocation("aletheia", "shaders/qgp.vert"),
-                                new ResourceLocation("aletheia", "shaders/qgp.frag")
-                            );
+                                new ResourceLocation("aletheia", "shaders/qgp.frag"));
                         }
                         aletheia$qgpShader.use();
                         aletheia$qgpShader.setUniform1f("iTime", (System.currentTimeMillis() % 100000) / 1000.0F);
@@ -109,11 +113,11 @@ public abstract class MixinRenderGenericGrenade extends Render {
                         if (aletheia$rainbowTntShader == null) {
                             aletheia$rainbowTntShader = new Shader(
                                 new ResourceLocation("aletheia", "shaders/qgp.vert"),
-                                new ResourceLocation("aletheia", "shaders/rainbow_tnt.frag")
-                            );
+                                new ResourceLocation("aletheia", "shaders/rainbow_tnt.frag"));
                         }
                         aletheia$rainbowTntShader.use();
-                        aletheia$rainbowTntShader.setUniform1f("iTime", (System.currentTimeMillis() % 100000) / 1000.0F);
+                        aletheia$rainbowTntShader
+                            .setUniform1f("iTime", (System.currentTimeMillis() % 100000) / 1000.0F);
                     }
 
                     GL11.glPushMatrix();

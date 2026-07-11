@@ -1,8 +1,16 @@
 package com.pppopipupu.aletheia.mixin.machine;
 
-import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluidmk2.IFluidReceiverMK2;
-import api.hbm.fluidmk2.IFluidStandardSenderMK2;
+import java.util.HashMap;
+
+import net.minecraft.nbt.NBTTagCompound;
+
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
 import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -14,14 +22,10 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.TileEntityMachineMixer;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import com.pppopipupu.aletheia.interfaces.IUpgradeManagerAccess;
-import net.minecraft.nbt.NBTTagCompound;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import java.util.HashMap;
+
+import api.hbm.energymk2.IEnergyReceiverMK2;
+import api.hbm.fluidmk2.IFluidReceiverMK2;
+import api.hbm.fluidmk2.IFluidStandardSenderMK2;
 
 @Mixin(value = TileEntityMachineMixer.class, remap = false)
 public abstract class MixinTileEntityMachineMixer extends TileEntityMachineBase implements IEnergyReceiverMK2 {
@@ -30,20 +34,34 @@ public abstract class MixinTileEntityMachineMixer extends TileEntityMachineBase 
         super(size);
     }
 
-    private static final int[] aletheia$overdriveSpeeds = {1, 2, 5, 10, 20, 50, 100};
+    private static final int[] aletheia$overdriveSpeeds = { 1, 2, 5, 10, 20, 50, 100 };
 
-    @Shadow(remap = false) public UpgradeManagerNT upgradeManager;
-    @Shadow(remap = false) public long power;
-    @Shadow(remap = false) public int progress;
-    @Shadow(remap = false) public int processTime;
-    @Shadow(remap = false) public int recipeIndex;
-    @Shadow(remap = false) public FluidTank[] tanks;
-    @Shadow(remap = false) private int consumption;
-    @Shadow(remap = false) public boolean wasOn;
-    @Shadow(remap = false) public float rotation;
-    @Shadow(remap = false) public float prevRotation;
-    @Shadow(remap = false) protected abstract DirPos[] getConPos();
-    @Shadow(remap = false) protected void process() { }
+    @Shadow(remap = false)
+    public UpgradeManagerNT upgradeManager;
+    @Shadow(remap = false)
+    public long power;
+    @Shadow(remap = false)
+    public int progress;
+    @Shadow(remap = false)
+    public int processTime;
+    @Shadow(remap = false)
+    public int recipeIndex;
+    @Shadow(remap = false)
+    public FluidTank[] tanks;
+    @Shadow(remap = false)
+    private int consumption;
+    @Shadow(remap = false)
+    public boolean wasOn;
+    @Shadow(remap = false)
+    public float rotation;
+    @Shadow(remap = false)
+    public float prevRotation;
+
+    @Shadow(remap = false)
+    protected abstract DirPos[] getConPos();
+
+    @Shadow(remap = false)
+    protected void process() {}
 
     @Inject(method = "getValidUpgrades", at = @At("RETURN"))
     private void aletheia$getValidUpgrades(CallbackInfoReturnable<HashMap<UpgradeType, Integer>> cir) {
@@ -57,7 +75,7 @@ public abstract class MixinTileEntityMachineMixer extends TileEntityMachineBase 
     private void aletheia$canProcess(CallbackInfoReturnable<Boolean> cir) {
         int uCount = ((IUpgradeManagerAccess) upgradeManager).aletheia$getUltimateCount();
         if (uCount > 0) {
-            TileEntityMachineMixer te = (TileEntityMachineMixer)(Object)this;
+            TileEntityMachineMixer te = (TileEntityMachineMixer) (Object) this;
             MixerRecipe[] recipes = MixerRecipes.getOutput(tanks[2].getTankType());
             if (recipes == null || recipes.length <= 0) {
                 recipeIndex = 0;
@@ -95,7 +113,8 @@ public abstract class MixinTileEntityMachineMixer extends TileEntityMachineBase 
                     cir.setReturnValue(false);
                     return;
                 }
-                if (!recipe.solidInput.matchesRecipe(slots[1], true) || recipe.solidInput.stacksize > slots[1].stackSize) {
+                if (!recipe.solidInput.matchesRecipe(slots[1], true)
+                    || recipe.solidInput.stacksize > slots[1].stackSize) {
                     cir.setReturnValue(false);
                     return;
                 }
@@ -113,7 +132,8 @@ public abstract class MixinTileEntityMachineMixer extends TileEntityMachineBase 
             MixerRecipe recipe = recipes[recipeIndex % recipes.length];
             if (recipe.input1 != null) tanks[0].setFill(tanks[0].getFill() - recipe.input1.fill);
             if (recipe.input2 != null) tanks[1].setFill(tanks[1].getFill() - recipe.input2.fill);
-            if (recipe.solidInput != null) ((TileEntityMachineMixer)(Object)this).decrStackSize(1, recipe.solidInput.stacksize);
+            if (recipe.solidInput != null)
+                ((TileEntityMachineMixer) (Object) this).decrStackSize(1, recipe.solidInput.stacksize);
             int mult = 1 << uCount;
             tanks[2].setFill(tanks[2].getFill() + recipe.output * mult);
             ci.cancel();
@@ -135,26 +155,39 @@ public abstract class MixinTileEntityMachineMixer extends TileEntityMachineBase 
                 this.consumption += speedLevel * 150;
                 this.consumption -= this.consumption * powerLevel / 4;
                 this.consumption *= over;
-                this.consumption = (int)(this.consumption * Math.pow(0.5D, uCount));
+                this.consumption = (int) (this.consumption * Math.pow(0.5D, uCount));
                 for (DirPos pos : getConPos()) {
                     this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-                    if (tanks[0].getTankType() != Fluids.NONE) ((IFluidReceiverMK2) this).trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-                    if (tanks[1].getTankType() != Fluids.NONE) ((IFluidReceiverMK2) this).trySubscribe(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+                    if (tanks[0].getTankType() != Fluids.NONE) ((IFluidReceiverMK2) this).trySubscribe(
+                        tanks[0].getTankType(),
+                        worldObj,
+                        pos.getX(),
+                        pos.getY(),
+                        pos.getZ(),
+                        pos.getDir());
+                    if (tanks[1].getTankType() != Fluids.NONE) ((IFluidReceiverMK2) this).trySubscribe(
+                        tanks[1].getTankType(),
+                        worldObj,
+                        pos.getX(),
+                        pos.getY(),
+                        pos.getZ(),
+                        pos.getDir());
                 }
-                wasOn = ((TileEntityMachineMixer)(Object)this).canProcess();
+                wasOn = ((TileEntityMachineMixer) (Object) this).canProcess();
                 if (wasOn) {
                     int speedFactor = 1 + uCount * 4;
                     for (int i = 0; i < speedFactor; i++) {
-                        if (((TileEntityMachineMixer)(Object)this).canProcess()) {
+                        if (((TileEntityMachineMixer) (Object) this).canProcess()) {
                             progress++;
-                            power -= ((TileEntityMachineMixer)(Object)this).getConsumption();
+                            power -= ((TileEntityMachineMixer) (Object) this).getConsumption();
                             if (progress >= processTime) {
                                 progress = 0;
                                 MixerRecipe[] recipes = MixerRecipes.getOutput(tanks[2].getTankType());
                                 MixerRecipe recipe = recipes[recipeIndex % recipes.length];
                                 if (recipe.input1 != null) tanks[0].setFill(tanks[0].getFill() - recipe.input1.fill);
                                 if (recipe.input2 != null) tanks[1].setFill(tanks[1].getFill() - recipe.input2.fill);
-                                if (recipe.solidInput != null) ((TileEntityMachineMixer)(Object)this).decrStackSize(1, recipe.solidInput.stacksize);
+                                if (recipe.solidInput != null) ((TileEntityMachineMixer) (Object) this)
+                                    .decrStackSize(1, recipe.solidInput.stacksize);
                                 int mult = 1 << uCount;
                                 tanks[2].setFill(tanks[2].getFill() + recipe.output * mult);
                                 markDirty();
@@ -168,7 +201,8 @@ public abstract class MixinTileEntityMachineMixer extends TileEntityMachineBase 
                     progress = 0;
                 }
                 for (DirPos pos : getConPos()) {
-                    if (tanks[2].getFill() > 0) ((IFluidStandardSenderMK2) this).tryProvide(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+                    if (tanks[2].getFill() > 0) ((IFluidStandardSenderMK2) this)
+                        .tryProvide(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
                 }
                 NBTTagCompound data = new NBTTagCompound();
                 data.setLong("power", power);

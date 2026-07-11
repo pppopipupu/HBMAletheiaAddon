@@ -1,14 +1,11 @@
 package com.pppopipupu.aletheia.mixin;
 
-import com.hbm.inventory.fluid.FluidType;
-import com.hbm.render.shader.Shader;
-import com.hbm.render.tileentity.RenderFluidTank;
-import com.hbm.tileentity.machine.storage.TileEntityMachineFluidTank;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,6 +14,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.render.shader.Shader;
+import com.hbm.render.tileentity.RenderFluidTank;
+import com.hbm.tileentity.machine.storage.TileEntityMachineFluidTank;
+
 @Mixin(value = RenderFluidTank.class, remap = false)
 public abstract class MixinRenderFluidTank extends TileEntitySpecialRenderer {
 
@@ -24,7 +26,8 @@ public abstract class MixinRenderFluidTank extends TileEntitySpecialRenderer {
     private static Shader aletheia$qgpShader = null;
 
     @Inject(method = "renderTileEntityAt", at = @At("HEAD"))
-    private void aletheia$renderTileEntityAtHead(TileEntity tileEntity, double x, double y, double z, float f, CallbackInfo ci) {
+    private void aletheia$renderTileEntityAtHead(TileEntity tileEntity, double x, double y, double z, float f,
+        CallbackInfo ci) {
         if (!(tileEntity instanceof TileEntityMachineFluidTank)) return;
         TileEntityMachineFluidTank tank = (TileEntityMachineFluidTank) tileEntity;
         FluidType type = tank.tank.getTankType();
@@ -47,8 +50,7 @@ public abstract class MixinRenderFluidTank extends TileEntitySpecialRenderer {
             if (aletheia$qgpShader == null) {
                 aletheia$qgpShader = new Shader(
                     new ResourceLocation("aletheia", "shaders/default.vert"),
-                    new ResourceLocation("aletheia", "shaders/distortion.frag")
-                );
+                    new ResourceLocation("aletheia", "shaders/distortion.frag"));
             }
 
             aletheia$qgpShader.use();
@@ -64,7 +66,8 @@ public abstract class MixinRenderFluidTank extends TileEntitySpecialRenderer {
     }
 
     @Inject(method = "renderTileEntityAt", at = @At("RETURN"))
-    private void aletheia$renderTileEntityAtReturn(TileEntity tileEntity, double x, double y, double z, float f, CallbackInfo ci) {
+    private void aletheia$renderTileEntityAtReturn(TileEntity tileEntity, double x, double y, double z, float f,
+        CallbackInfo ci) {
         if (!(tileEntity instanceof TileEntityMachineFluidTank)) return;
         TileEntityMachineFluidTank tank = (TileEntityMachineFluidTank) tileEntity;
         FluidType type = tank.tank.getTankType();

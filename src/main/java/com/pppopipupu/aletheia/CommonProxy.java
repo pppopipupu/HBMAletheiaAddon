@@ -1,11 +1,14 @@
 package com.pppopipupu.aletheia;
 
+import com.pppopipupu.aletheia.tileentity.TileEntityAMSBase;
+import com.pppopipupu.aletheia.tileentity.TileEntityAMSEmitter;
+import com.pppopipupu.aletheia.tileentity.TileEntityAMSLimiter;
+
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
-import com.pppopipupu.aletheia.tileentity.*;
 
 public class CommonProxy {
 

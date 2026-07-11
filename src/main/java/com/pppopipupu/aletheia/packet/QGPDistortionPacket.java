@@ -1,37 +1,38 @@
 package com.pppopipupu.aletheia.packet;
 
+import com.pppopipupu.aletheia.ClientProxy;
+
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
-import com.pppopipupu.aletheia.ClientProxy;
 
 public class QGPDistortionPacket implements IMessage {
 
-	public int ticks;
+    public int ticks;
 
-	public QGPDistortionPacket() { }
+    public QGPDistortionPacket() {}
 
-	public QGPDistortionPacket(int ticks) {
-		this.ticks = ticks;
-	}
+    public QGPDistortionPacket(int ticks) {
+        this.ticks = ticks;
+    }
 
-	@Override
-	public void fromBytes(ByteBuf buf) {
-		this.ticks = buf.readInt();
-	}
+    @Override
+    public void fromBytes(ByteBuf buf) {
+        this.ticks = buf.readInt();
+    }
 
-	@Override
-	public void toBytes(ByteBuf buf) {
-		buf.writeInt(this.ticks);
-	}
+    @Override
+    public void toBytes(ByteBuf buf) {
+        buf.writeInt(this.ticks);
+    }
 
-	public static class Handler implements IMessageHandler<QGPDistortionPacket, IMessage> {
+    public static class Handler implements IMessageHandler<QGPDistortionPacket, IMessage> {
 
-		@Override
-		public IMessage onMessage(QGPDistortionPacket message, MessageContext ctx) {
-			ClientProxy.qgpDistortionTicks = message.ticks;
-			return null;
-		}
-	}
+        @Override
+        public IMessage onMessage(QGPDistortionPacket message, MessageContext ctx) {
+            ClientProxy.qgpDistortionTicks = message.ticks;
+            return null;
+        }
+    }
 }

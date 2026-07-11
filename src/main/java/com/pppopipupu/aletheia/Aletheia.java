@@ -1,40 +1,45 @@
 package com.pppopipupu.aletheia;
 
+import java.lang.reflect.Method;
+
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.util.EnumHelper;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.lang.reflect.Method;
-import net.minecraftforge.common.util.EnumHelper;
+import com.hbm.inventory.FluidContainer;
+import com.hbm.inventory.FluidContainerRegistry;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.Fluids.CD_Canister;
+import com.hbm.inventory.fluid.trait.FT_Combustible;
+import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
+import com.hbm.inventory.fluid.trait.FT_Coolable;
+import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
+import com.hbm.inventory.fluid.trait.FT_VentRadiation;
+import com.hbm.render.util.EnumSymbol;
+import com.pppopipupu.aletheia.block.AletheiaBlocks;
+import com.pppopipupu.aletheia.entity.EntityDisperserCanisterAletheia;
+import com.pppopipupu.aletheia.item.AletheiaItems;
+import com.pppopipupu.aletheia.recipe.AletheiaRecipes;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
-import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
-import net.minecraft.item.ItemStack;
-import com.hbm.inventory.FluidContainerRegistry;
-import com.hbm.inventory.FluidContainer;
+import cpw.mods.fml.common.registry.GameRegistry;
 
-import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.fluid.FluidType;
-import com.hbm.render.util.EnumSymbol;
-import com.hbm.inventory.fluid.trait.FT_Coolable;
-import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
-import com.hbm.inventory.fluid.Fluids.CD_Canister;
-import com.hbm.inventory.fluid.trait.FT_VentRadiation;
-import com.hbm.inventory.fluid.trait.FT_Combustible;
-import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
-
-import com.pppopipupu.aletheia.block.AletheiaBlocks;
-import com.pppopipupu.aletheia.item.AletheiaItems;
-import com.pppopipupu.aletheia.entity.EntityDisperserCanisterAletheia;
-import com.pppopipupu.aletheia.recipe.AletheiaRecipes;
-
-@Mod(modid = Aletheia.MODID, version = Tags.VERSION, name = "Aletheia", acceptedMinecraftVersions = "[1.7.10]", dependencies = "required-after:hbm")
+@Mod(
+    modid = Aletheia.MODID,
+    version = Tags.VERSION,
+    name = "Aletheia",
+    acceptedMinecraftVersions = "[1.7.10]",
+    dependencies = "required-after:hbm")
 public class Aletheia {
 
     public static final String MODID = "aletheia";
@@ -54,25 +59,19 @@ public class Aletheia {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         try {
-            EnumHelper.addEnum(
-                FuelGrade.class, 
-                "QGP", 
-                new Class[]{String.class}, 
-                new Object[]{"Quark-Gluon"}
-            );
+            EnumHelper.addEnum(FuelGrade.class, "QGP", new Class[] { String.class }, new Object[] { "Quark-Gluon" });
             LOG.info("Successfully added FuelGrade QGP via EnumHelper!");
         } catch (Exception e) {
             LOG.error("Failed to add FuelGrade QGP!", e);
         }
 
-        fluid_qgp = new FluidType("QGP", 0xFF5500, 4, 0, 4, EnumSymbol.RADIATION)
-            .setTemp(10000000)
+        fluid_qgp = new FluidType("QGP", 0xFF5500, 4, 0, 4, EnumSymbol.RADIATION).setTemp(10000000)
             .addContainers(new CD_Canister(0xFF5500))
             .addTraits(Fluids.LIQUID, Fluids.PLASMA, Fluids.EXPLOSIVE, Fluids.LEADCON, new FT_VentRadiation(0.5F));
-        
-        fluid_qgp.addTraits(new FT_Coolable(Fluids.NONE, 1, 0, 12500000)
-            .setEff(CoolingType.TURBINE, 3.0D)
-            .setEff(CoolingType.HEATEXCHANGER, 3.0D));
+
+        fluid_qgp.addTraits(
+            new FT_Coolable(Fluids.NONE, 1, 0, 12500000).setEff(CoolingType.TURBINE, 3.0D)
+                .setEff(CoolingType.HEATEXCHANGER, 3.0D));
 
         try {
             Method mReg = Fluids.class.getDeclaredMethod("registerSelf", FluidType.class);
@@ -80,10 +79,14 @@ public class Aletheia {
             mReg.invoke(null, fluid_qgp);
             Fluids.metaOrder.add(fluid_qgp);
 
-            Method mCalculated = Fluids.class.getDeclaredMethod("registerCalculatedFuel", 
-                FluidType.class, long.class, double.class, FuelGrade.class);
+            Method mCalculated = Fluids.class.getDeclaredMethod(
+                "registerCalculatedFuel",
+                FluidType.class,
+                long.class,
+                double.class,
+                FuelGrade.class);
             mCalculated.setAccessible(true);
-            
+
             long balefireVal = 0L;
             FT_Combustible balefireComb = Fluids.BALEFIRE.getTrait(FT_Combustible.class);
             if (balefireComb != null) {
@@ -103,7 +106,14 @@ public class Aletheia {
         AletheiaBlocks.init();
         AletheiaItems.init();
 
-        EntityRegistry.registerModEntity(EntityDisperserCanisterAletheia.class, "entity_disperser_canister", 1001, Aletheia.instance, 80, 3, true);
+        EntityRegistry.registerModEntity(
+            EntityDisperserCanisterAletheia.class,
+            "entity_disperser_canister",
+            1001,
+            Aletheia.instance,
+            80,
+            3,
+            true);
 
         proxy.preInit(event);
     }
@@ -113,12 +123,22 @@ public class Aletheia {
         proxy.init(event);
 
         FluidType[] fluidsList = Fluids.getAll();
-        for(int i = 1; i < fluidsList.length; i++) {
+        for (int i = 1; i < fluidsList.length; i++) {
             FluidType type = fluidsList[i];
-            if(type.hasNoContainer()) continue;
-            if(type.isDispersable()) {
-                FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(AletheiaItems.disperser_canister, 1, i), new ItemStack(AletheiaItems.disperser_canister_empty), Fluids.fromID(i), 2000));
-                FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(AletheiaItems.glyphid_gland, 1, i), new ItemStack(AletheiaItems.glyphid_gland_empty), Fluids.fromID(i), 4000));
+            if (type.hasNoContainer()) continue;
+            if (type.isDispersable()) {
+                FluidContainerRegistry.registerContainer(
+                    new FluidContainer(
+                        new ItemStack(AletheiaItems.disperser_canister, 1, i),
+                        new ItemStack(AletheiaItems.disperser_canister_empty),
+                        Fluids.fromID(i),
+                        2000));
+                FluidContainerRegistry.registerContainer(
+                    new FluidContainer(
+                        new ItemStack(AletheiaItems.glyphid_gland, 1, i),
+                        new ItemStack(AletheiaItems.glyphid_gland_empty),
+                        Fluids.fromID(i),
+                        4000));
             }
         }
 

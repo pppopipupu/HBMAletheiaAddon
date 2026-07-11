@@ -1,181 +1,190 @@
 package com.pppopipupu.aletheia.render;
-import com.pppopipupu.aletheia.Aletheia;
-import com.pppopipupu.aletheia.block.AletheiaBlocks;
 
 import java.util.Random;
-import org.lwjgl.opengl.GL11;
-import com.hbm.blocks.BlockDummyable;
-import com.hbm.main.ResourceManager;
-import com.pppopipupu.aletheia.tileentity.TileEntityAMSBase;
-import com.pppopipupu.aletheia.tileentity.TileEntityAMSEmitter;
+
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Item;
-import net.minecraftforge.client.IItemRenderer;
-import com.hbm.render.item.ItemRenderBase;
-import com.hbm.blocks.ModBlocks;
-import com.hbm.render.tileentity.IItemRendererProvider;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.model.IModelCustom;
+
+import org.lwjgl.opengl.GL11;
+
+import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.loader.HFRWavefrontObject;
+import com.hbm.render.tileentity.IItemRendererProvider;
+import com.pppopipupu.aletheia.Aletheia;
+import com.pppopipupu.aletheia.block.AletheiaBlocks;
+import com.pppopipupu.aletheia.tileentity.TileEntityAMSBase;
+import com.pppopipupu.aletheia.tileentity.TileEntityAMSEmitter;
 
 public class RenderAMSEmitter extends TileEntitySpecialRenderer implements IItemRendererProvider {
 
-	public static final ResourceLocation ams_emitter_tex = new ResourceLocation(Aletheia.MODID, "textures/models/ams_emitter.png");
-	public static final IModelCustom ams_emitter = new HFRWavefrontObject(new ResourceLocation(Aletheia.MODID, "models/ams_emitter.obj")).asVBO();
+    public static final ResourceLocation ams_emitter_tex = new ResourceLocation(
+        Aletheia.MODID,
+        "textures/models/ams_emitter.png");
+    public static final IModelCustom ams_emitter = new HFRWavefrontObject(
+        new ResourceLocation(Aletheia.MODID, "models/ams_emitter.obj")).asVBO();
 
-	@Override
-	public Item getItemForRenderer() {
-		return Item.getItemFromBlock(AletheiaBlocks.ams_emitter);
-	}
+    @Override
+    public Item getItemForRenderer() {
+        return Item.getItemFromBlock(AletheiaBlocks.ams_emitter);
+    }
 
-	@Override
-	public IItemRenderer getRenderer() {
-		return new ItemRenderBase() {
-			@Override
-			public void renderInventory() {
-				GL11.glTranslated(0, -1.2, 0);
-				GL11.glScaled(1.6, 1.6, 1.6);
-			}
-			@Override
-			public void renderCommonWithStack(ItemStack item) {
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-				bindTexture(ams_emitter_tex);
-				ams_emitter.renderAll();
-				GL11.glShadeModel(GL11.GL_FLAT);
-			}
-		};
-	}
+    @Override
+    public IItemRenderer getRenderer() {
+        return new ItemRenderBase() {
 
-	@Override
-	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float interp) {
-		int meta = tile.getBlockMetadata();
-		if (meta < 12) return;
+            @Override
+            public void renderInventory() {
+                GL11.glTranslated(0, -1.2, 0);
+                GL11.glScaled(1.6, 1.6, 1.6);
+            }
 
-		GL11.glPushMatrix();
-		GL11.glTranslated(x + 0.5, y, z + 0.5);
-		GL11.glEnable(GL11.GL_LIGHTING);
+            @Override
+            public void renderCommonWithStack(ItemStack item) {
+                GL11.glShadeModel(GL11.GL_SMOOTH);
+                bindTexture(ams_emitter_tex);
+                ams_emitter.renderAll();
+                GL11.glShadeModel(GL11.GL_FLAT);
+            }
+        };
+    }
 
-		int dir = meta - 10;
-		int rotation = 0;
-		if (dir == 2) rotation = 180;
-		if (dir == 4) rotation = 90;
-		if (dir == 5) rotation = 270;
+    @Override
+    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float interp) {
+        int meta = tile.getBlockMetadata();
+        if (meta < 12) return;
 
-		GL11.glRotatef(rotation, 0.0F, 1.0F, 0.0F);
+        GL11.glPushMatrix();
+        GL11.glTranslated(x + 0.5, y, z + 0.5);
+        GL11.glEnable(GL11.GL_LIGHTING);
 
-		bindTexture(ams_emitter_tex);
-		ams_emitter.renderAll();
+        int dir = meta - 10;
+        int rotation = 0;
+        if (dir == 2) rotation = 180;
+        if (dir == 4) rotation = 90;
+        if (dir == 5) rotation = 270;
 
-		GL11.glPopMatrix();
-		
-		renderBeam((TileEntityAMSEmitter)tile, x, y, z);
-	}
+        GL11.glRotatef(rotation, 0.0F, 1.0F, 0.0F);
 
-	private void renderBeam(TileEntityAMSEmitter emitter, double x, double y, double z) {
-		if (emitter.locked || emitter.efficiency <= 0) return;
+        bindTexture(ams_emitter_tex);
+        ams_emitter.renderAll();
 
-		int baseIndex = -1;
-		for (int dy = 1; dy <= 16; dy++) {
-			TileEntity te = emitter.getWorldObj().getTileEntity(emitter.xCoord, emitter.yCoord - dy, emitter.zCoord);
-			if (te instanceof TileEntityAMSBase) {
-				baseIndex = dy;
-				break;
-			}
-		}
+        GL11.glPopMatrix();
 
-		if (baseIndex == -1) return;
+        renderBeam((TileEntityAMSEmitter) tile, x, y, z);
+    }
 
-		float radius = 0.04F;
-		int layers = 3;
-		Tessellator tessellator = Tessellator.instance;
-		Random rand = new Random(emitter.xCoord ^ emitter.yCoord ^ emitter.zCoord ^ emitter.getWorldObj().getTotalWorldTime());
+    private void renderBeam(TileEntityAMSEmitter emitter, double x, double y, double z) {
+        if (emitter.locked || emitter.efficiency <= 0) return;
 
-		GL11.glPushMatrix();
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL11.GL_CULL_FACE);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-		
-		GL11.glTranslated(x + 0.5D, y + 0.1D, z + 0.5D);
+        int baseIndex = -1;
+        for (int dy = 1; dy <= 16; dy++) {
+            TileEntity te = emitter.getWorldObj()
+                .getTileEntity(emitter.xCoord, emitter.yCoord - dy, emitter.zCoord);
+            if (te instanceof TileEntityAMSBase) {
+                baseIndex = dy;
+                break;
+            }
+        }
 
-		double lastPosX = 0;
-		double lastPosZ = 0;
-		double step = 0.5D;
-		double totalDist = baseIndex - 1.5D;
+        if (baseIndex == -1) return;
 
-		for (double d = 0; d < totalDist; d += step) {
-			double posX = (rand.nextDouble() - 0.5D) * 0.15D;
-			double posZ = (rand.nextDouble() - 0.5D) * 0.15D;
-			
-			if (d + step >= totalDist) {
-				posX = 0;
-				posZ = 0;
-			}
+        float radius = 0.04F;
+        int layers = 3;
+        Tessellator tessellator = Tessellator.instance;
+        Random rand = new Random(
+            emitter.xCoord ^ emitter.yCoord
+                ^ emitter.zCoord
+                ^ emitter.getWorldObj()
+                    .getTotalWorldTime());
 
-			for (int j = 1; j <= layers; j++) {
-				tessellator.startDrawingQuads();
-				tessellator.setColorRGBA_F(1.0F, 0.5F, 0.0F, 0.8F);
-				
-				tessellator.addVertex(lastPosX + (radius * j), -d, lastPosZ + (radius * j));
-				tessellator.addVertex(lastPosX + (radius * j), -d, lastPosZ - (radius * j));
-				tessellator.addVertex(posX + (radius * j), -(d + step), posZ - (radius * j));
-				tessellator.addVertex(posX + (radius * j), -(d + step), posZ + (radius * j));
-				
-				tessellator.addVertex(lastPosX - (radius * j), -d, lastPosZ + (radius * j));
-				tessellator.addVertex(lastPosX - (radius * j), -d, lastPosZ - (radius * j));
-				tessellator.addVertex(posX - (radius * j), -(d + step), posZ - (radius * j));
-				tessellator.addVertex(posX - (radius * j), -(d + step), posZ + (radius * j));
-				
-				tessellator.addVertex(lastPosX + (radius * j), -d, lastPosZ + (radius * j));
-				tessellator.addVertex(lastPosX - (radius * j), -d, lastPosZ + (radius * j));
-				tessellator.addVertex(posX - (radius * j), -(d + step), posZ + (radius * j));
-				tessellator.addVertex(posX + (radius * j), -(d + step), posZ + (radius * j));
-				
-				tessellator.addVertex(lastPosX + (radius * j), -d, lastPosZ - (radius * j));
-				tessellator.addVertex(lastPosX - (radius * j), -d, lastPosZ - (radius * j));
-				tessellator.addVertex(posX - (radius * j), -(d + step), posZ - (radius * j));
-				tessellator.addVertex(posX + (radius * j), -(d + step), posZ - (radius * j));
-				
-				tessellator.draw();
-			}
+        GL11.glPushMatrix();
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_CULL_FACE);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 
-			lastPosX = posX;
-			lastPosZ = posZ;
-		}
+        GL11.glTranslated(x + 0.5D, y + 0.1D, z + 0.5D);
 
-		for (int j = 1; j <= 2; j++) {
-			tessellator.startDrawingQuads();
-			tessellator.setColorRGBA_F(1.0F, 1.0F, 0.0F, 0.5F);
-			
-			tessellator.addVertex(0 + (radius * j), 0, 0 + (radius * j));
-			tessellator.addVertex(0 + (radius * j), 0, 0 - (radius * j));
-			tessellator.addVertex(0 + (radius * j), -totalDist, 0 - (radius * j));
-			tessellator.addVertex(0 + (radius * j), -totalDist, 0 + (radius * j));
-			
-			tessellator.addVertex(0 - (radius * j), 0, 0 + (radius * j));
-			tessellator.addVertex(0 - (radius * j), 0, 0 - (radius * j));
-			tessellator.addVertex(0 - (radius * j), -totalDist, 0 - (radius * j));
-			tessellator.addVertex(0 - (radius * j), -totalDist, 0 + (radius * j));
-			
-			tessellator.addVertex(0 + (radius * j), 0, 0 + (radius * j));
-			tessellator.addVertex(0 - (radius * j), 0, 0 + (radius * j));
-			tessellator.addVertex(0 - (radius * j), -totalDist, 0 + (radius * j));
-			tessellator.addVertex(0 + (radius * j), -totalDist, 0 + (radius * j));
-			
-			tessellator.addVertex(0 + (radius * j), 0, 0 - (radius * j));
-			tessellator.addVertex(0 - (radius * j), 0, 0 - (radius * j));
-			tessellator.addVertex(0 - (radius * j), -totalDist, 0 - (radius * j));
-			tessellator.addVertex(0 + (radius * j), -totalDist, 0 - (radius * j));
-			
-			tessellator.draw();
-		}
+        double lastPosX = 0;
+        double lastPosZ = 0;
+        double step = 0.5D;
+        double totalDist = baseIndex - 1.5D;
 
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glPopMatrix();
-	}
+        for (double d = 0; d < totalDist; d += step) {
+            double posX = (rand.nextDouble() - 0.5D) * 0.15D;
+            double posZ = (rand.nextDouble() - 0.5D) * 0.15D;
+
+            if (d + step >= totalDist) {
+                posX = 0;
+                posZ = 0;
+            }
+
+            for (int j = 1; j <= layers; j++) {
+                tessellator.startDrawingQuads();
+                tessellator.setColorRGBA_F(1.0F, 0.5F, 0.0F, 0.8F);
+
+                tessellator.addVertex(lastPosX + (radius * j), -d, lastPosZ + (radius * j));
+                tessellator.addVertex(lastPosX + (radius * j), -d, lastPosZ - (radius * j));
+                tessellator.addVertex(posX + (radius * j), -(d + step), posZ - (radius * j));
+                tessellator.addVertex(posX + (radius * j), -(d + step), posZ + (radius * j));
+
+                tessellator.addVertex(lastPosX - (radius * j), -d, lastPosZ + (radius * j));
+                tessellator.addVertex(lastPosX - (radius * j), -d, lastPosZ - (radius * j));
+                tessellator.addVertex(posX - (radius * j), -(d + step), posZ - (radius * j));
+                tessellator.addVertex(posX - (radius * j), -(d + step), posZ + (radius * j));
+
+                tessellator.addVertex(lastPosX + (radius * j), -d, lastPosZ + (radius * j));
+                tessellator.addVertex(lastPosX - (radius * j), -d, lastPosZ + (radius * j));
+                tessellator.addVertex(posX - (radius * j), -(d + step), posZ + (radius * j));
+                tessellator.addVertex(posX + (radius * j), -(d + step), posZ + (radius * j));
+
+                tessellator.addVertex(lastPosX + (radius * j), -d, lastPosZ - (radius * j));
+                tessellator.addVertex(lastPosX - (radius * j), -d, lastPosZ - (radius * j));
+                tessellator.addVertex(posX - (radius * j), -(d + step), posZ - (radius * j));
+                tessellator.addVertex(posX + (radius * j), -(d + step), posZ - (radius * j));
+
+                tessellator.draw();
+            }
+
+            lastPosX = posX;
+            lastPosZ = posZ;
+        }
+
+        for (int j = 1; j <= 2; j++) {
+            tessellator.startDrawingQuads();
+            tessellator.setColorRGBA_F(1.0F, 1.0F, 0.0F, 0.5F);
+
+            tessellator.addVertex(0 + (radius * j), 0, 0 + (radius * j));
+            tessellator.addVertex(0 + (radius * j), 0, 0 - (radius * j));
+            tessellator.addVertex(0 + (radius * j), -totalDist, 0 - (radius * j));
+            tessellator.addVertex(0 + (radius * j), -totalDist, 0 + (radius * j));
+
+            tessellator.addVertex(0 - (radius * j), 0, 0 + (radius * j));
+            tessellator.addVertex(0 - (radius * j), 0, 0 - (radius * j));
+            tessellator.addVertex(0 - (radius * j), -totalDist, 0 - (radius * j));
+            tessellator.addVertex(0 - (radius * j), -totalDist, 0 + (radius * j));
+
+            tessellator.addVertex(0 + (radius * j), 0, 0 + (radius * j));
+            tessellator.addVertex(0 - (radius * j), 0, 0 + (radius * j));
+            tessellator.addVertex(0 - (radius * j), -totalDist, 0 + (radius * j));
+            tessellator.addVertex(0 + (radius * j), -totalDist, 0 + (radius * j));
+
+            tessellator.addVertex(0 + (radius * j), 0, 0 - (radius * j));
+            tessellator.addVertex(0 - (radius * j), 0, 0 - (radius * j));
+            tessellator.addVertex(0 - (radius * j), -totalDist, 0 - (radius * j));
+            tessellator.addVertex(0 + (radius * j), -totalDist, 0 - (radius * j));
+
+            tessellator.draw();
+        }
+
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glPopMatrix();
+    }
 }

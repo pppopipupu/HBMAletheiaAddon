@@ -1,26 +1,30 @@
 package com.pppopipupu.aletheia.mixin;
 
-import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.fluid.FluidType;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+
 @Mixin(value = Fluids.class, remap = false)
 public abstract class MixinFluids {
 
-    @Shadow public static HashMap<Integer, FluidType> idMapping;
-    @Shadow public static List<FluidType> registerOrder;
+    @Shadow
+    public static HashMap<Integer, FluidType> idMapping;
+    @Shadow
+    public static List<FluidType> registerOrder;
 
     @Inject(method = "getInOrder", at = @At("HEAD"), cancellable = true)
     private static void aletheia$getInOrder(boolean nice, CallbackInfoReturnable<FluidType[]> cir) {
         int size = idMapping.size();
         FluidType[] all = new FluidType[size];
-        for(int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             FluidType type = null;
             if (nice) {
                 if (i < Fluids.metaOrder.size()) {

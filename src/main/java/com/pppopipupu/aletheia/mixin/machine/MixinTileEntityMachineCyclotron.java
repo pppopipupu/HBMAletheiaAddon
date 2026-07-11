@@ -1,24 +1,26 @@
 package com.pppopipupu.aletheia.mixin.machine;
 
-import api.hbm.energymk2.IEnergyReceiverMK2;
-import com.hbm.inventory.UpgradeManagerNT;
-import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.recipes.CyclotronRecipes;
-import com.hbm.items.machine.ItemMachineUpgrade;
-import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
-import com.hbm.lib.Library;
-import com.hbm.tileentity.TileEntityMachineBase;
-import com.hbm.tileentity.machine.TileEntityMachineCyclotron;
-import com.hbm.util.fauxpointtwelve.DirPos;
-import com.pppopipupu.aletheia.interfaces.IUpgradeManagerAccess;
+import java.util.HashMap;
+
 import net.minecraft.item.ItemStack;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import java.util.HashMap;
+
+import com.hbm.inventory.UpgradeManagerNT;
+import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.recipes.CyclotronRecipes;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
+import com.hbm.lib.Library;
+import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.machine.TileEntityMachineCyclotron;
+import com.pppopipupu.aletheia.interfaces.IUpgradeManagerAccess;
+
+import api.hbm.energymk2.IEnergyReceiverMK2;
 
 @Mixin(value = TileEntityMachineCyclotron.class, remap = false)
 public abstract class MixinTileEntityMachineCyclotron extends TileEntityMachineBase implements IEnergyReceiverMK2 {
@@ -27,12 +29,20 @@ public abstract class MixinTileEntityMachineCyclotron extends TileEntityMachineB
         super(size);
     }
 
-    @Shadow(remap = false) public UpgradeManagerNT upgradeManager;
-    @Shadow(remap = false) public long power;
-    @Shadow(remap = false) public int progress;
-    @Shadow(remap = false) public FluidTank[] tanks;
-    @Shadow(remap = false) private void updateConnections() { }
-    @Shadow(remap = false) private void sendFluid() { }
+    @Shadow(remap = false)
+    public UpgradeManagerNT upgradeManager;
+    @Shadow(remap = false)
+    public long power;
+    @Shadow(remap = false)
+    public int progress;
+    @Shadow(remap = false)
+    public FluidTank[] tanks;
+
+    @Shadow(remap = false)
+    private void updateConnections() {}
+
+    @Shadow(remap = false)
+    private void sendFluid() {}
 
     @Inject(method = "getValidUpgrades", at = @At("RETURN"))
     private void aletheia$getValidUpgrades(CallbackInfoReturnable<HashMap<UpgradeType, Integer>> cir) {
@@ -46,7 +56,7 @@ public abstract class MixinTileEntityMachineCyclotron extends TileEntityMachineB
     private void aletheia$canProcess(CallbackInfoReturnable<Boolean> cir) {
         int uCount = ((IUpgradeManagerAccess) upgradeManager).aletheia$getUltimateCount();
         if (uCount > 0) {
-            TileEntityMachineCyclotron te = (TileEntityMachineCyclotron)(Object)this;
+            TileEntityMachineCyclotron te = (TileEntityMachineCyclotron) (Object) this;
             if (power < te.getConsumption()) {
                 cir.setReturnValue(false);
                 return;
@@ -64,13 +74,14 @@ public abstract class MixinTileEntityMachineCyclotron extends TileEntityMachineB
             for (int i = 0; i < 3; i++) {
                 Object[] res = CyclotronRecipes.getOutput(slots[i + 3], slots[i]);
                 if (res == null) continue;
-                ItemStack out = (ItemStack)res[0];
+                ItemStack out = (ItemStack) res[0];
                 if (out == null) continue;
                 if (slots[i + 6] == null) {
                     cir.setReturnValue(true);
                     return;
                 }
-                if (slots[i + 6].getItem() == out.getItem() && slots[i + 6].getItemDamage() == out.getItemDamage() && slots[i + 6].stackSize + mult <= out.getMaxStackSize()) {
+                if (slots[i + 6].getItem() == out.getItem() && slots[i + 6].getItemDamage() == out.getItemDamage()
+                    && slots[i + 6].stackSize + mult <= out.getMaxStackSize()) {
                     cir.setReturnValue(true);
                     return;
                 }
@@ -83,26 +94,27 @@ public abstract class MixinTileEntityMachineCyclotron extends TileEntityMachineB
     private void aletheia$process(CallbackInfo ci) {
         int uCount = ((IUpgradeManagerAccess) upgradeManager).aletheia$getUltimateCount();
         if (uCount > 0) {
-            TileEntityMachineCyclotron te = (TileEntityMachineCyclotron)(Object)this;
+            TileEntityMachineCyclotron te = (TileEntityMachineCyclotron) (Object) this;
             int mult = 1 << uCount;
             for (int i = 0; i < 3; i++) {
                 Object[] res = CyclotronRecipes.getOutput(slots[i + 3], slots[i]);
                 if (res == null) continue;
-                ItemStack out = (ItemStack)res[0];
+                ItemStack out = (ItemStack) res[0];
                 if (out == null) continue;
                 if (slots[i + 6] == null) {
                     te.decrStackSize(i, 1);
                     te.decrStackSize(i + 3, 1);
                     slots[i + 6] = out.copy();
                     slots[i + 6].stackSize = mult;
-                    tanks[2].setFill(tanks[2].getFill() + (Integer)res[1] * mult);
+                    tanks[2].setFill(tanks[2].getFill() + (Integer) res[1] * mult);
                     continue;
                 }
-                if (slots[i + 6].getItem() == out.getItem() && slots[i + 6].getItemDamage() == out.getItemDamage() && slots[i + 6].stackSize + mult <= out.getMaxStackSize()) {
+                if (slots[i + 6].getItem() == out.getItem() && slots[i + 6].getItemDamage() == out.getItemDamage()
+                    && slots[i + 6].stackSize + mult <= out.getMaxStackSize()) {
                     te.decrStackSize(i, 1);
                     te.decrStackSize(i + 3, 1);
                     slots[i + 6].stackSize += mult;
-                    tanks[2].setFill(tanks[2].getFill() + (Integer)res[1] * mult);
+                    tanks[2].setFill(tanks[2].getFill() + (Integer) res[1] * mult);
                 }
             }
             if (tanks[2].getFill() > tanks[2].getMaxFill()) {
@@ -145,14 +157,14 @@ public abstract class MixinTileEntityMachineCyclotron extends TileEntityMachineB
             if (uCount > 0) {
                 updateConnections();
                 power = Library.chargeTEFromItems(slots, 9, power, TileEntityMachineCyclotron.maxPower);
-                if (((TileEntityMachineCyclotron)(Object)this).canProcess()) {
-                    progress += ((TileEntityMachineCyclotron)(Object)this).getSpeed();
-                    power -= ((TileEntityMachineCyclotron)(Object)this).getConsumption();
-                    int convert = ((TileEntityMachineCyclotron)(Object)this).getCoolantConsumption();
+                if (((TileEntityMachineCyclotron) (Object) this).canProcess()) {
+                    progress += ((TileEntityMachineCyclotron) (Object) this).getSpeed();
+                    power -= ((TileEntityMachineCyclotron) (Object) this).getConsumption();
+                    int convert = ((TileEntityMachineCyclotron) (Object) this).getCoolantConsumption();
                     tanks[0].setFill(tanks[0].getFill() - convert);
                     tanks[1].setFill(tanks[1].getFill() + convert);
                     if (progress >= TileEntityMachineCyclotron.duration) {
-                        ((TileEntityMachineCyclotron)(Object)this).process();
+                        ((TileEntityMachineCyclotron) (Object) this).process();
                         progress = 0;
                         markDirty();
                     }

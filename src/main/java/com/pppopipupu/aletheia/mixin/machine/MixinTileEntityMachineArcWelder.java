@@ -1,7 +1,17 @@
 package com.pppopipupu.aletheia.mixin.machine;
 
-import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluidmk2.IFluidReceiverMK2;
+import java.util.HashMap;
+
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
 import com.hbm.handler.threading.PacketThreading;
 import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.fluid.Fluids;
@@ -14,16 +24,10 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.TileEntityMachineArcWelder;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import com.pppopipupu.aletheia.interfaces.IUpgradeManagerAccess;
+
+import api.hbm.energymk2.IEnergyReceiverMK2;
+import api.hbm.fluidmk2.IFluidReceiverMK2;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import java.util.HashMap;
 
 @Mixin(value = TileEntityMachineArcWelder.class, remap = false)
 public abstract class MixinTileEntityMachineArcWelder extends TileEntityMachineBase implements IEnergyReceiverMK2 {
@@ -32,15 +36,23 @@ public abstract class MixinTileEntityMachineArcWelder extends TileEntityMachineB
         super(size);
     }
 
-    private static final int[] aletheia$overdriveSpeeds = {1, 2, 5, 10, 20, 50, 100};
+    private static final int[] aletheia$overdriveSpeeds = { 1, 2, 5, 10, 20, 50, 100 };
 
-    @Shadow(remap = false) public UpgradeManagerNT upgradeManager;
-    @Shadow(remap = false) public long power;
-    @Shadow(remap = false) public long maxPower;
-    @Shadow(remap = false) public long consumption;
-    @Shadow(remap = false) public int progress;
-    @Shadow(remap = false) public int processTime;
-    @Shadow(remap = false) protected abstract DirPos[] getConPos();
+    @Shadow(remap = false)
+    public UpgradeManagerNT upgradeManager;
+    @Shadow(remap = false)
+    public long power;
+    @Shadow(remap = false)
+    public long maxPower;
+    @Shadow(remap = false)
+    public long consumption;
+    @Shadow(remap = false)
+    public int progress;
+    @Shadow(remap = false)
+    public int processTime;
+
+    @Shadow(remap = false)
+    protected abstract DirPos[] getConPos();
 
     @Inject(method = "getValidUpgrades", at = @At("RETURN"))
     private void aletheia$getValidUpgrades(CallbackInfoReturnable<HashMap<UpgradeType, Integer>> cir) {
@@ -97,7 +109,13 @@ public abstract class MixinTileEntityMachineArcWelder extends TileEntityMachineB
             if (worldObj.getTotalWorldTime() % 20 == 0) {
                 for (DirPos pos : getConPos()) {
                     te.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-                    if (te.tank.getTankType() != Fluids.NONE) ((IFluidReceiverMK2) this).trySubscribe(te.tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+                    if (te.tank.getTankType() != Fluids.NONE) ((IFluidReceiverMK2) this).trySubscribe(
+                        te.tank.getTankType(),
+                        worldObj,
+                        pos.getX(),
+                        pos.getY(),
+                        pos.getZ(),
+                        pos.getDir());
                 }
             }
             ArcWelderRecipe recipe = ArcWelderRecipes.getRecipe(slots[0], slots[1], slots[2]);
@@ -137,7 +155,13 @@ public abstract class MixinTileEntityMachineArcWelder extends TileEntityMachineB
                                 NBTTagCompound dPart = new NBTTagCompound();
                                 dPart.setString("type", worldObj.getTotalWorldTime() % 20 == 0 ? "tau" : "hadron");
                                 dPart.setByte("count", (byte) 5);
-                                PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(dPart, xCoord + 0.5 - dir.offsetX * 0.5, yCoord + 1.25, zCoord + 0.5 - dir.offsetZ * 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 25));
+                                PacketThreading.createAllAroundThreadedPacket(
+                                    new AuxParticlePacketNT(
+                                        dPart,
+                                        xCoord + 0.5 - dir.offsetX * 0.5,
+                                        yCoord + 1.25,
+                                        zCoord + 0.5 - dir.offsetZ * 0.5),
+                                    new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 25));
                             }
                         } else {
                             progress = 0;

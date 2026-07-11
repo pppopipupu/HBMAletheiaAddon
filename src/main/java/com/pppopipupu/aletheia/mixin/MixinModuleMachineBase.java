@@ -1,13 +1,9 @@
 package com.pppopipupu.aletheia.mixin;
 
-import api.hbm.energymk2.IEnergyHandlerMK2;
-import com.hbm.inventory.recipes.loader.GenericRecipe;
-import com.hbm.inventory.recipes.loader.GenericRecipes.IOutput;
-import com.hbm.module.machine.ModuleMachineBase;
-import com.pppopipupu.aletheia.interfaces.IModuleMachineAccess;
-import com.pppopipupu.aletheia.interfaces.IUpgradeManagerAccess;
 import java.lang.reflect.Field;
+
 import net.minecraft.item.ItemStack;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,10 +12,19 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.hbm.inventory.recipes.loader.GenericRecipe;
+import com.hbm.inventory.recipes.loader.GenericRecipes.IOutput;
+import com.hbm.module.machine.ModuleMachineBase;
+import com.pppopipupu.aletheia.interfaces.IModuleMachineAccess;
+import com.pppopipupu.aletheia.interfaces.IUpgradeManagerAccess;
+
+import api.hbm.energymk2.IEnergyHandlerMK2;
+
 @Mixin(value = ModuleMachineBase.class, remap = false)
 public abstract class MixinModuleMachineBase implements IModuleMachineAccess {
 
-    @Shadow public IEnergyHandlerMK2 battery;
+    @Shadow
+    public IEnergyHandlerMK2 battery;
 
     public boolean hasUltimate = false;
     public int ultimateCount = 0;
@@ -49,14 +54,14 @@ public abstract class MixinModuleMachineBase implements IModuleMachineAccess {
     private int aletheia$getUltimateCountFromBattery() {
         try {
             if (aletheia$cachedField == null) {
-                aletheia$cachedField = this.battery.getClass().getField("upgradeManager");
+                aletheia$cachedField = this.battery.getClass()
+                    .getField("upgradeManager");
             }
             Object upgradeManager = aletheia$cachedField.get(this.battery);
             if (upgradeManager != null) {
                 return ((IUpgradeManagerAccess) upgradeManager).aletheia$getUltimateCount();
             }
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {}
         return 0;
     }
 
@@ -71,7 +76,8 @@ public abstract class MixinModuleMachineBase implements IModuleMachineAccess {
     private double aletheia$modifyProcessSpeed(double speed) {
         int uCount = aletheia$getUltimateCountFromBattery();
         if (uCount > 0) {
-            String name = this.battery.getClass().getSimpleName();
+            String name = this.battery.getClass()
+                .getSimpleName();
             if (name.contains("Factory")) {
                 speed = speed * (1.0D + uCount * 1.5D);
             } else {
@@ -85,7 +91,8 @@ public abstract class MixinModuleMachineBase implements IModuleMachineAccess {
     private double aletheia$modifyProcessPower(double power) {
         int uCount = aletheia$getUltimateCountFromBattery();
         if (uCount > 0) {
-            String name = this.battery.getClass().getSimpleName();
+            String name = this.battery.getClass()
+                .getSimpleName();
             if (name.contains("Factory")) {
                 power = power * Math.pow(0.25D, uCount);
             } else {
@@ -95,7 +102,9 @@ public abstract class MixinModuleMachineBase implements IModuleMachineAccess {
         return power;
     }
 
-    @Redirect(method = "fitOutput", at = @At(value = "FIELD", target = "Lcom/hbm/module/machine/ModuleMachineBase;hasUltimate:Z"))
+    @Redirect(
+        method = "fitOutput",
+        at = @At(value = "FIELD", target = "Lcom/hbm/module/machine/ModuleMachineBase;hasUltimate:Z"))
     private boolean aletheia$fitOutputRedirectHasUltimate(ModuleMachineBase instance) {
         return false;
     }
@@ -105,7 +114,9 @@ public abstract class MixinModuleMachineBase implements IModuleMachineAccess {
         return 1 << this.ultimateCount;
     }
 
-    @Redirect(method = "produceItem", at = @At(value = "FIELD", target = "Lcom/hbm/module/machine/ModuleMachineBase;hasUltimate:Z"))
+    @Redirect(
+        method = "produceItem",
+        at = @At(value = "FIELD", target = "Lcom/hbm/module/machine/ModuleMachineBase;hasUltimate:Z"))
     private boolean aletheia$produceItemRedirectHasUltimate(ModuleMachineBase instance) {
         return false;
     }
@@ -115,7 +126,11 @@ public abstract class MixinModuleMachineBase implements IModuleMachineAccess {
         return multi * (1 << this.ultimateCount);
     }
 
-    @Redirect(method = "produceItem", at = @At(value = "INVOKE", target = "Lcom/hbm/inventory/recipes/loader/IOutput;collapse()Lnet/minecraft/item/ItemStack;"))
+    @Redirect(
+        method = "produceItem",
+        at = @At(
+            value = "INVOKE",
+            target = "Lcom/hbm/inventory/recipes/loader/IOutput;collapse()Lnet/minecraft/item/ItemStack;"))
     private ItemStack aletheia$redirectProduceItemCollapse(IOutput output) {
         ItemStack stack = output.collapse();
         if (stack != null) {

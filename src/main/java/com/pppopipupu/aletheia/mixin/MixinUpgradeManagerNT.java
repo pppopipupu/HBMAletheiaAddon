@@ -1,14 +1,16 @@
 package com.pppopipupu.aletheia.mixin;
 
-import com.hbm.inventory.UpgradeManagerNT;
-import com.pppopipupu.aletheia.interfaces.IUpgradeManagerAccess;
-import com.pppopipupu.aletheia.item.AletheiaItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import com.hbm.inventory.UpgradeManagerNT;
+import com.pppopipupu.aletheia.interfaces.IUpgradeManagerAccess;
+import com.pppopipupu.aletheia.item.AletheiaItems;
 
 @Mixin(value = UpgradeManagerNT.class, remap = false)
 public class MixinUpgradeManagerNT implements IUpgradeManagerAccess {
@@ -31,7 +33,7 @@ public class MixinUpgradeManagerNT implements IUpgradeManagerAccess {
         this.hasUltimate = false;
         this.ultimateCount = 0;
         if (slots == null) return;
-        
+
         for (int i = start; i <= end; i++) {
             if (i >= 0 && i < slots.length && slots[i] != null) {
                 if (slots[i].getItem() == AletheiaItems.upgrade_ultimate) {

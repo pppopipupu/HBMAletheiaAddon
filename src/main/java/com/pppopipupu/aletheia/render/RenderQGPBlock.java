@@ -1,18 +1,21 @@
 package com.pppopipupu.aletheia.render;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL20;
 import java.lang.reflect.Field;
 
-import com.pppopipupu.aletheia.Aletheia;
-import com.hbm.render.shader.Shader;
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockAccess;
+
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL20;
+
+import com.hbm.render.shader.Shader;
+import com.pppopipupu.aletheia.Aletheia;
+
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public class RenderQGPBlock implements ISimpleBlockRenderingHandler {
 
@@ -22,11 +25,11 @@ public class RenderQGPBlock implements ISimpleBlockRenderingHandler {
     private static boolean reflectionFailed = false;
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
-    }
+    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {}
 
     @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId,
+        RenderBlocks renderer) {
         Minecraft mc = Minecraft.getMinecraft();
         boolean hasFbo = OpenGlHelper.isFramebufferEnabled() && mc.getFramebuffer() != null;
         int screenTex = hasFbo ? mc.getFramebuffer().framebufferTexture : 0;
@@ -41,7 +44,9 @@ public class RenderQGPBlock implements ISimpleBlockRenderingHandler {
         }
 
         if (qgpShader == null) {
-            qgpShader = new Shader(new ResourceLocation(Aletheia.MODID, "shaders/default.vert"), new ResourceLocation(Aletheia.MODID, "shaders/distortion.frag"));
+            qgpShader = new Shader(
+                new ResourceLocation(Aletheia.MODID, "shaders/default.vert"),
+                new ResourceLocation(Aletheia.MODID, "shaders/distortion.frag"));
             try {
                 Field fProgram = Shader.class.getDeclaredField("shaderProgram");
                 fProgram.setAccessible(true);
@@ -62,7 +67,7 @@ public class RenderQGPBlock implements ISimpleBlockRenderingHandler {
         qgpShader.setUniform1f("u_screenWidth", screenWidth);
         qgpShader.setUniform1f("u_screenHeight", screenHeight);
         qgpShader.setUniform1i("u_hasFbo", hasFbo ? 1 : 0);
-        
+
         int loc = qgpShader.getUniformLocation("u_iconUvRange");
         GL20.glUniform4f(loc, 0.0F, 1.0F, 0.0F, 1.0F);
 
@@ -80,7 +85,7 @@ public class RenderQGPBlock implements ISimpleBlockRenderingHandler {
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
         }
-        
+
         return result;
     }
 

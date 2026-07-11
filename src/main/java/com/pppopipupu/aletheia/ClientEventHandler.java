@@ -1,16 +1,19 @@
 package com.pppopipupu.aletheia;
 
-import com.hbm.render.shader.Shader;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
+
+import com.hbm.render.shader.Shader;
+
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 
 public class ClientEventHandler {
 
@@ -50,7 +53,8 @@ public class ClientEventHandler {
             OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
 
             if (qgpFullscreenShader == null) {
-                qgpFullscreenShader = new Shader(new ResourceLocation("aletheia", "shaders/qgp_mining_bomb_distortion.frag"));
+                qgpFullscreenShader = new Shader(
+                    new ResourceLocation("aletheia", "shaders/qgp_mining_bomb_distortion.frag"));
             }
 
             qgpFullscreenShader.use();

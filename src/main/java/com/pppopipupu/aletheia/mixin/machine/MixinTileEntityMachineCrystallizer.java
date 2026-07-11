@@ -1,6 +1,16 @@
 package com.pppopipupu.aletheia.mixin.machine;
 
-import api.hbm.energymk2.IEnergyReceiverMK2;
+import java.util.HashMap;
+
+import net.minecraft.item.ItemStack;
+
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
 import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.CrystallizerRecipes;
@@ -10,14 +20,8 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.TileEntityMachineCrystallizer;
 import com.pppopipupu.aletheia.interfaces.IUpgradeManagerAccess;
-import net.minecraft.item.ItemStack;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import java.util.HashMap;
+
+import api.hbm.energymk2.IEnergyReceiverMK2;
 
 @Mixin(value = TileEntityMachineCrystallizer.class, remap = false)
 public abstract class MixinTileEntityMachineCrystallizer extends TileEntityMachineBase implements IEnergyReceiverMK2 {
@@ -26,19 +30,41 @@ public abstract class MixinTileEntityMachineCrystallizer extends TileEntityMachi
         super(size);
     }
 
-    private static final int[] aletheia$overdriveSpeeds = {1, 2, 5, 10, 20, 50, 100};
+    private static final int[] aletheia$overdriveSpeeds = { 1, 2, 5, 10, 20, 50, 100 };
 
-    @Shadow(remap = false) public UpgradeManagerNT upgradeManager;
-    @Shadow(remap = false) public long power;
-    @Shadow(remap = false) public short progress;
-    @Shadow(remap = false) public short duration;
-    @Shadow(remap = false) public boolean isOn;
-    @Shadow(remap = false) public FluidTank tank;
-    @Shadow(remap = false) private void updateConnections() { }
-    @Shadow(remap = false) private void processItem() { }
-    @Shadow(remap = false) private boolean canProcess() { return false; }
-    @Shadow(remap = false) public float getCycleCount() { return 0; }
-    @Shadow(remap = false) public int getPowerRequired() { return 0; }
+    @Shadow(remap = false)
+    public UpgradeManagerNT upgradeManager;
+    @Shadow(remap = false)
+    public long power;
+    @Shadow(remap = false)
+    public short progress;
+    @Shadow(remap = false)
+    public short duration;
+    @Shadow(remap = false)
+    public boolean isOn;
+    @Shadow(remap = false)
+    public FluidTank tank;
+
+    @Shadow(remap = false)
+    private void updateConnections() {}
+
+    @Shadow(remap = false)
+    private void processItem() {}
+
+    @Shadow(remap = false)
+    private boolean canProcess() {
+        return false;
+    }
+
+    @Shadow(remap = false)
+    public float getCycleCount() {
+        return 0;
+    }
+
+    @Shadow(remap = false)
+    public int getPowerRequired() {
+        return 0;
+    }
 
     @Inject(method = "getValidUpgrades", at = @At("RETURN"))
     private void aletheia$getValidUpgrades(CallbackInfoReturnable<HashMap<UpgradeType, Integer>> cir) {
@@ -71,7 +97,8 @@ public abstract class MixinTileEntityMachineCrystallizer extends TileEntityMachi
                 return;
             }
             int mult = 1 << uCount;
-            if (slots[2] != null && (slots[2].getItem() != result.output.getItem() || slots[2].getItemDamage() != result.output.getItemDamage())) {
+            if (slots[2] != null && (slots[2].getItem() != result.output.getItem()
+                || slots[2].getItemDamage() != result.output.getItemDamage())) {
                 cir.setReturnValue(false);
                 return;
             }
@@ -98,8 +125,9 @@ public abstract class MixinTileEntityMachineCrystallizer extends TileEntityMachi
                 slots[2].stackSize += stack.stackSize;
             }
             tank.setFill(tank.getFill() - result.acidAmount);
-            if (((TileEntityMachineCrystallizer)(Object)this).getFreeChance(result) == 0 || ((TileEntityMachineCrystallizer)(Object)this).getFreeChance(result) < worldObj.rand.nextFloat()) {
-                ((TileEntityMachineCrystallizer)(Object)this).decrStackSize(0, result.itemAmount);
+            if (((TileEntityMachineCrystallizer) (Object) this).getFreeChance(result) == 0
+                || ((TileEntityMachineCrystallizer) (Object) this).getFreeChance(result) < worldObj.rand.nextFloat()) {
+                ((TileEntityMachineCrystallizer) (Object) this).decrStackSize(0, result.itemAmount);
             }
             ci.cancel();
         }
