@@ -9,6 +9,11 @@ import com.hbm.inventory.FluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
+import com.hbm.items.machine.ItemRBMKPellet;
+import com.hbm.items.machine.ItemRBMKRod;
+import com.hbm.items.machine.ItemRBMKRod.EnumBurnFunc;
+import com.hbm.items.machine.ItemRBMKRod.EnumDepleteFunc;
+import com.hbm.items.special.ItemChopper;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
@@ -20,6 +25,7 @@ import com.hbm.items.weapon.sedna.factory.Orchestras;
 import com.hbm.items.weapon.sedna.factory.XFactoryEnergy;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.machine.rbmk.IRBMKFluxReceiver.NType;
 import com.pppopipupu.aletheia.block.AletheiaBlocks;
 import com.pppopipupu.aletheia.fluid.AletheiaFluids;
 import com.pppopipupu.aletheia.weapon.AletheiaBullets;
@@ -61,6 +67,18 @@ public class AletheiaItems {
     public static Item fragment_neodymium;
     public static Item ams_catalyst_strontium;
     public static Item pellet_rtg_strontium;
+
+    public static Item billet_rs1;
+    public static Item billet_rs2;
+    public static Item billet_rs3;
+    public static ItemRBMKPellet rbmk_pellet_rs1;
+    public static ItemRBMKPellet rbmk_pellet_rs2;
+    public static ItemRBMKPellet rbmk_pellet_rs3;
+    public static ItemRBMKRod rbmk_fuel_rs1;
+    public static ItemRBMKRod rbmk_fuel_rs2;
+    public static ItemRBMKRod rbmk_fuel_rs3;
+    public static Item spawn_maskman;
+    public static Item recipe_icon;
 
     public static void init() {
         bucket_qgp = new ItemQGPBucket(AletheiaBlocks.qgp_block).setUnlocalizedName("bucket_qgp")
@@ -248,5 +266,76 @@ public class AletheiaItems {
             .setCreativeTab(MainRegistry.controlTab)
             .setTextureName("aletheia:pellet_rtg_strontium");
         GameRegistry.registerItem(pellet_rtg_strontium, "pellet_rtg_strontium");
+
+        billet_rs1 = new Item().setUnlocalizedName("billet_rs1")
+            .setCreativeTab(MainRegistry.partsTab)
+            .setTextureName("aletheia:billet_rs1");
+        GameRegistry.registerItem(billet_rs1, "billet_rs1");
+        billet_rs2 = new Item().setUnlocalizedName("billet_rs2")
+            .setCreativeTab(MainRegistry.partsTab)
+            .setTextureName("aletheia:billet_rs2");
+        GameRegistry.registerItem(billet_rs2, "billet_rs2");
+        billet_rs3 = new Item().setUnlocalizedName("billet_rs3")
+            .setCreativeTab(MainRegistry.partsTab)
+            .setTextureName("aletheia:billet_rs3");
+        GameRegistry.registerItem(billet_rs3, "billet_rs3");
+
+        rbmk_pellet_rs1 = (ItemRBMKPellet) new ItemRBMKPellet("Research Rod Mix - Ra226Be&Pu239").disableXenon()
+            .setUnlocalizedName("rbmk_pellet_rs1")
+            .setTextureName("aletheia:rbmk_pellet_rs1");
+        GameRegistry.registerItem(rbmk_pellet_rs1, "rbmk_pellet_rs1");
+        rbmk_pellet_rs2 = (ItemRBMKPellet) new ItemRBMKPellet("Research Rod Mix - Po210Be&Pu241").disableXenon()
+            .setUnlocalizedName("rbmk_pellet_rs2")
+            .setTextureName("aletheia:rbmk_pellet_rs2");
+        GameRegistry.registerItem(rbmk_pellet_rs2, "rbmk_pellet_rs2");
+        rbmk_pellet_rs3 = (ItemRBMKPellet) new ItemRBMKPellet("Research Rod Mix - DNT&Sa327").disableXenon()
+            .setUnlocalizedName("rbmk_pellet_rs3")
+            .setTextureName("aletheia:rbmk_pellet_rs3");
+        GameRegistry.registerItem(rbmk_pellet_rs3, "rbmk_pellet_rs3");
+
+        rbmk_fuel_rs1 = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_rs1).setYield(2000000D)
+            .setStats(0D, 100)
+            .setFunction(EnumBurnFunc.PASSIVE)
+            .setDepletionFunction(EnumDepleteFunc.LINEAR)
+            .setXenon(0.0D, 50D)
+            .setHeat(0.75D)
+            .setMeltingPoint(2750D)
+            .setNeutronTypes(NType.ANY, NType.SLOW)
+            .setUnlocalizedName("rbmk_fuel_rs1")
+            .setTextureName("aletheia:rbmk_fuel_rs1");
+        GameRegistry.registerItem(rbmk_fuel_rs1, "rbmk_fuel_rs1");
+        rbmk_fuel_rs2 = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_rs2).setYield(6000000D)
+            .setStats(0D, 300)
+            .setFunction(EnumBurnFunc.PASSIVE)
+            .setDepletionFunction(EnumDepleteFunc.LINEAR)
+            .setXenon(0.0D, 50D)
+            .setHeat(0.5D)
+            .setMeltingPoint(3350D)
+            .setNeutronTypes(NType.ANY, NType.SLOW)
+            .setUnlocalizedName("rbmk_fuel_rs2")
+            .setTextureName("aletheia:rbmk_fuel_rs2");
+        GameRegistry.registerItem(rbmk_fuel_rs2, "rbmk_fuel_rs2");
+        rbmk_fuel_rs3 = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_rs3).setYield(20000000D)
+            .setStats(0D, 1000)
+            .setFunction(EnumBurnFunc.PASSIVE)
+            .setDepletionFunction(EnumDepleteFunc.LINEAR)
+            .setXenon(0.0D, 50D)
+            .setHeat(0.2D)
+            .setMeltingPoint(6500D)
+            .setNeutronTypes(NType.ANY, NType.SLOW)
+            .setUnlocalizedName("rbmk_fuel_rs3")
+            .setTextureName("aletheia:rbmk_fuel_rs3");
+        GameRegistry.registerItem(rbmk_fuel_rs3, "rbmk_fuel_rs3");
+
+        spawn_maskman = new ItemChopper().setUnlocalizedName("spawn_maskman")
+            .setMaxStackSize(1)
+            .setCreativeTab(MainRegistry.consumableTab)
+            .setTextureName("aletheia:spawn_maskman");
+        GameRegistry.registerItem(spawn_maskman, "spawn_maskman");
+
+        recipe_icon = new Item().setUnlocalizedName("recipe_icon")
+            .setCreativeTab(null)
+            .setTextureName("aletheia:recipe_icon");
+        GameRegistry.registerItem(recipe_icon, "recipe_icon");
     }
 }
