@@ -22,7 +22,7 @@ import com.pppopipupu.aletheia.item.AletheiaItems;
 import com.pppopipupu.aletheia.stats.AletheiaAchievements;
 
 @Mixin(value = TileEntity.class)
-public class MixinTileEntitySpoilage {
+public class MixinTileEntity {
 
     @Shadow
     protected World worldObj;

@@ -25,7 +25,7 @@ import com.pppopipupu.aletheia.item.AletheiaItems;
 import com.pppopipupu.aletheia.stats.AletheiaAchievements;
 
 @Mixin(value = Item.class)
-public class MixinItemSpoilage {
+public class MixinItem {
 
     private static long getSpoilDuration(Item item) {
         if (item == ModItems.egg_glyphid) return 72000L;

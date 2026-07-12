@@ -11,7 +11,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.explosion.ExplosionNukeGeneric;
 
 @Mixin(value = ExplosionNukeGeneric.class, remap = false)
-public class MixinExplosionNukeGenericSolinium {
+public class MixinExplosionNukeGeneric {
 
     @Inject(method = "solinium", at = @At("TAIL"))
     private static void aletheia$soliniumExtra(World world, int x, int y, int z, CallbackInfo ci) {

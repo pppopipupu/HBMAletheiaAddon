@@ -1,4 +1,4 @@
-package com.pppopipupu.aletheia.mixin;
+package com.pppopipupu.aletheia;
 
 import java.util.Collections;
 import java.util.List;

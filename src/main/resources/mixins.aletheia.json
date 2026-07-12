@@ -6,36 +6,8 @@
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MixinItemSpoilage",
-    "MixinTileEntitySpoilage",
-    "MixinUpgradeManagerNT",
-    "MixinExplosionNT",
-    "MixinExplosionNukeSmall",
-    "MixinEntityExplosionChunkloading",
-    "MixinEntityNukeExplosionMK5",
-    "MixinFluidType",
-    "MixinFluids",
-    "MixinModuleMachineBase",
-    "machine.MixinTileEntityMachineCentrifuge",
-    "machine.MixinTileEntityElectrolyser",
-    "machine.MixinTileEntityMachineArcWelder",
-    "machine.MixinTileEntityMachineCompressorBase",
-    "machine.MixinTileEntityMachineCrystallizer",
-    "machine.MixinTileEntityMachineCyclotron",
-    "machine.MixinTileEntityMachineExcavator",
-    "machine.MixinTileEntityMachineExposureChamber",
-    "machine.MixinTileEntityMachineMiningLaser",
-    "machine.MixinTileEntityMachineMixer",
-    "machine.MixinTileEntityMachineSolidifier",
-    "MixinItemRBMKRod",
-    "MixinExplosionNukeGenericSolinium",
-    "MixinNEIHideSecrets",
-    "MixinMachinePWRController",
-    "MixinTileEntityPWRController"
+    "MixinItem",
+    "MixinTileEntity"
   ],
-  "client": [
-    "MixinRenderFluidTank",
-    "MixinFluidTank",
-    "MixinRenderGenericGrenade"
-  ]
+  "client": []
 }

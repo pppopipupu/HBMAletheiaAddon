@@ -89,16 +89,36 @@ public class MixinMainRegistry {
                 } else if ("hbm:item.recipe_icon".equals(mapping.name)) {
                     MainRegistry.logger.info("Remapping item: " + mapping.name + " to " + AletheiaItems.recipe_icon);
                     mapping.remap(AletheiaItems.recipe_icon);
-                } else if ("hbm:item.block_sodium".equals(mapping.name)) {
+                } else if ("hbm:tile.block_sodium".equals(mapping.name)) {
                     Item targetItem = Item.getItemFromBlock(AletheiaBlocks.block_sodium);
                     MainRegistry.logger.info("Remapping item block: " + mapping.name + " to " + targetItem);
                     mapping.remap(targetItem);
-                } else if ("hbm:item.block_strontium".equals(mapping.name)) {
+                } else if ("hbm:tile.block_strontium".equals(mapping.name)) {
                     Item targetItem = Item.getItemFromBlock(AletheiaBlocks.block_strontium);
                     MainRegistry.logger.info("Remapping item block: " + mapping.name + " to " + targetItem);
                     mapping.remap(targetItem);
-                } else if ("hbm:item.block_neodymium".equals(mapping.name)) {
+                } else if ("hbm:tile.block_neodymium".equals(mapping.name)) {
                     Item targetItem = Item.getItemFromBlock(AletheiaBlocks.block_neodymium);
+                    MainRegistry.logger.info("Remapping item block: " + mapping.name + " to " + targetItem);
+                    mapping.remap(targetItem);
+                } else if ("hbm:tile.qgp_block".equals(mapping.name)) {
+                    Item targetItem = Item.getItemFromBlock(AletheiaBlocks.qgp_block);
+                    MainRegistry.logger.info("Remapping item block: " + mapping.name + " to " + targetItem);
+                    mapping.remap(targetItem);
+                } else if ("hbm:tile.ams_base".equals(mapping.name)) {
+                    Item targetItem = Item.getItemFromBlock(AletheiaBlocks.ams_base);
+                    MainRegistry.logger.info("Remapping item block: " + mapping.name + " to " + targetItem);
+                    mapping.remap(targetItem);
+                } else if ("hbm:tile.ams_emitter".equals(mapping.name)) {
+                    Item targetItem = Item.getItemFromBlock(AletheiaBlocks.ams_emitter);
+                    MainRegistry.logger.info("Remapping item block: " + mapping.name + " to " + targetItem);
+                    mapping.remap(targetItem);
+                } else if ("hbm:tile.ams_limiter".equals(mapping.name)) {
+                    Item targetItem = Item.getItemFromBlock(AletheiaBlocks.ams_limiter);
+                    MainRegistry.logger.info("Remapping item block: " + mapping.name + " to " + targetItem);
+                    mapping.remap(targetItem);
+                } else if ("hbm:tile.machine_schrabidium_transmutator".equals(mapping.name)) {
+                    Item targetItem = Item.getItemFromBlock(AletheiaBlocks.machine_schrabidium_transmutator);
                     MainRegistry.logger.info("Remapping item block: " + mapping.name + " to " + targetItem);
                     mapping.remap(targetItem);
                 }
