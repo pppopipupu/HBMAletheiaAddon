@@ -31,7 +31,8 @@
     "MixinExplosionNukeGenericSolinium",
     "MixinNEIHideSecrets",
     "MixinMachinePWRController",
-    "MixinTileEntityPWRController"
+    "MixinTileEntityPWRController",
+    "MixinMainRegistry"
   ],
   "client": [
     "MixinRenderFluidTank",
