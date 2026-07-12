@@ -32,4 +32,19 @@ item.ams_muzzle.name=AMS Antimatter Muzzle
 item.aletheia:ams_focus_blank.name=AMS Blank Focus Chip
 item.aletheia:ams_focus_limiter.name=AMS Limiting Focus Chip
 item.aletheia:ams_focus_booster.name=AMS Boosting Focus Chip
+item.alien_jelly.name=Alien Jelly
+item.aletheia:alien_jelly.name=Alien Jelly
+
+tooltip.alien_jelly.spoilage=Time until spoilage: §e%dmin %dsec
+tooltip.alien_jelly.product=Spoilage product: §bBiomass
+tooltip.alien_jelly.spoiled=§cSpoiled
+
 item.aletheia:ams_muzzle.name=AMS Antimatter Muzzle
+
+tooltip.egg_glyphid.spoilage=Time until spoilage: §e%dmin %dsec
+tooltip.egg_glyphid.product=Spoilage product: §bSpawns 1 Glyphid
+tooltip.egg_glyphid.spoiled=§cSpoiled
+achievement.glyphid_hatch=Out of the Shell
+achievement.glyphid_hatch.desc=Witness a Glyphid hatching from its egg.
+achievement.glyphid_hatch_unexpected=Unexpected Guests
+achievement.glyphid_hatch_unexpected.desc=A Glyphid hatched inside a container or machine!

@@ -113,6 +113,15 @@ public class AletheiaRecipes {
                 .inputFluids(new FluidStack(Fluids.PEROXIDE, 2000), new FluidStack(Fluids.ESTRADIOL, 2000))
                 .outputItems(new ItemStack(AletheiaBlocks.ams_limiter, 1)));
         ChemicalPlantRecipes.INSTANCE.register(
+            new GenericRecipe("chem.alien_jelly").setup(100, 100)
+                .inputFluids(new FluidStack(Fluids.SALIENT, 200), new FluidStack(Fluids.SULFURIC_ACID, 10))
+                .outputItems(new ItemStack(AletheiaItems.alien_jelly, 5)));
+        ChemicalPlantRecipes.INSTANCE.register(
+            new GenericRecipe("chem.glyphid_spawner").setup(200, 500)
+                .inputItems(new ComparableStack(ModItems.egg_glyphid, 1))
+                .inputFluids(new FluidStack(Fluids.ACID, 1000))
+                .outputItems(new ItemStack(ModBlocks.glyphid_spawner, 1)));
+        ChemicalPlantRecipes.INSTANCE.register(
             new GenericRecipe("chem.upgrade_ultimate").setup(400, 1000)
                 .inputItems(
                     new ComparableStack(ModItems.upgrade_overdrive_3, 1),

@@ -37,6 +37,7 @@ public class AletheiaItems {
     public static Item ams_focus_limiter;
     public static Item ams_focus_booster;
 
+    public static Item alien_jelly;
     public static Item disperser_canister_empty;
     public static Item disperser_canister;
     public static Item glyphid_gland_empty;
@@ -72,6 +73,11 @@ public class AletheiaItems {
         ams_focus_booster = new Item().setUnlocalizedName("ams_focus_booster")
             .setTextureName("aletheia:ams_focus_booster");
         GameRegistry.registerItem(ams_focus_booster, "ams_focus_booster");
+
+        alien_jelly = new ItemAlienJelly().setUnlocalizedName("alien_jelly")
+            .setTextureName("aletheia:alien_jelly")
+            .setCreativeTab(MainRegistry.consumableTab);
+        GameRegistry.registerItem(alien_jelly, "alien_jelly");
 
         gun_pppop = new ItemGunBaseNT(
             WeaponQuality.LEGENDARY,

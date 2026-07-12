@@ -27,6 +27,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 public class ClientProxy extends CommonProxy {
 
     public static int qgpDistortionTicks = 0;
+    public static int alienJellyRayTicks = 0;
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {

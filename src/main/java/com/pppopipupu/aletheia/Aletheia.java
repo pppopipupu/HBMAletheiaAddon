@@ -18,10 +18,13 @@ import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.inventory.fluid.trait.FT_Coolable;
 import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
 import com.hbm.inventory.fluid.trait.FT_VentRadiation;
+import com.hbm.items.ModItems;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.util.EnumSymbol;
 import com.pppopipupu.aletheia.block.AletheiaBlocks;
 import com.pppopipupu.aletheia.entity.EntityDisperserCanisterAletheia;
 import com.pppopipupu.aletheia.item.AletheiaItems;
+import com.pppopipupu.aletheia.packet.AlienJellyEffectPacket;
 import com.pppopipupu.aletheia.recipe.AletheiaRecipes;
 
 import cpw.mods.fml.common.Mod;
@@ -33,6 +36,9 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import net.minecraft.stats.Achievement;
+import net.minecraftforge.common.AchievementPage;
 
 @Mod(
     modid = Aletheia.MODID,
@@ -55,6 +61,9 @@ public class Aletheia {
 
     public static com.hbm.items.weapon.sedna.BulletConfig energy_pppop;
     public static com.hbm.items.weapon.sedna.BulletConfig energy_pppop_steel;
+
+    public static Achievement achievementGlyphidHatch;
+    public static Achievement achievementGlyphidHatchUnexpected;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -121,6 +130,15 @@ public class Aletheia {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         proxy.init(event);
+
+        achievementGlyphidHatch = new Achievement("achievement.glyphid_hatch", "glyphid_hatch", 0, 0, ModItems.egg_glyphid, null)
+            .initIndependentStat().registerStat();
+        achievementGlyphidHatchUnexpected = new Achievement("achievement.glyphid_hatch_unexpected", "glyphid_hatch_unexpected", 2, 0, ModItems.egg_glyphid, achievementGlyphidHatch)
+            .initIndependentStat().setSpecial().registerStat();
+        AchievementPage.registerAchievementPage(new AchievementPage("Aletheia",
+            achievementGlyphidHatch, achievementGlyphidHatchUnexpected));
+
+        PacketDispatcher.wrapper.registerMessage(AlienJellyEffectPacket.Handler.class, AlienJellyEffectPacket.class, 200, Side.CLIENT);
 
         FluidType[] fluidsList = Fluids.getAll();
         for (int i = 1; i < fluidsList.length; i++) {

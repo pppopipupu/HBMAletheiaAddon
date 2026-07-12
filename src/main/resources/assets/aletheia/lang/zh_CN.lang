@@ -32,4 +32,19 @@ item.ams_muzzle.name=AMS反物质枪口
 item.aletheia:ams_focus_blank.name=AMS空白聚焦芯片
 item.aletheia:ams_focus_limiter.name=AMS稳能聚焦芯片
 item.aletheia:ams_focus_booster.name=AMS增能聚焦芯片
+item.alien_jelly.name=异星果冻
+item.aletheia:alien_jelly.name=异星果冻
+
+tooltip.alien_jelly.spoilage=距离变质还有: §e%d分%d秒
+tooltip.alien_jelly.product=变质产物: §b生物质
+tooltip.alien_jelly.spoiled=§c已变质
+
 item.aletheia:ams_muzzle.name=AMS反物质枪口
+
+tooltip.egg_glyphid.spoilage=距离变质还有: §e%d分%d秒
+tooltip.egg_glyphid.product=变质产物: §b生成1个异虫
+tooltip.egg_glyphid.spoiled=§c已变质
+achievement.glyphid_hatch=破壳而出
+achievement.glyphid_hatch.desc=见证一只异虫破壳而出。
+achievement.glyphid_hatch_unexpected=防不胜防
+achievement.glyphid_hatch_unexpected.desc=异虫竟然在容器或机器内孵化了！
