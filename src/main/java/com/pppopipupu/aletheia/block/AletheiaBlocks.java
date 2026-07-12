@@ -5,6 +5,10 @@ import net.minecraft.block.material.Material;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 
+import com.hbm.blocks.generic.BlockBeaconable;
+import com.hbm.blocks.machine.BlockHadronCoil;
+import com.hbm.main.MainRegistry;
+
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class AletheiaBlocks {
@@ -14,6 +18,12 @@ public class AletheiaBlocks {
     public static Block ams_base;
     public static Block ams_emitter;
     public static Block ams_limiter;
+
+    public static Block machine_schrabidium_transmutator;
+    public static Block block_sodium;
+    public static Block block_strontium;
+    public static Block block_neodymium;
+    public static Block hadron_coil_neodymium;
 
     public static void init() {
         qgp_fluid = new QGPFluid().setDensity(10000)
@@ -44,5 +54,41 @@ public class AletheiaBlocks {
             .setResistance(10.0F)
             .setBlockTextureName("hbm:block_steel");
         GameRegistry.registerBlock(ams_limiter, "ams_limiter");
+
+        machine_schrabidium_transmutator = new BlockMachineSchrabidiumTransmutator()
+            .setBlockName("machine_schrabidium_transmutator")
+            .setHardness(5.0F)
+            .setResistance(100.0F)
+            .setCreativeTab(MainRegistry.machineTab);
+        GameRegistry.registerBlock(machine_schrabidium_transmutator, "machine_schrabidium_transmutator");
+
+        block_sodium = new BlockBeaconable(Material.rock).setBlockName("block_sodium")
+            .setCreativeTab(MainRegistry.blockTab)
+            .setHardness(1.0F)
+            .setResistance(1.0F)
+            .setBlockTextureName("aletheia:block_sodium");
+        GameRegistry.registerBlock(block_sodium, "block_sodium");
+
+        block_strontium = new BlockBeaconable(Material.iron).setBlockName("block_strontium")
+            .setCreativeTab(MainRegistry.blockTab)
+            .setHardness(4.0F)
+            .setResistance(8.0F)
+            .setBlockTextureName("aletheia:block_strontium");
+        GameRegistry.registerBlock(block_strontium, "block_strontium");
+
+        block_neodymium = new BlockBeaconable(Material.iron).setBlockName("block_neodymium")
+            .setCreativeTab(MainRegistry.blockTab)
+            .setHardness(5.0F)
+            .setResistance(10.0F)
+            .setBlockTextureName("aletheia:block_neodymium");
+        GameRegistry.registerBlock(block_neodymium, "block_neodymium");
+
+        hadron_coil_neodymium = new BlockHadronCoil(Material.iron, 50).setStepSound(Block.soundTypeMetal)
+            .setBlockName("hadron_coil_neodymium")
+            .setHardness(5.0F)
+            .setResistance(10.0F)
+            .setCreativeTab(MainRegistry.machineTab)
+            .setBlockTextureName("aletheia:hadron_coil_neodymium");
+        GameRegistry.registerBlock(hadron_coil_neodymium, "hadron_coil_neodymium");
     }
 }

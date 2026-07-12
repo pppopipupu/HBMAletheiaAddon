@@ -21,8 +21,8 @@ import com.hbm.entity.mob.glyphid.EntityGlyphid;
 import com.hbm.entity.mob.glyphid.EntityGlyphidBrawler;
 import com.hbm.entity.mob.glyphid.EntityGlyphidScout;
 import com.hbm.items.ModItems;
-import com.pppopipupu.aletheia.Aletheia;
 import com.pppopipupu.aletheia.item.AletheiaItems;
+import com.pppopipupu.aletheia.stats.AletheiaAchievements;
 
 @Mixin(value = Item.class)
 public class MixinItemSpoilage {
@@ -66,13 +66,20 @@ public class MixinItemSpoilage {
     private static void spawnSpoilEffects(World world, double x, double y, double z) {
         world.playSoundEffect(x, y, z, "mob.slime.big", 1.0F, 1.0F);
         for (int i = 0; i < 8; i++) {
-            world.spawnParticle("slime", x + world.rand.nextGaussian() * 0.5, y + world.rand.nextGaussian() * 0.5,
-                z + world.rand.nextGaussian() * 0.5, 0, 0, 0);
+            world.spawnParticle(
+                "slime",
+                x + world.rand.nextGaussian() * 0.5,
+                y + world.rand.nextGaussian() * 0.5,
+                z + world.rand.nextGaussian() * 0.5,
+                0,
+                0,
+                0);
         }
     }
 
     @Inject(method = "onUpdate", at = @At("HEAD"))
-    private void aletheia$onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isSelected, CallbackInfo ci) {
+    private void aletheia$onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isSelected,
+        CallbackInfo ci) {
         if (world.isRemote) return;
         if (!isSpoilable(stack.getItem())) return;
 
@@ -91,7 +98,7 @@ public class MixinItemSpoilage {
             glyphid.setPosition(player.posX, player.posY, player.posZ);
             world.spawnEntityInWorld(glyphid);
             spawnSpoilEffects(world, player.posX, player.posY, player.posZ);
-            player.triggerAchievement(Aletheia.achievementGlyphidHatch);
+            player.triggerAchievement(AletheiaAchievements.achievementGlyphidHatch);
         } else if (stack.getItem() == AletheiaItems.alien_jelly) {
             player.inventory.setInventorySlotContents(slot, new ItemStack(ModItems.biomass, stack.stackSize));
             spawnSpoilEffects(world, player.posX, player.posY, player.posZ);
@@ -119,9 +126,10 @@ public class MixinItemSpoilage {
             world.spawnEntityInWorld(glyphid);
             spawnSpoilEffects(world, entityItem.posX, entityItem.posY, entityItem.posZ);
 
-            EntityPlayer nearestPlayer = world.getClosestPlayer(entityItem.posX, entityItem.posY, entityItem.posZ, 16.0);
+            EntityPlayer nearestPlayer = world
+                .getClosestPlayer(entityItem.posX, entityItem.posY, entityItem.posZ, 16.0);
             if (nearestPlayer != null) {
-                nearestPlayer.triggerAchievement(Aletheia.achievementGlyphidHatch);
+                nearestPlayer.triggerAchievement(AletheiaAchievements.achievementGlyphidHatch);
             }
 
             if (stack.stackSize <= 0) {
@@ -134,7 +142,8 @@ public class MixinItemSpoilage {
     }
 
     @Inject(method = "addInformation", at = @At("RETURN"))
-    private void aletheia$addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced, CallbackInfo ci) {
+    private void aletheia$addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced,
+        CallbackInfo ci) {
         Item item = stack.getItem();
         if (!isSpoilable(item)) return;
 

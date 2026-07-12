@@ -26,7 +26,12 @@
     "machine.MixinTileEntityMachineExposureChamber",
     "machine.MixinTileEntityMachineMiningLaser",
     "machine.MixinTileEntityMachineMixer",
-    "machine.MixinTileEntityMachineSolidifier"
+    "machine.MixinTileEntityMachineSolidifier",
+    "MixinItemRBMKRod",
+    "MixinExplosionNukeGenericSolinium",
+    "MixinNEIHideSecrets",
+    "MixinMachinePWRController",
+    "MixinTileEntityPWRController"
   ],
   "client": [
     "MixinRenderFluidTank",

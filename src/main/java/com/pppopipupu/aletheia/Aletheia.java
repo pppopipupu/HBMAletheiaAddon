@@ -1,9 +1,6 @@
 package com.pppopipupu.aletheia;
 
-import java.lang.reflect.Method;
-
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.util.EnumHelper;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,20 +9,16 @@ import com.hbm.inventory.FluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.fluid.Fluids.CD_Canister;
-import com.hbm.inventory.fluid.trait.FT_Combustible;
-import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
-import com.hbm.inventory.fluid.trait.FT_Coolable;
-import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
-import com.hbm.inventory.fluid.trait.FT_VentRadiation;
-import com.hbm.items.ModItems;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.render.util.EnumSymbol;
+import com.hbm.util.CompatExternal;
 import com.pppopipupu.aletheia.block.AletheiaBlocks;
 import com.pppopipupu.aletheia.entity.EntityDisperserCanisterAletheia;
+import com.pppopipupu.aletheia.fluid.AletheiaFluids;
 import com.pppopipupu.aletheia.item.AletheiaItems;
 import com.pppopipupu.aletheia.packet.AlienJellyEffectPacket;
 import com.pppopipupu.aletheia.recipe.AletheiaRecipes;
+import com.pppopipupu.aletheia.stats.AletheiaAchievements;
+import com.pppopipupu.aletheia.weapon.AletheiaBullets;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -37,8 +30,6 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
-import net.minecraft.stats.Achievement;
-import net.minecraftforge.common.AchievementPage;
 
 @Mod(
     modid = Aletheia.MODID,
@@ -57,61 +48,11 @@ public class Aletheia {
     @SidedProxy(clientSide = "com.pppopipupu.aletheia.ClientProxy", serverSide = "com.pppopipupu.aletheia.CommonProxy")
     public static CommonProxy proxy;
 
-    public static FluidType fluid_qgp;
-
-    public static com.hbm.items.weapon.sedna.BulletConfig energy_pppop;
-    public static com.hbm.items.weapon.sedna.BulletConfig energy_pppop_steel;
-
-    public static Achievement achievementGlyphidHatch;
-    public static Achievement achievementGlyphidHatchUnexpected;
-
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        try {
-            EnumHelper.addEnum(FuelGrade.class, "QGP", new Class[] { String.class }, new Object[] { "Quark-Gluon" });
-            LOG.info("Successfully added FuelGrade QGP via EnumHelper!");
-        } catch (Exception e) {
-            LOG.error("Failed to add FuelGrade QGP!", e);
-        }
-
-        fluid_qgp = new FluidType("QGP", 0xFF5500, 4, 0, 4, EnumSymbol.RADIATION).setTemp(10000000)
-            .addContainers(new CD_Canister(0xFF5500))
-            .addTraits(Fluids.LIQUID, Fluids.PLASMA, Fluids.EXPLOSIVE, Fluids.LEADCON, new FT_VentRadiation(0.5F));
-
-        fluid_qgp.addTraits(
-            new FT_Coolable(Fluids.NONE, 1, 0, 12500000).setEff(CoolingType.TURBINE, 3.0D)
-                .setEff(CoolingType.HEATEXCHANGER, 3.0D));
-
-        try {
-            Method mReg = Fluids.class.getDeclaredMethod("registerSelf", FluidType.class);
-            mReg.setAccessible(true);
-            mReg.invoke(null, fluid_qgp);
-            Fluids.metaOrder.add(fluid_qgp);
-
-            Method mCalculated = Fluids.class.getDeclaredMethod(
-                "registerCalculatedFuel",
-                FluidType.class,
-                long.class,
-                double.class,
-                FuelGrade.class);
-            mCalculated.setAccessible(true);
-
-            long balefireVal = 0L;
-            FT_Combustible balefireComb = Fluids.BALEFIRE.getTrait(FT_Combustible.class);
-            if (balefireComb != null) {
-                balefireVal = balefireComb.getCombustionEnergy();
-            }
-            FuelGrade fuelGradeVal;
-            try {
-                fuelGradeVal = FuelGrade.valueOf("QGP");
-            } catch (IllegalArgumentException exVal) {
-                fuelGradeVal = FuelGrade.HIGH;
-            }
-            mCalculated.invoke(null, fluid_qgp, balefireVal * 500L, 3.0, fuelGradeVal);
-        } catch (Exception e) {
-            LOG.error("Failed to register QGP fluid traits!", e);
-        }
-
+        CompatExternal.registerFluidRegisterListener(new AletheiaFluids());
+        AletheiaFluids.init();
+        AletheiaBullets.init();
         AletheiaBlocks.init();
         AletheiaItems.init();
 
@@ -131,40 +72,18 @@ public class Aletheia {
     public void init(FMLInitializationEvent event) {
         proxy.init(event);
 
-        achievementGlyphidHatch = new Achievement("achievement.glyphid_hatch", "glyphid_hatch", 0, 0, ModItems.egg_glyphid, null)
-            .initIndependentStat().registerStat();
-        achievementGlyphidHatchUnexpected = new Achievement("achievement.glyphid_hatch_unexpected", "glyphid_hatch_unexpected", 2, 0, ModItems.egg_glyphid, achievementGlyphidHatch)
-            .initIndependentStat().setSpecial().registerStat();
-        AchievementPage.registerAchievementPage(new AchievementPage("Aletheia",
-            achievementGlyphidHatch, achievementGlyphidHatchUnexpected));
+        AletheiaAchievements.init();
+        CompatExternal.registerRecipeRegisterListener(new AletheiaRecipes());
 
-        PacketDispatcher.wrapper.registerMessage(AlienJellyEffectPacket.Handler.class, AlienJellyEffectPacket.class, 200, Side.CLIENT);
+        PacketDispatcher.wrapper
+            .registerMessage(AlienJellyEffectPacket.Handler.class, AlienJellyEffectPacket.class, 200, Side.CLIENT);
 
-        FluidType[] fluidsList = Fluids.getAll();
-        for (int i = 1; i < fluidsList.length; i++) {
-            FluidType type = fluidsList[i];
-            if (type.hasNoContainer()) continue;
-            if (type.isDispersable()) {
-                FluidContainerRegistry.registerContainer(
-                    new FluidContainer(
-                        new ItemStack(AletheiaItems.disperser_canister, 1, i),
-                        new ItemStack(AletheiaItems.disperser_canister_empty),
-                        Fluids.fromID(i),
-                        2000));
-                FluidContainerRegistry.registerContainer(
-                    new FluidContainer(
-                        new ItemStack(AletheiaItems.glyphid_gland, 1, i),
-                        new ItemStack(AletheiaItems.glyphid_gland_empty),
-                        Fluids.fromID(i),
-                        4000));
-            }
-        }
+        registerFluidContainers();
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
-        AletheiaRecipes.init();
     }
 
     @Mod.EventHandler
@@ -200,7 +119,31 @@ public class Aletheia {
                     mapping.remap(AletheiaBlocks.ams_emitter);
                 } else if ("hbm:ams_limiter".equals(mapping.name)) {
                     mapping.remap(AletheiaBlocks.ams_limiter);
+                } else if ("hbm:machine_schrabidium_transmutator".equals(mapping.name)) {
+                    mapping.remap(AletheiaBlocks.machine_schrabidium_transmutator);
                 }
+            }
+        }
+    }
+
+    private static void registerFluidContainers() {
+        FluidType[] fluidsList = Fluids.getAll();
+        for (int i = 1; i < fluidsList.length; i++) {
+            FluidType type = fluidsList[i];
+            if (type.hasNoContainer()) continue;
+            if (type.isDispersable()) {
+                FluidContainerRegistry.registerContainer(
+                    new FluidContainer(
+                        new ItemStack(AletheiaItems.disperser_canister, 1, i),
+                        new ItemStack(AletheiaItems.disperser_canister_empty),
+                        Fluids.fromID(i),
+                        2000));
+                FluidContainerRegistry.registerContainer(
+                    new FluidContainer(
+                        new ItemStack(AletheiaItems.glyphid_gland, 1, i),
+                        new ItemStack(AletheiaItems.glyphid_gland_empty),
+                        Fluids.fromID(i),
+                        4000));
             }
         }
     }

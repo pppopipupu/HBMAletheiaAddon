@@ -15,7 +15,7 @@ container.amsBase=AMS基座
 container.amsEmitter=AMS发射极
 container.amsLimiter=AMS稳能器
 tile.qgp_block.name=夸克-胶子等离子体
-item.gun_pppop.name=PPPOP炮
+item.gun_pppop.name=奇点能湮灭射线"PPPOPIPUPU炮"
 
 item.aletheia:upgrade_ultimate.name=终极机器升级插件
 tile.aletheia:ams_base.name=AMS基座
@@ -24,7 +24,7 @@ tile.aletheia:ams_limiter.name=AMS稳能器
 item.aletheia:bucket_qgp.name=QGP桶
 item.aletheia:qgp_mining_bomb.name=QGP采矿炸弹
 tile.aletheia:qgp_block.name=夸克-胶子等离子体
-item.aletheia:gun_pppop.name=PPPOP炮
+item.aletheia:gun_pppop.name=奇点能湮灭射线"PPPOPIPUPU炮"
 item.ams_focus_blank.name=AMS空白聚焦芯片
 item.ams_focus_limiter.name=AMS稳能聚焦芯片
 item.ams_focus_booster.name=AMS增能聚焦芯片

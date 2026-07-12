@@ -24,6 +24,7 @@ import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.pppopipupu.aletheia.fluid.AletheiaFluids;
 import com.pppopipupu.aletheia.inventory.ContainerAMSBase;
 import com.pppopipupu.aletheia.inventory.GUIAMSBase;
 import com.pppopipupu.aletheia.item.AletheiaItems;
@@ -42,7 +43,7 @@ public class TileEntityAMSBase extends TileEntityMachineBase
     public FluidTank deuterium = new FluidTank(Fluids.DEUTERIUM, 24000);
     public FluidTank tritium = new FluidTank(Fluids.TRITIUM, 24000);
     public FluidTank coolant = new FluidTank(Fluids.COOLANT, 64000);
-    public FluidTank amat = new FluidTank(com.pppopipupu.aletheia.Aletheia.fluid_qgp, 64000);
+    public FluidTank amat = new FluidTank(AletheiaFluids.fluid_qgp, 64000);
 
     public long power;
     public static final long maxPower = 2000000000L;

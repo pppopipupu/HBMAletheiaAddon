@@ -3,6 +3,7 @@ package com.pppopipupu.aletheia;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 
+import com.hbm.items.weapon.sedna.factory.LegoClient;
 import com.hbm.render.entity.projectile.RenderGenericGrenade;
 import com.pppopipupu.aletheia.entity.EntityDisperserCanisterAletheia;
 import com.pppopipupu.aletheia.item.AletheiaItems;
@@ -18,6 +19,7 @@ import com.pppopipupu.aletheia.render.RenderQGPBlock;
 import com.pppopipupu.aletheia.tileentity.TileEntityAMSBase;
 import com.pppopipupu.aletheia.tileentity.TileEntityAMSEmitter;
 import com.pppopipupu.aletheia.tileentity.TileEntityAMSLimiter;
+import com.pppopipupu.aletheia.weapon.AletheiaBullets;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -49,6 +51,9 @@ public class ClientProxy extends CommonProxy {
 
         RenderQGPBlock.renderId = RenderingRegistry.getNextAvailableRenderId();
         RenderingRegistry.registerBlockHandler(new RenderQGPBlock());
+
+        AletheiaBullets.energy_pppop.setRenderer(LegoClient.RENDER_AP_BULLET);
+        AletheiaBullets.energy_pppop_steel.setRenderer(LegoClient.RENDER_AP_BULLET);
 
         MinecraftForgeForgeEventRegister();
     }

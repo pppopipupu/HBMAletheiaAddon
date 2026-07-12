@@ -18,8 +18,8 @@ import com.hbm.entity.mob.glyphid.EntityGlyphid;
 import com.hbm.entity.mob.glyphid.EntityGlyphidBrawler;
 import com.hbm.entity.mob.glyphid.EntityGlyphidScout;
 import com.hbm.items.ModItems;
-import com.pppopipupu.aletheia.Aletheia;
 import com.pppopipupu.aletheia.item.AletheiaItems;
+import com.pppopipupu.aletheia.stats.AletheiaAchievements;
 
 @Mixin(value = TileEntity.class)
 public class MixinTileEntitySpoilage {
@@ -59,8 +59,14 @@ public class MixinTileEntitySpoilage {
     private static void spawnSpoilEffects(World world, double x, double y, double z) {
         world.playSoundEffect(x, y, z, "mob.slime.big", 1.0F, 1.0F);
         for (int i = 0; i < 8; i++) {
-            world.spawnParticle("slime", x + world.rand.nextGaussian() * 0.5, y + world.rand.nextGaussian() * 0.5,
-                z + world.rand.nextGaussian() * 0.5, 0, 0, 0);
+            world.spawnParticle(
+                "slime",
+                x + world.rand.nextGaussian() * 0.5,
+                y + world.rand.nextGaussian() * 0.5,
+                z + world.rand.nextGaussian() * 0.5,
+                0,
+                0,
+                0);
         }
     }
 
@@ -109,7 +115,7 @@ public class MixinTileEntitySpoilage {
 
                 EntityPlayer nearestPlayer = this.worldObj.getClosestPlayer(x, y, z, 16.0);
                 if (nearestPlayer != null) {
-                    nearestPlayer.triggerAchievement(Aletheia.achievementGlyphidHatchUnexpected);
+                    nearestPlayer.triggerAchievement(AletheiaAchievements.achievementGlyphidHatchUnexpected);
                 }
             } else if (stack.getItem() == AletheiaItems.alien_jelly) {
                 inv.setInventorySlotContents(i, new ItemStack(ModItems.biomass, stack.stackSize));

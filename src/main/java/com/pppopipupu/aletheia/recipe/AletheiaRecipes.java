@@ -24,13 +24,24 @@ import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.loader.GenericRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
-import com.pppopipupu.aletheia.Aletheia;
 import com.pppopipupu.aletheia.block.AletheiaBlocks;
+import com.pppopipupu.aletheia.fluid.AletheiaFluids;
 import com.pppopipupu.aletheia.item.AletheiaItems;
 
+import api.hbm.recipe.IRecipeRegisterListener;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class AletheiaRecipes {
+public class AletheiaRecipes implements IRecipeRegisterListener {
+
+    private static boolean registered = false;
+
+    @Override
+    public void onRecipeLoad(String recipeClassName) {
+        if (!registered) {
+            registered = true;
+            init();
+        }
+    }
 
     public static void init() {
         GameRegistry.addRecipe(
@@ -60,6 +71,11 @@ public class AletheiaRecipes {
         GameRegistry.addShapelessRecipe(
             new ItemStack(AletheiaItems.ams_focus_booster, 1),
             new Object[] { AletheiaItems.ams_focus_blank, ModItems.rune_hagalaz, Blocks.emerald_block });
+
+        GameRegistry.addShapelessRecipe(
+            new ItemStack(Items.gold_nugget, 1),
+            new Object[] { Items.golden_apple, Items.golden_apple, Items.golden_apple, Items.golden_apple,
+                Items.golden_apple, Items.golden_apple, Items.golden_apple, Items.golden_apple, Items.egg });
 
         AssemblyMachineRecipes.INSTANCE.register(
             new GenericRecipe("ass.ams_base").setup(1200, 5000)
@@ -127,7 +143,7 @@ public class AletheiaRecipes {
                     new ComparableStack(ModItems.upgrade_overdrive_3, 1),
                     new ComparableStack(ModItems.upgrade_speed_3, 1),
                     new ComparableStack(ModItems.upgrade_effect_3, 1))
-                .inputFluids(new FluidStack(Aletheia.fluid_qgp, 10000))
+                .inputFluids(new FluidStack(AletheiaFluids.fluid_qgp, 10000))
                 .outputItems(new ItemStack(AletheiaItems.upgrade_ultimate, 1)));
 
         GenericRecipes chem = ChemicalPlantRecipes.INSTANCE;
@@ -152,6 +168,11 @@ public class AletheiaRecipes {
             new ItemStack[] { new ItemStack(ModItems.powder_copper, 4), new ItemStack(ModItems.sulfur, 1),
                 new ItemStack(ModItems.powder_cobalt_tiny, 1), new ItemStack(ModItems.powder_gold, 3) });
 
+        CentrifugeRecipes.recipes.put(
+            new ComparableStack(Items.blaze_rod),
+            new ItemStack[] { new ItemStack(ModItems.sulfur, 3), new ItemStack(ModItems.niter, 2),
+                new ItemStack(ModItems.powder_coal_tiny, 1), new ItemStack(ModItems.sulfur, 1) });
+
         ElectrolyserMetalRecipes.recipes.put(
             new ComparableStack(ModItems.crystal_copper),
             new ElectrolysisMetalRecipe(
@@ -160,5 +181,36 @@ public class AletheiaRecipes {
                 new ItemStack(ModItems.powder_lithium_tiny, 3),
                 new ItemStack(ModItems.sulfur, 2),
                 new ItemStack(ModItems.powder_gold, 3)));
+
+        GameRegistry.addSmelting(AletheiaItems.powder_sodium, new ItemStack(AletheiaItems.ingot_sodium), 0.0F);
+        GameRegistry.addSmelting(AletheiaItems.powder_strontium, new ItemStack(AletheiaItems.ingot_strontium), 0.0F);
+        GameRegistry.addSmelting(AletheiaItems.powder_neodymium, new ItemStack(AletheiaItems.ingot_neodymium), 0.0F);
+
+        GameRegistry.addShapedRecipe(
+            new ItemStack(AletheiaBlocks.block_sodium),
+            "###",
+            "###",
+            "###",
+            '#',
+            AletheiaItems.ingot_sodium);
+        GameRegistry.addShapelessRecipe(new ItemStack(AletheiaItems.ingot_sodium, 9), AletheiaBlocks.block_sodium);
+        GameRegistry.addShapedRecipe(
+            new ItemStack(AletheiaBlocks.block_strontium),
+            "###",
+            "###",
+            "###",
+            '#',
+            AletheiaItems.ingot_strontium);
+        GameRegistry
+            .addShapelessRecipe(new ItemStack(AletheiaItems.ingot_strontium, 9), AletheiaBlocks.block_strontium);
+        GameRegistry.addShapedRecipe(
+            new ItemStack(AletheiaBlocks.block_neodymium),
+            "###",
+            "###",
+            "###",
+            '#',
+            AletheiaItems.ingot_neodymium);
+        GameRegistry
+            .addShapelessRecipe(new ItemStack(AletheiaItems.ingot_neodymium, 9), AletheiaBlocks.block_neodymium);
     }
 }

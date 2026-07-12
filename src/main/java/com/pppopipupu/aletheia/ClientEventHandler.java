@@ -56,10 +56,7 @@ public class ClientEventHandler {
         RenderManager rm = RenderManager.instance;
 
         GL11.glPushMatrix();
-        GL11.glTranslated(
-            dx - rm.renderPosX,
-            dy - 1.0 - rm.renderPosY,
-            dz - rm.renderPosZ);
+        GL11.glTranslated(dx - rm.renderPosX, dy - 1.0 - rm.renderPosY, dz - rm.renderPosZ);
 
         float beamHeight = 48.0F;
         float halfWidth = 0.5F;

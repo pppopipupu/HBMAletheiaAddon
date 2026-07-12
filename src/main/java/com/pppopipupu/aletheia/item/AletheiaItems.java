@@ -20,14 +20,19 @@ import com.hbm.items.weapon.sedna.factory.Orchestras;
 import com.hbm.items.weapon.sedna.factory.XFactoryEnergy;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.main.MainRegistry;
-import com.pppopipupu.aletheia.Aletheia;
 import com.pppopipupu.aletheia.block.AletheiaBlocks;
+import com.pppopipupu.aletheia.fluid.AletheiaFluids;
+import com.pppopipupu.aletheia.weapon.AletheiaBullets;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class AletheiaItems {
 
     public static Item bucket_qgp;
+    public static Item bucket_liquid_nitrogen;
+    public static Item bucket_thermal_colloid;
+    public static Item bucket_modified_cold_gel;
+    public static Item bucket_hot_modified_cold_gel;
     public static Item qgp_mining_bomb;
     public static Item upgrade_ultimate;
     public static Item gun_pppop;
@@ -43,12 +48,50 @@ public class AletheiaItems {
     public static Item glyphid_gland_empty;
     public static Item glyphid_gland;
 
+    public static Item night_vision;
+    public static Item night_vision_mk2;
+    public static Item chopper;
+    public static Item ingot_sodium;
+    public static Item ingot_strontium;
+    public static Item ingot_neodymium;
+    public static Item powder_sodium;
+    public static Item powder_strontium;
+    public static Item powder_neodymium;
+    public static Item powder_neodymium_tiny;
+    public static Item fragment_neodymium;
+    public static Item ams_catalyst_strontium;
+    public static Item pellet_rtg_strontium;
+
     public static void init() {
         bucket_qgp = new ItemQGPBucket(AletheiaBlocks.qgp_block).setUnlocalizedName("bucket_qgp")
             .setContainerItem(Items.bucket);
         GameRegistry.registerItem(bucket_qgp, "bucket_qgp");
         FluidContainerRegistry.registerContainer(
-            new FluidContainer(new ItemStack(bucket_qgp), new ItemStack(Items.bucket), Aletheia.fluid_qgp, 1000));
+            new FluidContainer(new ItemStack(bucket_qgp), new ItemStack(Items.bucket), AletheiaFluids.fluid_qgp, 1000));
+
+        bucket_liquid_nitrogen = new Item().setUnlocalizedName("bucket_liquid_nitrogen")
+            .setContainerItem(Items.bucket)
+            .setCreativeTab(MainRegistry.controlTab)
+            .setTextureName("aletheia:bucket_liquid_nitrogen");
+        GameRegistry.registerItem(bucket_liquid_nitrogen, "bucket_liquid_nitrogen");
+
+        bucket_thermal_colloid = new Item().setUnlocalizedName("bucket_thermal_colloid")
+            .setContainerItem(Items.bucket)
+            .setCreativeTab(MainRegistry.controlTab)
+            .setTextureName("aletheia:bucket_thermal_colloid");
+        GameRegistry.registerItem(bucket_thermal_colloid, "bucket_thermal_colloid");
+
+        bucket_modified_cold_gel = new Item().setUnlocalizedName("bucket_modified_cold_gel")
+            .setContainerItem(Items.bucket)
+            .setCreativeTab(MainRegistry.controlTab)
+            .setTextureName("aletheia:bucket_modified_cold_gel");
+        GameRegistry.registerItem(bucket_modified_cold_gel, "bucket_modified_cold_gel");
+
+        bucket_hot_modified_cold_gel = new Item().setUnlocalizedName("bucket_hot_modified_cold_gel")
+            .setContainerItem(Items.bucket)
+            .setCreativeTab(MainRegistry.controlTab)
+            .setTextureName("aletheia:bucket_hot_modified_cold_gel");
+        GameRegistry.registerItem(bucket_hot_modified_cold_gel, "bucket_hot_modified_cold_gel");
 
         qgp_mining_bomb = new ItemQGPMiningBomb(4).setUnlocalizedName("qgp_mining_bomb")
             .setTextureName("tnt_side");
@@ -95,7 +138,7 @@ public class AletheiaItems {
                         .auto(true)
                         .mag(
                             new MagazineFullReload(0, 250)
-                                .addConfigs(Aletheia.energy_pppop, Aletheia.energy_pppop_steel))
+                                .addConfigs(AletheiaBullets.energy_pppop, AletheiaBullets.energy_pppop_steel))
                         .offset(0.75, -0.0625 * 1.5, -0.1875)
                         .canFire(Lego.LAMBDA_STANDARD_CAN_FIRE)
                         .fire((itemStack, lambdaContext) -> {
@@ -107,7 +150,7 @@ public class AletheiaItems {
                                     .getMagazine(itemStack)
                                     .getType(itemStack, lambdaContext.inventory);
                             }
-                            String snd = (currentBullet == Aletheia.energy_pppop) ? "aletheia:weapon.zomgShoot"
+                            String snd = (currentBullet == AletheiaBullets.energy_pppop) ? "aletheia:weapon.zomgShoot"
                                 : "aletheia:weapon.osiprShoot";
                             entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, snd, 1.0F, 1.0F);
                         })
@@ -139,5 +182,71 @@ public class AletheiaItems {
             .setCreativeTab(MainRegistry.weaponTab)
             .setTextureName("hbm:glyphid_gland");
         GameRegistry.registerItem(glyphid_gland, "glyphid_gland");
+
+        night_vision = new Item().setUnlocalizedName("night_vision")
+            .setCreativeTab(MainRegistry.weaponTab)
+            .setTextureName("aletheia:night_vision");
+        GameRegistry.registerItem(night_vision, "night_vision");
+
+        night_vision_mk2 = new Item().setUnlocalizedName("night_vision_mk2")
+            .setCreativeTab(MainRegistry.weaponTab)
+            .setTextureName("aletheia:night_vision_mk2");
+        GameRegistry.registerItem(night_vision_mk2, "night_vision_mk2");
+
+        chopper = new Item().setUnlocalizedName("chopper")
+            .setCreativeTab(MainRegistry.weaponTab)
+            .setTextureName("aletheia:chopper");
+        GameRegistry.registerItem(chopper, "chopper");
+
+        ingot_sodium = new Item().setUnlocalizedName("ingot_sodium")
+            .setCreativeTab(MainRegistry.partsTab)
+            .setTextureName("aletheia:ingot_sodium");
+        GameRegistry.registerItem(ingot_sodium, "ingot_sodium");
+
+        ingot_strontium = new Item().setUnlocalizedName("ingot_strontium")
+            .setCreativeTab(MainRegistry.partsTab)
+            .setTextureName("aletheia:ingot_strontium");
+        GameRegistry.registerItem(ingot_strontium, "ingot_strontium");
+
+        ingot_neodymium = new Item().setUnlocalizedName("ingot_neodymium")
+            .setCreativeTab(MainRegistry.partsTab)
+            .setTextureName("aletheia:ingot_neodymium");
+        GameRegistry.registerItem(ingot_neodymium, "ingot_neodymium");
+
+        powder_sodium = new Item().setUnlocalizedName("powder_sodium")
+            .setCreativeTab(MainRegistry.partsTab)
+            .setTextureName("aletheia:powder_sodium");
+        GameRegistry.registerItem(powder_sodium, "powder_sodium");
+
+        powder_strontium = new Item().setUnlocalizedName("powder_strontium")
+            .setCreativeTab(MainRegistry.partsTab)
+            .setTextureName("aletheia:powder_strontium");
+        GameRegistry.registerItem(powder_strontium, "powder_strontium");
+
+        powder_neodymium = new Item().setUnlocalizedName("powder_neodymium")
+            .setCreativeTab(MainRegistry.partsTab)
+            .setTextureName("aletheia:powder_neodymium");
+        GameRegistry.registerItem(powder_neodymium, "powder_neodymium");
+
+        powder_neodymium_tiny = new Item().setUnlocalizedName("powder_neodymium_tiny")
+            .setCreativeTab(MainRegistry.partsTab)
+            .setTextureName("aletheia:powder_neodymium_tiny");
+        GameRegistry.registerItem(powder_neodymium_tiny, "powder_neodymium_tiny");
+
+        fragment_neodymium = new Item().setUnlocalizedName("fragment_neodymium")
+            .setCreativeTab(MainRegistry.partsTab)
+            .setTextureName("aletheia:fragment_neodymium");
+        GameRegistry.registerItem(fragment_neodymium, "fragment_neodymium");
+
+        ams_catalyst_strontium = new Item().setUnlocalizedName("ams_catalyst_strontium")
+            .setCreativeTab(MainRegistry.controlTab)
+            .setMaxStackSize(1)
+            .setTextureName("aletheia:ams_catalyst_strontium");
+        GameRegistry.registerItem(ams_catalyst_strontium, "ams_catalyst_strontium");
+
+        pellet_rtg_strontium = new Item().setUnlocalizedName("pellet_rtg_strontium")
+            .setCreativeTab(MainRegistry.controlTab)
+            .setTextureName("aletheia:pellet_rtg_strontium");
+        GameRegistry.registerItem(pellet_rtg_strontium, "pellet_rtg_strontium");
     }
 }

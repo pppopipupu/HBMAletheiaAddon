@@ -12,7 +12,7 @@ import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.render.shader.Shader;
-import com.pppopipupu.aletheia.Aletheia;
+import com.pppopipupu.aletheia.fluid.AletheiaFluids;
 
 public class ItemRenderQGPDisperser implements IItemRenderer {
 
@@ -20,7 +20,8 @@ public class ItemRenderQGPDisperser implements IItemRenderer {
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-        if (item != null && Aletheia.fluid_qgp != null && item.getItemDamage() == Aletheia.fluid_qgp.getID()) {
+        if (item != null && AletheiaFluids.fluid_qgp != null
+            && item.getItemDamage() == AletheiaFluids.fluid_qgp.getID()) {
             return type != ItemRenderType.FIRST_PERSON_MAP;
         }
         return false;
@@ -73,7 +74,8 @@ public class ItemRenderQGPDisperser implements IItemRenderer {
         IIcon liquidIcon = item.getItem()
             .getIcon(item, 1);
         if (liquidIcon != null) {
-            boolean isQGP = Aletheia.fluid_qgp != null && item.getItemDamage() == Aletheia.fluid_qgp.getID();
+            boolean isQGP = AletheiaFluids.fluid_qgp != null
+                && item.getItemDamage() == AletheiaFluids.fluid_qgp.getID();
 
             if (isQGP) {
                 qgpShader.use();

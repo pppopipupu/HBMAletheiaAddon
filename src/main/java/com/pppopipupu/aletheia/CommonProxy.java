@@ -3,6 +3,7 @@ package com.pppopipupu.aletheia;
 import com.pppopipupu.aletheia.tileentity.TileEntityAMSBase;
 import com.pppopipupu.aletheia.tileentity.TileEntityAMSEmitter;
 import com.pppopipupu.aletheia.tileentity.TileEntityAMSLimiter;
+import com.pppopipupu.aletheia.tileentity.TileEntityMachineSchrabidiumTransmutator;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -18,9 +19,8 @@ public class CommonProxy {
         GameRegistry.registerTileEntity(TileEntityAMSBase.class, "aletheia_ams_base");
         GameRegistry.registerTileEntity(TileEntityAMSEmitter.class, "aletheia_ams_emitter");
         GameRegistry.registerTileEntity(TileEntityAMSLimiter.class, "aletheia_ams_limiter");
-
-        Aletheia.LOG.info(Config.greeting);
-        Aletheia.LOG.info("I am Aletheia at version " + Tags.VERSION);
+        GameRegistry
+            .registerTileEntity(TileEntityMachineSchrabidiumTransmutator.class, "aletheia_schrabidium_transmutator");
     }
 
     public void init(FMLInitializationEvent event) {}
