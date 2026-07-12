@@ -141,13 +141,12 @@ public class Aletheia {
                         4000));
             }
         }
-
-        AletheiaRecipes.init();
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
+        AletheiaRecipes.init();
     }
 
     @Mod.EventHandler
