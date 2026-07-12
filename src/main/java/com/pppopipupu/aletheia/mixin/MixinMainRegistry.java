@@ -1,15 +1,17 @@
 package com.pppopipupu.aletheia.mixin;
 
-import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
-import cpw.mods.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
-import cpw.mods.fml.common.registry.GameRegistry;
-import com.hbm.main.MainRegistry;
-import com.pppopipupu.aletheia.block.AletheiaBlocks;
-import com.pppopipupu.aletheia.item.AletheiaItems;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import com.hbm.main.MainRegistry;
+import com.pppopipupu.aletheia.block.AletheiaBlocks;
+import com.pppopipupu.aletheia.item.AletheiaItems;
+
+import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
+import cpw.mods.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mixin(value = MainRegistry.class, remap = false)
 public class MixinMainRegistry {
