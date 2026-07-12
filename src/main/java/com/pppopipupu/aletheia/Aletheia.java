@@ -16,6 +16,7 @@ import com.pppopipupu.aletheia.entity.EntityDisperserCanisterAletheia;
 import com.pppopipupu.aletheia.fluid.AletheiaFluids;
 import com.pppopipupu.aletheia.item.AletheiaItems;
 import com.pppopipupu.aletheia.packet.AlienJellyEffectPacket;
+import com.pppopipupu.aletheia.packet.QGPDistortionPacket;
 import com.pppopipupu.aletheia.recipe.AletheiaRecipes;
 import com.pppopipupu.aletheia.stats.AletheiaAchievements;
 import com.pppopipupu.aletheia.weapon.AletheiaBullets;
@@ -77,6 +78,8 @@ public class Aletheia {
 
         PacketDispatcher.wrapper
             .registerMessage(AlienJellyEffectPacket.Handler.class, AlienJellyEffectPacket.class, 200, Side.CLIENT);
+        PacketDispatcher.wrapper
+            .registerMessage(QGPDistortionPacket.Handler.class, QGPDistortionPacket.class, 201, Side.CLIENT);
 
         registerFluidContainers();
     }

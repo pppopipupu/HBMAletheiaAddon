@@ -23,6 +23,7 @@ import com.hbm.inventory.recipes.ElectrolyserMetalRecipes.ElectrolysisMetalRecip
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.loader.GenericRecipes;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemBatteryPack.EnumBatteryPack;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.pppopipupu.aletheia.block.AletheiaBlocks;
 import com.pppopipupu.aletheia.fluid.AletheiaFluids;
@@ -104,6 +105,18 @@ public class AletheiaRecipes implements IRecipeRegisterListener {
                     new ComparableStack(ModItems.coil_copper_torus, 2),
                     new ComparableStack(ModItems.circuit, 2, EnumCircuitType.CONTROLLER_QUANTUM),
                     new ComparableStack(ModItems.singularity_spark, 1)));
+        AssemblyMachineRecipes.INSTANCE.register(
+            new GenericRecipe("ass.schrabtransmutator").setup(500, 100)
+                .outputItems(new ItemStack(AletheiaBlocks.machine_schrabidium_transmutator, 1))
+                .inputItems(
+                    new OreDictStack(MAGTUNG.ingot(), 1),
+                    new OreDictStack(TI.ingot(), 24),
+                    new OreDictStack(STEEL.plate(), 18),
+                    new OreDictStack(STEEL.plateWelded(), 12),
+                    new ComparableStack(ModItems.plate_desh, 6),
+                    new OreDictStack(RUBBER.ingot(), 8),
+                    new ComparableStack(ModItems.battery_pack, 1, EnumBatteryPack.BATTERY_LEAD.ordinal()),
+                    new ComparableStack(ModItems.circuit, 2, EnumCircuitType.ADVANCED.ordinal())));
 
         ChemicalPlantRecipes.INSTANCE.register(
             new GenericRecipe("chem.ams_base").setup(200, 5000)
