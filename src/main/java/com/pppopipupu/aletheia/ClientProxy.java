@@ -3,6 +3,7 @@ package com.pppopipupu.aletheia;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 
+import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.factory.LegoClient;
 import com.hbm.render.entity.projectile.RenderGenericGrenade;
 import com.pppopipupu.aletheia.entity.EntityDisperserCanisterAletheia;
@@ -15,6 +16,7 @@ import com.pppopipupu.aletheia.render.ItemRenderUltimateUpgrade;
 import com.pppopipupu.aletheia.render.RenderAMSBase;
 import com.pppopipupu.aletheia.render.RenderAMSEmitter;
 import com.pppopipupu.aletheia.render.RenderAMSLimiter;
+import com.pppopipupu.aletheia.render.RenderPPPOPProjectile;
 import com.pppopipupu.aletheia.render.RenderQGPBlock;
 import com.pppopipupu.aletheia.tileentity.TileEntityAMSBase;
 import com.pppopipupu.aletheia.tileentity.TileEntityAMSEmitter;
@@ -52,8 +54,11 @@ public class ClientProxy extends CommonProxy {
         RenderQGPBlock.renderId = RenderingRegistry.getNextAvailableRenderId();
         RenderingRegistry.registerBlockHandler(new RenderQGPBlock());
 
-        AletheiaBullets.energy_pppop.setRenderer(LegoClient.RENDER_AP_BULLET);
-        AletheiaBullets.energy_pppop_steel.setRenderer(LegoClient.RENDER_AP_BULLET);
+        AletheiaBullets.energy_pppop.setRenderer(RenderPPPOPProjectile.RENDERER);
+        AletheiaBullets.energy_pppop_steel.setRenderer(RenderPPPOPProjectile.RENDERER);
+
+        ((ItemGunBaseNT) AletheiaItems.gun_pppop).getConfig(null, 0)
+            .hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 
         MinecraftForgeForgeEventRegister();
     }
