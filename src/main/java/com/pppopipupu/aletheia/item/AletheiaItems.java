@@ -50,6 +50,9 @@ public class AletheiaItems {
 
     public static Item alien_jelly;
 
+    public static Item bio_crystal;
+    public static Item agricultural_science;
+
     public static Item night_vision;
     public static Item night_vision_mk2;
     public static Item chopper;
@@ -135,6 +138,16 @@ public class AletheiaItems {
             .setTextureName("aletheia:alien_jelly")
             .setCreativeTab(MainRegistry.consumableTab);
         GameRegistry.registerItem(alien_jelly, "alien_jelly");
+
+        bio_crystal = new Item().setUnlocalizedName("bio_crystal")
+            .setCreativeTab(MainRegistry.partsTab)
+            .setTextureName("aletheia:bioflux");
+        GameRegistry.registerItem(bio_crystal, "bio_crystal");
+
+        agricultural_science = new Item().setUnlocalizedName("agricultural_science")
+            .setCreativeTab(MainRegistry.controlTab)
+            .setTextureName("aletheia:agricultural_science");
+        GameRegistry.registerItem(agricultural_science, "agricultural_science");
 
         gun_pppop = new ItemGunBaseNT(
             WeaponQuality.LEGENDARY,

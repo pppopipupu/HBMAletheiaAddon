@@ -34,6 +34,19 @@ item.aletheia:ams_focus_limiter.name=Limiting Stabilizer Focus
 item.aletheia:ams_focus_booster.name=Boosting Stabilizer Focus
 item.alien_jelly.name=Alien Jelly
 item.aletheia:alien_jelly.name=Alien Jelly
+item.bio_crystal.name=Bio Crystal
+item.aletheia:bio_crystal.name=Bio Crystal
+item.agricultural_science.name=Agricultural Science Bottle
+item.aletheia:agricultural_science.name=Agricultural Science Bottle
+tile.machine_agri_chem_plant.name=Agricultural Chemical Plant
+tile.aletheia:machine_agri_chem_plant.name=Agricultural Chemical Plant
+
+agri.bio_crystal=Bio Crystal Synthesis
+agri.bio_crystal_egg=Bio Crystal (Glyphid Egg)
+agri.egg_culture=Glyphid Egg Cultivation
+agri.jelly_cheap=Cheap Alien Jelly
+agri.dirt_grass=Dirt to Grass
+agri.bottle=Agricultural Science Bottle (Bulk)
 
 tooltip.alien_jelly.spoilage=Time until spoilage: §e%dmin %dsec
 tooltip.alien_jelly.product=Spoilage product: §bBiomass

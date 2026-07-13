@@ -8,6 +8,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import com.hbm.blocks.generic.BlockBeaconable;
 import com.hbm.blocks.machine.BlockHadronCoil;
 import com.hbm.main.MainRegistry;
+import com.pppopipupu.aletheia.machine.agrichemplant.BlockMachineAgriChemicalPlant;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -19,6 +20,7 @@ public class AletheiaBlocks {
     public static Block ams_emitter;
     public static Block ams_limiter;
 
+    public static Block machine_agri_chem_plant;
     public static Block machine_schrabidium_transmutator;
     public static Block block_sodium;
     public static Block block_strontium;
@@ -90,5 +92,13 @@ public class AletheiaBlocks {
             .setCreativeTab(MainRegistry.machineTab)
             .setBlockTextureName("aletheia:hadron_coil_neodymium");
         GameRegistry.registerBlock(hadron_coil_neodymium, "hadron_coil_neodymium");
+
+        machine_agri_chem_plant = new BlockMachineAgriChemicalPlant(Material.iron)
+            .setBlockName("machine_agri_chem_plant")
+            .setHardness(5.0F)
+            .setResistance(30.0F)
+            .setCreativeTab(MainRegistry.machineTab)
+            .setBlockTextureName("aletheia:ams_base");
+        GameRegistry.registerBlock(machine_agri_chem_plant, "machine_agri_chem_plant");
     }
 }

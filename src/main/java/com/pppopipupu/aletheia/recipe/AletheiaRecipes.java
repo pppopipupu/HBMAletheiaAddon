@@ -31,6 +31,7 @@ import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.pppopipupu.aletheia.block.AletheiaBlocks;
 import com.pppopipupu.aletheia.fluid.AletheiaFluids;
 import com.pppopipupu.aletheia.item.AletheiaItems;
+import com.pppopipupu.aletheia.machine.agrichemplant.AgriChemicalPlantRecipes;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -100,6 +101,16 @@ public class AletheiaRecipes {
             AletheiaItems.ingot_neodymium);
         GameRegistry
             .addShapelessRecipe(new ItemStack(AletheiaItems.ingot_neodymium, 9), AletheiaBlocks.block_neodymium);
+
+        GameRegistry.addShapelessRecipe(
+            new ItemStack(AletheiaItems.bio_crystal, 1),
+            AletheiaItems.alien_jelly,
+            ModItems.egg_glyphid);
+        GameRegistry.addShapelessRecipe(
+            new ItemStack(AletheiaItems.agricultural_science, 1),
+            AletheiaItems.bio_crystal,
+            Items.glass_bottle,
+            ModItems.egg_glyphid);
     }
 
     public static void registerHBMRecipes() {
@@ -255,5 +266,15 @@ public class AletheiaRecipes {
                 new ItemStack(ModItems.powder_lithium_tiny, 3),
                 new ItemStack(ModItems.sulfur, 2),
                 new ItemStack(ModItems.powder_gold, 3)));
+
+        AssemblyMachineRecipes.INSTANCE.register(
+            new GenericRecipe("ass.aletheia_agri_chem_plant").setup(200, 100)
+                .outputItems(new ItemStack(AletheiaBlocks.machine_agri_chem_plant, 1))
+                .inputItems(
+                    new ComparableStack(Blocks.grass, 12),
+                    new ComparableStack(AletheiaItems.agricultural_science, 4),
+                    new ComparableStack(ModItems.plate_steel, 8)));
+
+        AgriChemicalPlantRecipes.INSTANCE.registerDefaults();
     }
 }

@@ -18,12 +18,14 @@ import com.hbm.util.CompatExternal;
 import com.pppopipupu.aletheia.block.AletheiaBlocks;
 import com.pppopipupu.aletheia.fluid.AletheiaFluids;
 import com.pppopipupu.aletheia.item.AletheiaItems;
+import com.pppopipupu.aletheia.machine.agrichemplant.AgriChemicalPlantRecipeHandler;
 import com.pppopipupu.aletheia.packet.AlienJellyBeamPacket;
 import com.pppopipupu.aletheia.packet.QGPDistortionPacket;
 import com.pppopipupu.aletheia.recipe.AletheiaRecipes;
 import com.pppopipupu.aletheia.stats.AletheiaAchievements;
 import com.pppopipupu.aletheia.weapon.AletheiaBullets;
 
+import codechicken.nei.api.API;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -78,6 +80,14 @@ public class Aletheia {
             .registerMessage(QGPDistortionPacket.Handler.class, QGPDistortionPacket.class, 201, Side.CLIENT);
 
         registerFluidContainers();
+
+        if (cpw.mods.fml.common.Loader.isModLoaded("NotEnoughItems")) {
+            try {
+                API.registerRecipeHandler(new AgriChemicalPlantRecipeHandler());
+            } catch (Throwable t) {
+                LOG.warn("Failed to register Agri Chemical Plant NEI handler", t);
+            }
+        }
     }
 
     @Mod.EventHandler

@@ -1,5 +1,6 @@
 package com.pppopipupu.aletheia;
 
+import com.pppopipupu.aletheia.machine.agrichemplant.TileEntityMachineAgriChemicalPlant;
 import com.pppopipupu.aletheia.tileentity.TileEntityAMSBase;
 import com.pppopipupu.aletheia.tileentity.TileEntityAMSEmitter;
 import com.pppopipupu.aletheia.tileentity.TileEntityAMSLimiter;
@@ -21,6 +22,7 @@ public class CommonProxy {
         GameRegistry.registerTileEntity(TileEntityAMSLimiter.class, "aletheia_ams_limiter");
         GameRegistry
             .registerTileEntity(TileEntityMachineSchrabidiumTransmutator.class, "aletheia_schrabidium_transmutator");
+        GameRegistry.registerTileEntity(TileEntityMachineAgriChemicalPlant.class, "aletheia_agri_chem_plant");
     }
 
     public void init(FMLInitializationEvent event) {}

@@ -34,6 +34,19 @@ item.aletheia:ams_focus_limiter.name=限制稳定器焦点
 item.aletheia:ams_focus_booster.name=增压型稳定器焦点
 item.alien_jelly.name=异星果冻
 item.aletheia:alien_jelly.name=异星果冻
+item.bio_crystal.name=生物结晶
+item.aletheia:bio_crystal.name=生物结晶
+item.agricultural_science.name=农业科技瓶
+item.aletheia:agricultural_science.name=农业科技瓶
+tile.machine_agri_chem_plant.name=农业化工厂
+tile.aletheia:machine_agri_chem_plant.name=农业化工厂
+
+agri.bio_crystal=生物结晶合成
+agri.bio_crystal_egg=生物结晶（异虫蛋）
+agri.egg_culture=异虫蛋培养
+agri.jelly_cheap=廉价异星果冻
+agri.dirt_grass=泥土转化草方块
+agri.bottle=农业科技瓶（批量合成）
 
 tooltip.alien_jelly.spoilage=距离变质还有: §e%d分%d秒
 tooltip.alien_jelly.product=变质产物: §b生物质
