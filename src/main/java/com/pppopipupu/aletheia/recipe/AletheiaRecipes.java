@@ -38,6 +38,10 @@ public class AletheiaRecipes implements IRecipeRegisterListener {
 
     @Override
     public void onRecipeLoad(String recipeClassName) {
+        registerAll();
+    }
+
+    public static void registerAll() {
         if (!registered) {
             registered = true;
             init();

@@ -85,6 +85,7 @@ public class Aletheia {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
+        AletheiaRecipes.registerAll();
     }
 
     @Mod.EventHandler
