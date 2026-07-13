@@ -30,7 +30,8 @@
     "MixinConfigWrapper",
     "MixinMachinePWRController",
     "MixinTileEntityPWRController",
-    "MixinMainRegistry"
+    "MixinMainRegistry",
+    "MixinSerializableRecipe"
   ],
   "client": [
     "MixinRenderFluidTank",

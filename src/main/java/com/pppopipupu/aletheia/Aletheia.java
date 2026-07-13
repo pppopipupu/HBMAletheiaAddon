@@ -72,7 +72,7 @@ public class Aletheia {
         proxy.init(event);
 
         AletheiaAchievements.init();
-        CompatExternal.registerRecipeRegisterListener(new AletheiaRecipes());
+        AletheiaRecipes.registerForgeRecipes();
 
         PacketDispatcher.wrapper
             .registerMessage(AlienJellyEffectPacket.Handler.class, AlienJellyEffectPacket.class, 200, Side.CLIENT);
@@ -85,7 +85,6 @@ public class Aletheia {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
-        AletheiaRecipes.registerAll();
     }
 
     @Mod.EventHandler
