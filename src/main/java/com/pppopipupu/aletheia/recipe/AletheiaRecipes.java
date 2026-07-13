@@ -32,6 +32,9 @@ import com.pppopipupu.aletheia.block.AletheiaBlocks;
 import com.pppopipupu.aletheia.fluid.AletheiaFluids;
 import com.pppopipupu.aletheia.item.AletheiaItems;
 import com.pppopipupu.aletheia.machine.agrichemplant.AgriChemicalPlantRecipes;
+import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcElectrolysis;
+import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcProcessing;
+import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcReactors;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -276,5 +279,9 @@ public class AletheiaRecipes {
                     new ComparableStack(ModItems.plate_steel, 8)));
 
         AgriChemicalPlantRecipes.INSTANCE.registerDefaults();
+
+        AletheiaRecipesNtmcElectrolysis.register();
+        AletheiaRecipesNtmcProcessing.register();
+        AletheiaRecipesNtmcReactors.register();
     }
 }
