@@ -150,9 +150,9 @@ public class AletheiaItems {
                         .reload(10)
                         .jam(0)
                         .auto(true)
-                                .mag(
-                                    new MagazineFullReload(0, 250)
-                                        .addConfigs(AletheiaBullets.energy_pppop, AletheiaBullets.energy_pppop_steel))
+                        .mag(
+                            new MagazineFullReload(0, 250)
+                                .addConfigs(AletheiaBullets.energy_pppop, AletheiaBullets.energy_pppop_steel))
                         .offset(0.75, -0.0625 * 1.5, -0.1875)
                         .canFire(Lego.LAMBDA_STANDARD_CAN_FIRE)
                         .fire((itemStack, lambdaContext) -> {

@@ -9,6 +9,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.FluidStack;
+import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
@@ -22,6 +23,8 @@ import com.hbm.inventory.recipes.ElectrolyserMetalRecipes;
 import com.hbm.inventory.recipes.ElectrolyserMetalRecipes.ElectrolysisMetalRecipe;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.loader.GenericRecipes;
+import com.hbm.items.ItemEnums.EnumAshType;
+import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBatteryPack.EnumBatteryPack;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
@@ -180,6 +183,42 @@ public class AletheiaRecipes {
                     new ComparableStack(ModItems.upgrade_effect_3, 1))
                 .inputFluids(new FluidStack(AletheiaFluids.fluid_qgp, 10000))
                 .outputItems(new ItemStack(AletheiaItems.upgrade_ultimate, 1)));
+
+        ChemicalPlantRecipes.INSTANCE.register(
+            new GenericRecipe("chem.oxygen").setupNamed(20, 400)
+                .setIcon(ModItems.gas_full, Fluids.OXYGEN.getID())
+                .inputFluids(new FluidStack(Fluids.AIR, 8_000))
+                .outputFluids(new FluidStack(Fluids.OXYGEN, 500)));
+        ChemicalPlantRecipes.INSTANCE.register(
+            new GenericRecipe("chem.ln2").setupNamed(400, 2_000)
+                .outputFluids(new FluidStack(Fluids.NITROGEN, 5_000)));
+        ChemicalPlantRecipes.INSTANCE.register(
+            new GenericRecipe("chem.cryolite").setupNamed(50, 100)
+                .inputItems(new OreDictStack(NA.dust()), new OreDictStack(AL.dust()), new OreDictStack(F.dust(), 2))
+                .outputItems(DictFrame.fromOne(ModItems.chunk_ore, EnumChunkType.CRYOLITE, 1)));
+        ChemicalPlantRecipes.INSTANCE.register(
+            new GenericRecipe("chem.electrolysis_h2o").setupNamed(160, 1_000)
+                .inputFluids(new FluidStack(Fluids.WATER, 1_000))
+                .outputFluids(new FluidStack(Fluids.HYDROGEN, 1_600), new FluidStack(Fluids.OXYGEN, 800)));
+        ChemicalPlantRecipes.INSTANCE.register(
+            new GenericRecipe("chem.electrolysis_d2o").setupNamed(160, 1_000)
+                .inputFluids(new FluidStack(Fluids.HEAVYWATER, 1_000))
+                .outputFluids(new FluidStack(Fluids.DEUTERIUM, 1_600), new FluidStack(Fluids.OXYGEN, 800)));
+        ChemicalPlantRecipes.INSTANCE.register(
+            new GenericRecipe("chem.powder_magic").setup(80, 500)
+                .inputItems(new ComparableStack(ModItems.powder_lapis))
+                .inputFluids(new FluidStack(Fluids.XPJUICE, 25))
+                .outputItems(new ItemStack(ModItems.powder_magic)));
+        ChemicalPlantRecipes.INSTANCE.register(
+            new GenericRecipe("chem.btx2soot").setupNamed(400, 5_000)
+                .inputFluids(new FluidStack(Fluids.XYLENE, 1_000), new FluidStack(Fluids.OXYGEN, 1_000))
+                .outputItems(DictFrame.fromOne(ModItems.powder_ash, EnumAshType.SOOT, 1)));
+        ChemicalPlantRecipes.INSTANCE.register(
+            new GenericRecipe("chem.tungsten_carbide").setup(240, 10_000)
+                .inputItems(new OreDictStack(W.dust()))
+                .inputFluids(new FluidStack(Fluids.SYNGAS, 2_000))
+                .outputItems(new ItemStack(ModItems.ingot_tungsten_carbide))
+                .outputFluids(new FluidStack(Fluids.SPENTSTEAM, 1_000)));
 
         GenericRecipes chem = ChemicalPlantRecipes.INSTANCE;
         GenericRecipe oldMeat = (GenericRecipe) chem.recipeNameMap.get("chem.meatprocessing");

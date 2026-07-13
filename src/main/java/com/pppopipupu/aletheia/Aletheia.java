@@ -68,7 +68,9 @@ public class Aletheia {
         AletheiaAchievements.init();
 
         net.minecraftforge.common.MinecraftForge.EVENT_BUS.register(new AletheiaCommonEventHandler());
-        FMLCommonHandler.instance().bus().register(new AletheiaCommonEventHandler());
+        FMLCommonHandler.instance()
+            .bus()
+            .register(new AletheiaCommonEventHandler());
 
         PacketDispatcher.wrapper
             .registerMessage(AlienJellyBeamPacket.Handler.class, AlienJellyBeamPacket.class, 200, Side.CLIENT);

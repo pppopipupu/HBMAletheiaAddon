@@ -91,20 +91,17 @@ public class MixinMainRegistry {
                     MainRegistry.logger.info("Remapping item: " + mapping.name + " to " + AletheiaItems.recipe_icon);
                     mapping.remap(AletheiaItems.recipe_icon);
                 } else if ("aletheia:disperser_canister".equals(mapping.name)) {
-                    MainRegistry.logger
-                        .info("Remapping item: " + mapping.name + " to " + ModItems.disperser_canister);
+                    MainRegistry.logger.info("Remapping item: " + mapping.name + " to " + ModItems.disperser_canister);
                     mapping.remap(ModItems.disperser_canister);
                 } else if ("aletheia:disperser_canister_empty".equals(mapping.name)) {
                     MainRegistry.logger
                         .info("Remapping item: " + mapping.name + " to " + ModItems.disperser_canister_empty);
                     mapping.remap(ModItems.disperser_canister_empty);
                 } else if ("aletheia:glyphid_gland".equals(mapping.name)) {
-                    MainRegistry.logger
-                        .info("Remapping item: " + mapping.name + " to " + ModItems.glyphid_gland);
+                    MainRegistry.logger.info("Remapping item: " + mapping.name + " to " + ModItems.glyphid_gland);
                     mapping.remap(ModItems.glyphid_gland);
                 } else if ("aletheia:glyphid_gland_empty".equals(mapping.name)) {
-                    MainRegistry.logger
-                        .info("Remapping item: " + mapping.name + " to " + ModItems.glyphid_gland_empty);
+                    MainRegistry.logger.info("Remapping item: " + mapping.name + " to " + ModItems.glyphid_gland_empty);
                     mapping.remap(ModItems.glyphid_gland_empty);
                 } else if ("hbm:tile.block_sodium".equals(mapping.name)) {
                     Item targetItem = Item.getItemFromBlock(AletheiaBlocks.block_sodium);
