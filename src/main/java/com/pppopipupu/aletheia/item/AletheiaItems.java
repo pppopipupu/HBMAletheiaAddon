@@ -49,10 +49,6 @@ public class AletheiaItems {
     public static Item ams_focus_booster;
 
     public static Item alien_jelly;
-    public static Item disperser_canister_empty;
-    public static Item disperser_canister;
-    public static Item glyphid_gland_empty;
-    public static Item glyphid_gland;
 
     public static Item night_vision;
     public static Item night_vision_mk2;
@@ -154,9 +150,9 @@ public class AletheiaItems {
                         .reload(10)
                         .jam(0)
                         .auto(true)
-                        .mag(
-                            new MagazineFullReload(0, 250)
-                                .addConfigs(AletheiaBullets.energy_pppop, AletheiaBullets.energy_pppop_steel))
+                                .mag(
+                                    new MagazineFullReload(0, 250)
+                                        .addConfigs(AletheiaBullets.energy_pppop, AletheiaBullets.energy_pppop_steel))
                         .offset(0.75, -0.0625 * 1.5, -0.1875)
                         .canFire(Lego.LAMBDA_STANDARD_CAN_FIRE)
                         .fire((itemStack, lambdaContext) -> {
@@ -178,28 +174,6 @@ public class AletheiaItems {
                 .orchestra(Orchestras.ORCHESTRA_LASER_PISTOL)).setUnlocalizedName("gun_pppop")
                     .setTextureName("aletheia:gun_pppop");
         GameRegistry.registerItem(gun_pppop, "gun_pppop");
-
-        disperser_canister_empty = new Item().setUnlocalizedName("disperser_canister_empty")
-            .setCreativeTab(MainRegistry.weaponTab)
-            .setTextureName("hbm:disperser_canister");
-        GameRegistry.registerItem(disperser_canister_empty, "disperser_canister_empty");
-
-        disperser_canister = new ItemDisperser().setUnlocalizedName("disperser_canister")
-            .setContainerItem(disperser_canister_empty)
-            .setCreativeTab(MainRegistry.weaponTab)
-            .setTextureName("hbm:disperser_canister");
-        GameRegistry.registerItem(disperser_canister, "disperser_canister");
-
-        glyphid_gland_empty = new Item().setUnlocalizedName("glyphid_gland_empty")
-            .setCreativeTab(MainRegistry.weaponTab)
-            .setTextureName("hbm:glyphid_gland");
-        GameRegistry.registerItem(glyphid_gland_empty, "glyphid_gland_empty");
-
-        glyphid_gland = new ItemDisperser().setUnlocalizedName("glyphid_gland")
-            .setContainerItem(glyphid_gland_empty)
-            .setCreativeTab(MainRegistry.weaponTab)
-            .setTextureName("hbm:glyphid_gland");
-        GameRegistry.registerItem(glyphid_gland, "glyphid_gland");
 
         night_vision = new Item().setUnlocalizedName("night_vision")
             .setCreativeTab(MainRegistry.weaponTab)

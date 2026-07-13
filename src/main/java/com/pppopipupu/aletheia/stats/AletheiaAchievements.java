@@ -5,12 +5,14 @@ import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;
 
 import com.hbm.items.ModItems;
+import com.pppopipupu.aletheia.block.AletheiaBlocks;
 import com.pppopipupu.aletheia.item.AletheiaItems;
 
 public class AletheiaAchievements {
 
     public static Achievement achievementGlyphidHatch;
     public static Achievement achievementGlyphidHatchUnexpected;
+    public static Achievement achievementAmsBase;
 
     public static void init() {
         achievementGlyphidHatch = new Achievement(
@@ -30,7 +32,20 @@ public class AletheiaAchievements {
             achievementGlyphidHatch).initIndependentStat()
                 .setSpecial()
                 .registerStat();
+        achievementAmsBase = new Achievement(
+            "achievement.amsBase",
+            "amsBase",
+            4,
+            0,
+            new ItemStack(AletheiaBlocks.ams_base),
+            achievementGlyphidHatch).initIndependentStat()
+                .setSpecial()
+                .registerStat();
         AchievementPage.registerAchievementPage(
-            new AchievementPage("Aletheia", achievementGlyphidHatch, achievementGlyphidHatchUnexpected));
+            new AchievementPage(
+                "Aletheia",
+                achievementGlyphidHatch,
+                achievementGlyphidHatchUnexpected,
+                achievementAmsBase));
     }
 }

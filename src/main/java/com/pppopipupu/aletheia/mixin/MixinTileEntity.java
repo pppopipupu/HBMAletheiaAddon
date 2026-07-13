@@ -35,7 +35,7 @@ public class MixinTileEntity {
 
     private static long getSpoilDuration(Item item) {
         if (item == ModItems.egg_glyphid) return 72000L;
-        if (item == AletheiaItems.alien_jelly) return 18000L;
+        if (item == AletheiaItems.alien_jelly) return 144000L;
         return 72000L;
     }
 

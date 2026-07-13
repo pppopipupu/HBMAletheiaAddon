@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.pppopipupu.aletheia.block.AletheiaBlocks;
 import com.pppopipupu.aletheia.item.AletheiaItems;
@@ -89,6 +90,22 @@ public class MixinMainRegistry {
                 } else if ("hbm:item.recipe_icon".equals(mapping.name)) {
                     MainRegistry.logger.info("Remapping item: " + mapping.name + " to " + AletheiaItems.recipe_icon);
                     mapping.remap(AletheiaItems.recipe_icon);
+                } else if ("aletheia:disperser_canister".equals(mapping.name)) {
+                    MainRegistry.logger
+                        .info("Remapping item: " + mapping.name + " to " + ModItems.disperser_canister);
+                    mapping.remap(ModItems.disperser_canister);
+                } else if ("aletheia:disperser_canister_empty".equals(mapping.name)) {
+                    MainRegistry.logger
+                        .info("Remapping item: " + mapping.name + " to " + ModItems.disperser_canister_empty);
+                    mapping.remap(ModItems.disperser_canister_empty);
+                } else if ("aletheia:glyphid_gland".equals(mapping.name)) {
+                    MainRegistry.logger
+                        .info("Remapping item: " + mapping.name + " to " + ModItems.glyphid_gland);
+                    mapping.remap(ModItems.glyphid_gland);
+                } else if ("aletheia:glyphid_gland_empty".equals(mapping.name)) {
+                    MainRegistry.logger
+                        .info("Remapping item: " + mapping.name + " to " + ModItems.glyphid_gland_empty);
+                    mapping.remap(ModItems.glyphid_gland_empty);
                 } else if ("hbm:tile.block_sodium".equals(mapping.name)) {
                     Item targetItem = Item.getItemFromBlock(AletheiaBlocks.block_sodium);
                     MainRegistry.logger.info("Remapping item block: " + mapping.name + " to " + targetItem);

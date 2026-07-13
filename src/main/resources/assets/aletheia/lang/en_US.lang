@@ -25,13 +25,13 @@ item.aletheia:bucket_qgp.name=QGP Bucket
 item.aletheia:qgp_mining_bomb.name=QGP Mining Bomb
 tile.aletheia:qgp_block.name=Quark-Gluon Plasma
 item.aletheia:gun_pppop.name=PPPOP Gun
-item.ams_focus_blank.name=AMS Blank Focus Chip
-item.ams_focus_limiter.name=AMS Limiting Focus Chip
-item.ams_focus_booster.name=AMS Boosting Focus Chip
-item.ams_muzzle.name=AMS Antimatter Muzzle
-item.aletheia:ams_focus_blank.name=AMS Blank Focus Chip
-item.aletheia:ams_focus_limiter.name=AMS Limiting Focus Chip
-item.aletheia:ams_focus_booster.name=AMS Boosting Focus Chip
+item.ams_focus_blank.name=Blank Stabilizer Focus
+item.ams_focus_limiter.name=Limiting Stabilizer Focus
+item.ams_focus_booster.name=Boosting Stabilizer Focus
+item.ams_muzzle.name=Ray-Emission Muzzle
+item.aletheia:ams_focus_blank.name=Blank Stabilizer Focus
+item.aletheia:ams_focus_limiter.name=Limiting Stabilizer Focus
+item.aletheia:ams_focus_booster.name=Boosting Stabilizer Focus
 item.alien_jelly.name=Alien Jelly
 item.aletheia:alien_jelly.name=Alien Jelly
 
@@ -39,7 +39,7 @@ tooltip.alien_jelly.spoilage=Time until spoilage: §e%dmin %dsec
 tooltip.alien_jelly.product=Spoilage product: §bBiomass
 tooltip.alien_jelly.spoiled=§cSpoiled
 
-item.aletheia:ams_muzzle.name=AMS Antimatter Muzzle
+item.aletheia:ams_muzzle.name=Ray-Emission Muzzle
 
 tooltip.egg_glyphid.spoilage=Time until spoilage: §e%dmin %dsec
 tooltip.egg_glyphid.product=Spoilage product: §bSpawns 1 Glyphid
@@ -48,3 +48,21 @@ achievement.glyphid_hatch=Out of the Shell
 achievement.glyphid_hatch.desc=Witness a Glyphid hatching from its egg.
 achievement.glyphid_hatch_unexpected=Unexpected Guests
 achievement.glyphid_hatch_unexpected.desc=A Glyphid hatched inside a container or machine!
+achievement.amsBase=Project Aletheia
+achievement.amsBase.desc=Omega.
+
+item.ingot_sodium.name=Sodium Ingot
+item.ingot_strontium.name=Strontium Ingot
+item.ingot_neodymium.name=Neodymium Ingot
+item.powder_sodium.name=Sodium Powder
+item.powder_strontium.name=Strontium Powder
+item.powder_neodymium.name=Neodymium Powder
+item.powder_neodymium_tiny.name=Tiny Pile of Neodymium Powder
+item.fragment_neodymium.name=Neodymium Fragment
+item.ams_catalyst_strontium.name=Strontium Reaction Catalyst
+item.pellet_rtg_strontium.name=Strontium-90 RTG Pellet
+item.pellet_rtg_strontium.desc=Known to the State of California...
+tile.block_sodium.name=Sodium Block
+tile.block_strontium.name=Strontium Block
+tile.block_neodymium.name=Neodymium Block
+

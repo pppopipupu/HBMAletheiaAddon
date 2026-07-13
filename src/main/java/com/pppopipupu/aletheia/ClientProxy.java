@@ -1,12 +1,15 @@
 package com.pppopipupu.aletheia;
 
+import java.util.Iterator;
+import java.util.Map;
+
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 
+import com.google.common.collect.Maps;
+import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.factory.LegoClient;
-import com.hbm.render.entity.projectile.RenderGenericGrenade;
-import com.pppopipupu.aletheia.entity.EntityDisperserCanisterAletheia;
 import com.pppopipupu.aletheia.item.AletheiaItems;
 import com.pppopipupu.aletheia.render.ItemRenderPPPOP;
 import com.pppopipupu.aletheia.render.ItemRenderQGPBucket;
@@ -31,7 +34,25 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 public class ClientProxy extends CommonProxy {
 
     public static int qgpDistortionTicks = 0;
-    public static int alienJellyRayTicks = 0;
+    public static final Map<Integer, Integer> alienJellyRayTicksByEntity = Maps.newHashMap();
+
+    public static void addAlienJellyRay(int entityId) {
+        alienJellyRayTicksByEntity.put(entityId, 100);
+    }
+
+    public static void tickAlienJellyRays() {
+        Iterator<Map.Entry<Integer, Integer>> it = alienJellyRayTicksByEntity.entrySet()
+            .iterator();
+        while (it.hasNext()) {
+            Map.Entry<Integer, Integer> entry = it.next();
+            int remaining = entry.getValue() - 1;
+            if (remaining <= 0) {
+                it.remove();
+            } else {
+                entry.setValue(remaining);
+            }
+        }
+    }
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
@@ -45,11 +66,8 @@ public class ClientProxy extends CommonProxy {
         MinecraftForgeClient.registerItemRenderer(AletheiaItems.upgrade_ultimate, new ItemRenderUltimateUpgrade());
         MinecraftForgeClient.registerItemRenderer(AletheiaItems.bucket_qgp, new ItemRenderQGPBucket());
         MinecraftForgeClient.registerItemRenderer(AletheiaItems.qgp_mining_bomb, new ItemRenderQGPMiningBomb());
-        MinecraftForgeClient.registerItemRenderer(AletheiaItems.disperser_canister, new ItemRenderQGPDisperser());
-        MinecraftForgeClient.registerItemRenderer(AletheiaItems.glyphid_gland, new ItemRenderQGPDisperser());
-
-        RenderingRegistry
-            .registerEntityRenderingHandler(EntityDisperserCanisterAletheia.class, new RenderGenericGrenade());
+        MinecraftForgeClient.registerItemRenderer(ModItems.disperser_canister, new ItemRenderQGPDisperser());
+        MinecraftForgeClient.registerItemRenderer(ModItems.glyphid_gland, new ItemRenderQGPDisperser());
 
         RenderQGPBlock.renderId = RenderingRegistry.getNextAvailableRenderId();
         RenderingRegistry.registerBlockHandler(new RenderQGPBlock());

@@ -5,29 +5,32 @@ import net.minecraft.item.ItemStack;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.hbm.hazard.HazardData;
+import com.hbm.hazard.HazardRegistry;
+import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.FluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.items.ModItems;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.CompatExternal;
 import com.pppopipupu.aletheia.block.AletheiaBlocks;
-import com.pppopipupu.aletheia.entity.EntityDisperserCanisterAletheia;
 import com.pppopipupu.aletheia.fluid.AletheiaFluids;
 import com.pppopipupu.aletheia.item.AletheiaItems;
-import com.pppopipupu.aletheia.packet.AlienJellyEffectPacket;
+import com.pppopipupu.aletheia.packet.AlienJellyBeamPacket;
 import com.pppopipupu.aletheia.packet.QGPDistortionPacket;
 import com.pppopipupu.aletheia.recipe.AletheiaRecipes;
 import com.pppopipupu.aletheia.stats.AletheiaAchievements;
 import com.pppopipupu.aletheia.weapon.AletheiaBullets;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.relauncher.Side;
 
 @Mod(
@@ -55,15 +58,6 @@ public class Aletheia {
         AletheiaBlocks.init();
         AletheiaItems.init();
 
-        EntityRegistry.registerModEntity(
-            EntityDisperserCanisterAletheia.class,
-            "entity_disperser_canister",
-            1001,
-            Aletheia.instance,
-            80,
-            3,
-            true);
-
         proxy.preInit(event);
     }
 
@@ -72,10 +66,12 @@ public class Aletheia {
         proxy.init(event);
 
         AletheiaAchievements.init();
-        AletheiaRecipes.registerForgeRecipes();
+
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.register(new AletheiaCommonEventHandler());
+        FMLCommonHandler.instance().bus().register(new AletheiaCommonEventHandler());
 
         PacketDispatcher.wrapper
-            .registerMessage(AlienJellyEffectPacket.Handler.class, AlienJellyEffectPacket.class, 200, Side.CLIENT);
+            .registerMessage(AlienJellyBeamPacket.Handler.class, AlienJellyBeamPacket.class, 200, Side.CLIENT);
         PacketDispatcher.wrapper
             .registerMessage(QGPDistortionPacket.Handler.class, QGPDistortionPacket.class, 201, Side.CLIENT);
 
@@ -85,6 +81,12 @@ public class Aletheia {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
+
+        HazardSystem.register(AletheiaItems.powder_sodium, new HazardData().addEntry(HazardRegistry.HYDROACTIVE, 2.0F));
+        HazardSystem.register(AletheiaItems.ingot_sodium, new HazardData().addEntry(HazardRegistry.HYDROACTIVE, 3.0F));
+        HazardSystem.register(AletheiaBlocks.block_sodium, new HazardData().addEntry(HazardRegistry.HYDROACTIVE, 9.0F));
+
+        AletheiaRecipes.registerForgeRecipes();
     }
 
     @Mod.EventHandler
@@ -100,14 +102,14 @@ public class Aletheia {
             if (type.isDispersable()) {
                 FluidContainerRegistry.registerContainer(
                     new FluidContainer(
-                        new ItemStack(AletheiaItems.disperser_canister, 1, i),
-                        new ItemStack(AletheiaItems.disperser_canister_empty),
+                        new ItemStack(ModItems.disperser_canister, 1, i),
+                        new ItemStack(ModItems.disperser_canister_empty),
                         Fluids.fromID(i),
                         2000));
                 FluidContainerRegistry.registerContainer(
                     new FluidContainer(
-                        new ItemStack(AletheiaItems.glyphid_gland, 1, i),
-                        new ItemStack(AletheiaItems.glyphid_gland_empty),
+                        new ItemStack(ModItems.glyphid_gland, 1, i),
+                        new ItemStack(ModItems.glyphid_gland_empty),
                         Fluids.fromID(i),
                         4000));
             }

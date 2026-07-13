@@ -25,13 +25,13 @@ item.aletheia:bucket_qgp.name=QGP桶
 item.aletheia:qgp_mining_bomb.name=QGP采矿炸弹
 tile.aletheia:qgp_block.name=夸克-胶子等离子体
 item.aletheia:gun_pppop.name=奇点能湮灭射线"PPPOPIPUPU炮"
-item.ams_focus_blank.name=AMS空白聚焦芯片
-item.ams_focus_limiter.name=AMS稳能聚焦芯片
-item.ams_focus_booster.name=AMS增能聚焦芯片
-item.ams_muzzle.name=AMS反物质枪口
-item.aletheia:ams_focus_blank.name=AMS空白聚焦芯片
-item.aletheia:ams_focus_limiter.name=AMS稳能聚焦芯片
-item.aletheia:ams_focus_booster.name=AMS增能聚焦芯片
+item.ams_focus_blank.name=空白稳定器焦点
+item.ams_focus_limiter.name=限制稳定器焦点
+item.ams_focus_booster.name=增压型稳定器焦点
+item.ams_muzzle.name=激活射线发射极
+item.aletheia:ams_focus_blank.name=空白稳定器焦点
+item.aletheia:ams_focus_limiter.name=限制稳定器焦点
+item.aletheia:ams_focus_booster.name=增压型稳定器焦点
 item.alien_jelly.name=异星果冻
 item.aletheia:alien_jelly.name=异星果冻
 
@@ -39,7 +39,7 @@ tooltip.alien_jelly.spoilage=距离变质还有: §e%d分%d秒
 tooltip.alien_jelly.product=变质产物: §b生物质
 tooltip.alien_jelly.spoiled=§c已变质
 
-item.aletheia:ams_muzzle.name=AMS反物质枪口
+item.aletheia:ams_muzzle.name=激活射线发射极
 
 tooltip.egg_glyphid.spoilage=距离变质还有: §e%d分%d秒
 tooltip.egg_glyphid.product=变质产物: §b生成1个异虫
@@ -48,10 +48,24 @@ achievement.glyphid_hatch=破壳而出
 achievement.glyphid_hatch.desc=见证一只异虫破壳而出。
 achievement.glyphid_hatch_unexpected=防不胜防
 achievement.glyphid_hatch_unexpected.desc=异虫竟然在容器或机器内孵化了！
+achievement.amsBase=阿莱西亚计划
+achievement.amsBase.desc=Ω。
 
 tile.block_neodymium.name=钕块
 tile.block_sodium.name=钠块
 tile.block_strontium.name=锶块
+item.ingot_sodium.name=钠锭
+item.ingot_strontium.name=锶锭
+item.ingot_neodymium.name=钕锭
+item.powder_sodium.name=钠粉
+item.powder_strontium.name=锶粉
+item.powder_neodymium.name=钕粉
+item.powder_neodymium_tiny.name=小撮钕粉
+item.fragment_neodymium.name=钕碎片
+item.ams_catalyst_strontium.name=锶反应催化剂
+item.pellet_rtg_strontium.name=锶90放射性同位素燃料靶丸
+item.pellet_rtg_strontium.desc=被加利福尼亚洲所熟知...
+
 item.night_vision_mk2.name=自充电夜视眼镜
 item.night_vision_mk2.description.item=提供夜视功能（无需电动装备）
 item.billet_rs1.name=研究型RBMK燃料坯料 T1

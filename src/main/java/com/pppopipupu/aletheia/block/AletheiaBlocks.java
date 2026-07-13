@@ -40,19 +40,19 @@ public class AletheiaBlocks {
         ams_base = new BlockAMSBase().setBlockName("ams_base")
             .setHardness(5.0F)
             .setResistance(10.0F)
-            .setBlockTextureName("hbm:block_steel");
+            .setBlockTextureName("aletheia:ams_base");
         GameRegistry.registerBlock(ams_base, "ams_base");
 
         ams_emitter = new BlockAMSEmitter().setBlockName("ams_emitter")
             .setHardness(5.0F)
             .setResistance(10.0F)
-            .setBlockTextureName("hbm:block_steel");
+            .setBlockTextureName("aletheia:ams_emitter");
         GameRegistry.registerBlock(ams_emitter, "ams_emitter");
 
         ams_limiter = new BlockAMSLimiter().setBlockName("ams_limiter")
             .setHardness(5.0F)
             .setResistance(10.0F)
-            .setBlockTextureName("hbm:block_steel");
+            .setBlockTextureName("aletheia:ams_limiter");
         GameRegistry.registerBlock(ams_limiter, "ams_limiter");
 
         machine_schrabidium_transmutator = new BlockMachineSchrabidiumTransmutator()

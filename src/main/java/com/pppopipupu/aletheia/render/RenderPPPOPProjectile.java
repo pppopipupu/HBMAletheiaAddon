@@ -234,15 +234,11 @@ public class RenderPPPOPProjectile {
             tess.draw();
             GL11.glPopMatrix();
         } else {
-            float red = 1.0F;
-            float green = 1.0F;
-            float blue = 1.0F;
-
-            int eID = bullet.getEntityId();
-            java.util.Random rand = new java.util.Random(eID * eID);
-            red = rand.nextInt(2) * 0.6F;
-            green = rand.nextInt(2) * 0.6F;
-            blue = rand.nextInt(2) * 0.6F;
+            float hue = (bullet.ticksExisted + interp) * 0.05F + (bullet.getEntityId() % 17) * 0.13F;
+            float[] rgb = hsvToRgb(hue - (float) Math.floor(hue), 1.0F, 1.0F);
+            float red = rgb[0];
+            float green = rgb[1];
+            float blue = rgb[2];
 
             tess.startDrawing(4);
             tess.setColorRGBA_F(red, green, blue, 1);
@@ -351,4 +347,48 @@ public class RenderPPPOPProjectile {
         GL11.glDepthMask(true);
         GL11.glPopMatrix();
     };
+
+    private static float[] hsvToRgb(float h, float s, float v) {
+        float r = 0F;
+        float g = 0F;
+        float b = 0F;
+        int i = (int) (h * 6F);
+        float f = h * 6F - i;
+        float p = v * (1F - s);
+        float q = v * (1F - f * s);
+        float t = v * (1F - (1F - f) * s);
+        switch (i % 6) {
+            case 0:
+                r = v;
+                g = t;
+                b = p;
+                break;
+            case 1:
+                r = q;
+                g = v;
+                b = p;
+                break;
+            case 2:
+                r = p;
+                g = v;
+                b = t;
+                break;
+            case 3:
+                r = p;
+                g = q;
+                b = v;
+                break;
+            case 4:
+                r = t;
+                g = p;
+                b = v;
+                break;
+            case 5:
+                r = v;
+                g = p;
+                b = q;
+                break;
+        }
+        return new float[] { r, g, b };
+    }
 }

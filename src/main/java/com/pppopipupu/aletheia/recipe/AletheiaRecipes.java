@@ -36,11 +36,11 @@ public class AletheiaRecipes {
     public static void registerForgeRecipes() {
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(AletheiaItems.disperser_canister_empty, 4),
+                new ItemStack(ModItems.disperser_canister_empty, 4),
                 new Object[] { " P ", "PGP", " P ", 'P', "platePlastic", 'G', ModBlocks.glass_boron }));
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
-                new ItemStack(AletheiaItems.glyphid_gland_empty, 4),
+                new ItemStack(ModItems.glyphid_gland_empty, 4),
                 new Object[] { " P ", "PEP", " P ", 'P', "platePlastic", 'E', Items.emerald }));
 
         GameRegistry.addRecipe(

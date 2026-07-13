@@ -1,8 +1,17 @@
 # Aletheia 开发者指南 (AGENTS.md)
 
-本文件为开发智能体 (Agent) 提供关于 Hbm's Nuclear Tech Mod (NTMC) 的独立 Addon 模组 Aletheia 项目的架构、技术栈与开发规约介绍，以便于快速上手并遵守项目规范。
+本文件为开发智能体 (Agent) 提供独立 Addon 模组 Aletheia 项目的架构、技术栈与开发规约介绍。
 
 ## 1. 技术栈介绍
+
+* **分支关系说明**:
+  Aletheia Addon 的开发基于以下清晰的 HBM 模组分支演进关系：
+  1. `HBM`：最上游的原始 Hbm's Nuclear Tech Mod。
+  2. `HBM SPACE`：基于 HBM 衍生出的官方太空分支。**Aletheia 作为核心前置依赖此分支**（即 `libs/HBM-NTM-.1.0.27_X5751_H261.jar`）。
+  3. `NTMC`：基于 HBM SPACE 的 Hard Fork 分支。
+  4. `本地 NTMC (C:\Modding\NTMC)`：本地进行二次开发的 NTMC 分支。
+  
+  **Aletheia 的最终目标**是作为一个独立的 Addon，在 `HBM SPACE` 上游基础上，通过代码与 Mixin 补全所有 `本地 NTMC` 中的独占特性（机器、流体、实体、配方、成就及贴图材质），从而在游戏体验上彻底取代 Hard Fork 的 NTMC 模组。
 
 * **目标游戏版本**: Minecraft 1.7.10
 * **开发框架**: Minecraft Forge (1.7.10)
@@ -10,10 +19,11 @@
 * **编译与构建工具**: Gradle (配备 Jabel 编译器插件)
   * 注: 本地构建采用的高版本 JDK (如 JDK 25) 搭配 Jabel 进行编译，编译输出目标保持 Java 8 兼容性，构建指令为 `.\gradlew.bat compileJava`。
 * **主要依赖与支持**:
-  * **Hbm's Nuclear Tech Mod (Space Branch)**: 作为核心前置模组，依赖本地构建包 `NTMC-Space-GOLDEN-X5751.34.1-dev.jar`。
+  * **Hbm's Nuclear Tech Mod (Space Branch)**: 作为核心前置模组，依赖 `HBM SPACE` 分支的构建包 `HBM-NTM-.1.0.27_X5751_H261.jar`。
+  * **移植对照参考源 (NTMC 源码库)**: 本地路径为 `C:\Modding\NTMC`。包含完整的 `本地 NTMC` 源码及全部像素美术资产。AGENT 在移植任何独占内容时，必须将其作为最高权威的对照蓝本进行核对与直接复制，确保完全无缝移植。
   * **NotEnoughItems (NEI)**: 配方与物品检索支持。
-  * **Sedna 枪械框架**: 模组重用了 NTMC 的模块化枪械系统，支持复杂的 3D 渲染和自定义枪械配置。
-  * **Mixin**: 使用 Mixin 框架向原版 HBM 中织入自定义的升级机制以及爆炸拦截逻辑。
+  * **Sedna 枪械框架**: 模组重用了 HBM SPACE 分支的模块化枪械系统，支持复杂的 3D 渲染和自定义枪械配置。
+  * **Mixin**: 使用 Mixin 框架向 `HBM SPACE` 中织入自定义的升级机制以及爆炸拦截逻辑。
 
 ## 2. 项目结构介绍
 
@@ -60,5 +70,6 @@
 *   **编译与运行测试**: 每次修改完代码后，必须通过本地终端运行 `$env:JAVA_HOME="C:\Program Files\Java\jdk-25.0.3"; .\gradlew.bat compileJava` 进行编译校验，确保没有语法和编译期报错。在编译通过后，应当在本地运行 `$env:JAVA_HOME="C:\Program Files\Java\jdk-25.0.3"; .\gradlew.bat runclient25` 启动客户端进行运行测试，确保没有任何运行时报错。
 *   **日志规范**: 绝对禁止使用 `System.out` 或 `System.err` 输出调试或运行日志。在进行日志记录时，必须使用 Log4j 2 Logger，且必须只使用 `com.pppopipupu.aletheia.Aletheia.LOG`。
 *   **操作与读写限制**: 你必须只读取 `C:\Modding\NTMC` 和 `C:\Users\pppop\Desktop\HBMAletheiaAddon` 内的文件，只能修改 `C:\Users\pppop\Desktop\HBMAletheiaAddon` 内的文件，绝对不可读取或修改任何其他文件。
+*   **资源贴图规范**: 绝对禁止使用代码/脚本生成 1x1 像素透明图、纯色块或低质量 Base64 占位图作为缺失的贴图资产。对于所有移植/依赖自 NTMC 的物品和方块材质，必须从前置项目 `C:\Modding\NTMC` 对应的 `textures/` 资源目录中复制完整、原始的高质量贴图资产，以保证贴图的完整性与游戏内视觉效果。
 
 
