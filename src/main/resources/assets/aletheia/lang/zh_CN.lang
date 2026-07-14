@@ -48,15 +48,12 @@ agri.jelly_cheap=廉价异星果冻
 agri.dirt_grass=泥土转化草方块
 agri.bottle=农业科技瓶（批量合成）
 
-tooltip.alien_jelly.spoilage=距离变质还有: §e%d分%d秒
-tooltip.alien_jelly.product=变质产物: §b生物质
-tooltip.alien_jelly.spoiled=§c已变质
+
 
 item.aletheia:ams_muzzle.name=激活射线发射极
 
-tooltip.egg_glyphid.spoilage=距离变质还有: §e%d分%d秒
-tooltip.egg_glyphid.product=变质产物: §b生成1个异虫
-tooltip.egg_glyphid.spoiled=§c已变质
+tooltip.egg_glyphid.product=腐烂产物: §b生成1个异虫
+tooltip.bio_crystal.product=腐烂产物: §b生成1个蠢虫
 achievement.glyphid_hatch=破壳而出
 achievement.glyphid_hatch.desc=见证一只异虫破壳而出。
 achievement.glyphid_hatch_unexpected=防不胜防

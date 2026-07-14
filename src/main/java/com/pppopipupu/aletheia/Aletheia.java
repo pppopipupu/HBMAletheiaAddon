@@ -25,8 +25,12 @@ import com.pppopipupu.aletheia.recipe.AletheiaRecipes;
 import com.pppopipupu.aletheia.stats.AletheiaAchievements;
 import com.pppopipupu.aletheia.weapon.AletheiaBullets;
 
+
+import net.minecraftforge.common.MinecraftForge;
+
 import codechicken.nei.api.API;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -40,7 +44,7 @@ import cpw.mods.fml.relauncher.Side;
     version = Tags.VERSION,
     name = "Aletheia",
     acceptedMinecraftVersions = "[1.7.10]",
-    dependencies = "required-after:hbm")
+    dependencies = "required-after:decaylib;required-after:hbm")
 public class Aletheia {
 
     public static final String MODID = "aletheia";
@@ -68,8 +72,10 @@ public class Aletheia {
         proxy.init(event);
 
         AletheiaAchievements.init();
+        AletheiaDecayRegistry.register();
 
-        net.minecraftforge.common.MinecraftForge.EVENT_BUS.register(new AletheiaCommonEventHandler());
+        MinecraftForge.EVENT_BUS.register(new AletheiaCommonEventHandler());
+        MinecraftForge.EVENT_BUS.register(new AletheiaDecayEventHandler());
         FMLCommonHandler.instance()
             .bus()
             .register(new AletheiaCommonEventHandler());
@@ -81,7 +87,7 @@ public class Aletheia {
 
         registerFluidContainers();
 
-        if (cpw.mods.fml.common.Loader.isModLoaded("NotEnoughItems")) {
+        if (Loader.isModLoaded("NotEnoughItems")) {
             try {
                 API.registerRecipeHandler(new AgriChemicalPlantRecipeHandler());
             } catch (Throwable t) {
@@ -127,4 +133,6 @@ public class Aletheia {
             }
         }
     }
+
+
 }

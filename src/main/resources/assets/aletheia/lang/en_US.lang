@@ -48,15 +48,12 @@ agri.jelly_cheap=Cheap Alien Jelly
 agri.dirt_grass=Dirt to Grass
 agri.bottle=Agricultural Science Bottle (Bulk)
 
-tooltip.alien_jelly.spoilage=Time until spoilage: §e%dmin %dsec
-tooltip.alien_jelly.product=Spoilage product: §bBiomass
-tooltip.alien_jelly.spoiled=§cSpoiled
+
 
 item.aletheia:ams_muzzle.name=Ray-Emission Muzzle
 
-tooltip.egg_glyphid.spoilage=Time until spoilage: §e%dmin %dsec
-tooltip.egg_glyphid.product=Spoilage product: §bSpawns 1 Glyphid
-tooltip.egg_glyphid.spoiled=§cSpoiled
+tooltip.egg_glyphid.product=Decay product: §bSpawns 1 Glyphid
+tooltip.bio_crystal.product=Decay product: §bSpawns 1 Silverfish
 achievement.glyphid_hatch=Out of the Shell
 achievement.glyphid_hatch.desc=Witness a Glyphid hatching from its egg.
 achievement.glyphid_hatch_unexpected=Unexpected Guests
