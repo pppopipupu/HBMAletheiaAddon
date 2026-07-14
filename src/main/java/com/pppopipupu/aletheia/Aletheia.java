@@ -1,6 +1,7 @@
 package com.pppopipupu.aletheia;
 
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,9 +25,6 @@ import com.pppopipupu.aletheia.packet.QGPDistortionPacket;
 import com.pppopipupu.aletheia.recipe.AletheiaRecipes;
 import com.pppopipupu.aletheia.stats.AletheiaAchievements;
 import com.pppopipupu.aletheia.weapon.AletheiaBullets;
-
-
-import net.minecraftforge.common.MinecraftForge;
 
 import codechicken.nei.api.API;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -133,6 +131,5 @@ public class Aletheia {
             }
         }
     }
-
 
 }

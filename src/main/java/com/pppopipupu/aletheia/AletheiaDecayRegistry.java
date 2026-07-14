@@ -6,9 +6,7 @@ import com.pppopipupu.decaylib.DecayAction;
 import com.pppopipupu.decaylib.DecayRegistry;
 import com.pppopipupu.decaylib.DecayRule;
 
-
 public class AletheiaDecayRegistry {
-
 
     public static void register() {
         DecayRule eggRule = new DecayRule();

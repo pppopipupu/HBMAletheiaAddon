@@ -2,14 +2,13 @@ package com.pppopipupu.aletheia.recipe.ntmc;
 
 import static com.hbm.inventory.OreDictManager.*;
 
+import net.minecraft.item.ItemStack;
+
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.recipes.CyclotronRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.util.Tuple.Pair;
-
-import net.minecraft.item.ItemStack;
-
 import com.pppopipupu.aletheia.item.AletheiaItems;
 
 public class AletheiaRecipesNtmcReactors {
