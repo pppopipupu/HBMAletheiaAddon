@@ -48,8 +48,8 @@ public class AletheiaRecipesNtmcParticle {
     }
 
     private static void addParticleRecipe(AStack in1, AStack in2, int momentum, ItemStack out1) {
-        ParticleAcceleratorRecipes.recipes
-            .removeIf(r -> (r.input1.equals(in1) && r.input2.equals(in2)) || (r.input1.equals(in2) && r.input2.equals(in1)));
+        ParticleAcceleratorRecipes.recipes.removeIf(
+            r -> (r.input1.equals(in1) && r.input2.equals(in2)) || (r.input1.equals(in2) && r.input2.equals(in1)));
         ParticleAcceleratorRecipes.recipes
             .add(new ParticleAcceleratorRecipes.ParticleAcceleratorRecipe(in1, in2, momentum, out1, null));
     }

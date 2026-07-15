@@ -28,27 +28,43 @@ public class AletheiaRecipesNtmcWorkbench {
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
                 new ItemStack(ModItems.upgrade_template, 2),
-                "WIW", "PCP", "WIW", 'W', CU.wireFine(), 'I', ANY_PLASTIC.ingot(), 'C',
-                    DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC), 'P', ModItems.plate_polymer));
+                "WIW",
+                "PCP",
+                "WIW",
+                'W',
+                CU.wireFine(),
+                'I',
+                ANY_PLASTIC.ingot(),
+                'C',
+                DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC),
+                'P',
+                ModItems.plate_polymer));
 
         GameRegistry.addRecipe(
-            new ShapedOreRecipe(
-                new ItemStack(ModItems.nothing, 8, 0),
-                "B B", " B ", "B B", 'B', "dyeBlack"));
+            new ShapedOreRecipe(new ItemStack(ModItems.nothing, 8, 0), "B B", " B ", "B B", 'B', "dyeBlack"));
 
         GameRegistry.addRecipe(
             new ShapelessOreRecipe(
                 new ItemStack(Items.gold_nugget, 1, 0),
-                ModItems.spawn_duck, ModItems.spawn_duck, ModItems.spawn_duck, ModItems.spawn_duck,
-                    ModItems.spawn_duck, ModItems.spawn_duck, ModItems.spawn_duck, ModItems.spawn_duck));
+                ModItems.spawn_duck,
+                ModItems.spawn_duck,
+                ModItems.spawn_duck,
+                ModItems.spawn_duck,
+                ModItems.spawn_duck,
+                ModItems.spawn_duck,
+                ModItems.spawn_duck,
+                ModItems.spawn_duck));
 
-        GameRegistry.addRecipe(
-            new ShapelessOreRecipe(new ItemStack(ModBlocks.pwr_block, 8), ModBlocks.pwr_casing));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModBlocks.pwr_block, 8), ModBlocks.pwr_casing));
 
         GameRegistry.addRecipe(
             new ShapelessOreRecipe(
                 DictFrame.fromOne(ModItems.chunk_ore, EnumChunkType.CRYOLITE),
-                NA.dust(), AL.dust(), F.dust(), F.dust(), KEY_TOOL_CHEMISTRYSET));
+                NA.dust(),
+                AL.dust(),
+                F.dust(),
+                F.dust(),
+                KEY_TOOL_CHEMISTRYSET));
     }
 
     private static void removeRecipesByOutput(Item output) {

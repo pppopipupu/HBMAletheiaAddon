@@ -10,7 +10,8 @@ import com.hbm.util.Tuple.Pair;
 public class AletheiaRecipesNtmcCompressor {
 
     public static void register() {
-        CompressorRecipes.recipes
-            .put(new Pair<FluidType, Integer>(Fluids.BLOOD, 3), new CompressorRecipe(1_000, new FluidStack(Fluids.HEAVYOIL, 1000, 0), 80));
+        CompressorRecipes.recipes.put(
+            new Pair<FluidType, Integer>(Fluids.BLOOD, 3),
+            new CompressorRecipe(1_000, new FluidStack(Fluids.HEAVYOIL, 1000, 0), 80));
     }
 }
