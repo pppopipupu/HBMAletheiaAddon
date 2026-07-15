@@ -23,6 +23,7 @@ import com.pppopipupu.aletheia.machine.agrichemplant.AgriChemicalPlantRecipeHand
 import com.pppopipupu.aletheia.packet.AlienJellyBeamPacket;
 import com.pppopipupu.aletheia.packet.QGPDistortionPacket;
 import com.pppopipupu.aletheia.recipe.AletheiaRecipes;
+import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcOverrides;
 import com.pppopipupu.aletheia.stats.AletheiaAchievements;
 import com.pppopipupu.aletheia.weapon.AletheiaBullets;
 
@@ -103,6 +104,7 @@ public class Aletheia {
         HazardSystem.register(AletheiaBlocks.block_sodium, new HazardData().addEntry(HazardRegistry.HYDROACTIVE, 9.0F));
 
         AletheiaRecipes.registerForgeRecipes();
+        AletheiaRecipesNtmcOverrides.register();
     }
 
     @Mod.EventHandler

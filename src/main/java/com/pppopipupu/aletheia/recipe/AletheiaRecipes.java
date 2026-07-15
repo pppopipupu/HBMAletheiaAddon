@@ -32,9 +32,25 @@ import com.pppopipupu.aletheia.block.AletheiaBlocks;
 import com.pppopipupu.aletheia.fluid.AletheiaFluids;
 import com.pppopipupu.aletheia.item.AletheiaItems;
 import com.pppopipupu.aletheia.machine.agrichemplant.AgriChemicalPlantRecipes;
+import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcAE2;
+import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcAluminium;
+import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcAnvil;
+import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcAssembly;
+import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcCentrifuge;
+import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcChemMix;
+import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcCompressor;
+import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcCrucible;
+import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcCrystallizer;
 import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcElectrolysis;
+import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcOutgasser;
+import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcParticle;
+import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcPress;
 import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcProcessing;
+import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcPurex;
+import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcPyro;
 import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcReactors;
+import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcRotary;
+import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcWorkbench;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -114,6 +130,8 @@ public class AletheiaRecipes {
             AletheiaItems.bio_crystal,
             Items.glass_bottle,
             ModItems.egg_glyphid);
+
+        AletheiaRecipesNtmcWorkbench.register();
     }
 
     public static void registerHBMRecipes() {
@@ -283,5 +301,30 @@ public class AletheiaRecipes {
         AletheiaRecipesNtmcElectrolysis.register();
         AletheiaRecipesNtmcProcessing.register();
         AletheiaRecipesNtmcReactors.register();
+
+        AletheiaRecipesNtmcPress.register();
+        AletheiaRecipesNtmcCentrifuge.register();
+        AletheiaRecipesNtmcCrucible.register();
+        AletheiaRecipesNtmcPyro.register();
+        AletheiaRecipesNtmcRotary.register();
+        AletheiaRecipesNtmcCompressor.register();
+        AletheiaRecipesNtmcAnvil.register();
+        AletheiaRecipesNtmcOutgasser.register();
+        AletheiaRecipesNtmcAssembly.register();
+        AletheiaRecipesNtmcChemMix.register();
+        AletheiaRecipesNtmcAluminium.register();
+        AletheiaRecipesNtmcCrystallizer.register();
+        AletheiaRecipesNtmcAE2.register();
+        AletheiaRecipesNtmcParticle.register();
+        AletheiaRecipesNtmcPurex.register();
+    }
+
+    public static void registerOverride(GenericRecipes map, String id, GenericRecipe recipe) {
+        GenericRecipe existing = (GenericRecipe) map.recipeNameMap.get(id);
+        if (existing != null) {
+            map.recipeOrderedList.remove(existing);
+            map.recipeNameMap.remove(id);
+        }
+        map.register(recipe);
     }
 }

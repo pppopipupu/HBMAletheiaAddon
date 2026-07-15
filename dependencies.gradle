@@ -1,8 +1,8 @@
 dependencies {
-    implementation(rfg.deobf(project.files("libs/DecayLib-1.0.0-dev.jar")))
+    implementation(rfg.deobf(project.files("libs/DecayLib-1.1.2-dev.jar")))
     implementation(rfg.deobf(project.files("libs/HBM-NTM-.1.0.27_X5751_H261.jar")))
 
-    
+
     implementation("com.github.GTNewHorizons:NotEnoughItems:2.7.69-GTNH:dev")
     compileOnly("com.github.GTNewHorizons:NotEnoughItems:2.7.69-GTNH:dev")
 

@@ -32,6 +32,10 @@ public class AletheiaRecipesNtmcReactors {
             new Pair(new ItemStack(AletheiaItems.powder_strontium), 15));
         CyclotronRecipes.recipes.put(
             new Pair(new ComparableStack(ModItems.part_copper), new ComparableStack(AletheiaItems.powder_strontium)),
-            new Pair(new ItemStack(AletheiaItems.powder_neodymium), 15));
+            new Pair(new ItemStack(ModItems.powder_neodymium), 15));
+
+        CyclotronRecipes.recipes.put(
+            new Pair(new ComparableStack(ModItems.part_plutonium), new OreDictStack("dustPhosphorus")),
+            new Pair(new ItemStack(ModItems.powder_tennessine), 100));
     }
 }

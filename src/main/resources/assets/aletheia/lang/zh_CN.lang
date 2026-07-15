@@ -46,20 +46,20 @@ agri.bio_crystal_egg=生物结晶（异虫蛋）
 agri.egg_culture=异虫蛋培养
 agri.jelly_cheap=廉价异星果冻
 agri.dirt_grass=泥土转化草方块
-agri.bottle=农业科技瓶（批量合成）
+agri.bottle=农业科技瓶
 
 
 
 item.aletheia:ams_muzzle.name=激活射线发射极
 
 tooltip.egg_glyphid.product=腐烂产物: §b生成1个异虫
-tooltip.bio_crystal.product=腐烂产物: §b生成1个蠢虫
+tooltip.bio_crystal.product=腐烂产物: §b生成1个蠹虫
 achievement.glyphid_hatch=破壳而出
 achievement.glyphid_hatch.desc=见证一只异虫破壳而出。
 achievement.glyphid_hatch_unexpected=防不胜防
 achievement.glyphid_hatch_unexpected.desc=异虫竟然在容器或机器内孵化了！
-achievement.amsBase=阿莱西亚计划
-achievement.amsBase.desc=Ω。
+achievement.amsBase=Project Aletheia
+achievement.amsBase.desc=Omega。
 
 tile.block_neodymium.name=钕块
 tile.block_sodium.name=钠块
