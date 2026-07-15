@@ -15,6 +15,7 @@ import com.pppopipupu.aletheia.recipe.AletheiaRecipes;
 
 public class AletheiaRecipesNtmcAssembly {
 
+    @SuppressWarnings("deprecation")
     public static void register() {
 
         AletheiaRecipes.registerOverride(

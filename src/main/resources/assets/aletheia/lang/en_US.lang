@@ -76,3 +76,16 @@ tile.block_sodium.name=Sodium Block
 tile.block_strontium.name=Strontium Block
 tile.block_neodymium.name=Neodymium Block
 
+item.night_vision_mk2.name=Self-Charging Night Vision Goggles
+item.night_vision_mk2.description.item=Provides night vision (no powered equipment needed)
+item.billet_rs1.name=Research RBMK Fuel Billet T1
+item.billet_rs2.name=Research RBMK Fuel Billet T2
+item.billet_rs3.name=Research RBMK Fuel Billet T3
+item.rbmk_pellet_rs1.name=Research RBMK Fuel Pellet T1
+item.rbmk_pellet_rs2.name=Research RBMK Fuel Pellet T2
+item.rbmk_pellet_rs3.name=Research RBMK Fuel Pellet T3
+item.rbmk_fuel_rs1.name=Research RBMK Fuel Rod T1
+item.rbmk_fuel_rs2.name=Research RBMK Fuel Rod T2
+item.rbmk_fuel_rs3.name=Research RBMK Fuel Rod T3
+item.spawn_maskman.name=Mask Man
+

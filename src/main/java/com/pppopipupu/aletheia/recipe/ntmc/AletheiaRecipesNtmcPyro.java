@@ -1,7 +1,5 @@
 package com.pppopipupu.aletheia.recipe.ntmc;
 
-import java.util.Iterator;
-
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.Fluids;
@@ -15,14 +13,10 @@ import com.hbm.items.special.ItemBedrockOreNew.CelestialBedrockOreType;
 public class AletheiaRecipesNtmcPyro {
 
     public static void register() {
-        Iterator<PyroOvenRecipes.PyroOvenRecipe> it = PyroOvenRecipes.recipes.iterator();
-        while (it.hasNext()) {
-            PyroOvenRecipe r = it.next();
-            if (r.inputItem instanceof ComparableStack
-                && ((ComparableStack) r.inputItem).item.getClass() == ItemBedrockOreNew.class) {
-                it.remove();
-            }
-        }
+        PyroOvenRecipes.recipes.removeIf(
+            r -> r.inputItem instanceof ComparableStack
+                && ((ComparableStack) r.inputItem).item.getClass() == ItemBedrockOreNew.class);
+
         for (CelestialBedrockOreType type : CelestialBedrockOre.getAllTypes()) {
             PyroOvenRecipes.recipes.add(
                 new PyroOvenRecipe(10).in(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.BASE, type)))

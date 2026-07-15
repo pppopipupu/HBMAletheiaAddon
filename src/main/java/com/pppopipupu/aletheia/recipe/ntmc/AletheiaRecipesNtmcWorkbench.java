@@ -24,40 +24,40 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class AletheiaRecipesNtmcWorkbench {
 
     public static void register() {
-        removeRecipesByOutput(ModItems.upgrade_template, -1);
+        removeRecipesByOutput(ModItems.upgrade_template);
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
                 new ItemStack(ModItems.upgrade_template, 2),
-                new Object[] { "WIW", "PCP", "WIW", 'W', CU.wireFine(), 'I', ANY_PLASTIC.ingot(), 'C',
-                    DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC), 'P', ModItems.plate_polymer }));
+                "WIW", "PCP", "WIW", 'W', CU.wireFine(), 'I', ANY_PLASTIC.ingot(), 'C',
+                    DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC), 'P', ModItems.plate_polymer));
 
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
                 new ItemStack(ModItems.nothing, 8, 0),
-                new Object[] { "B B", " B ", "B B", 'B', "dyeBlack" }));
+                "B B", " B ", "B B", 'B', "dyeBlack"));
 
         GameRegistry.addRecipe(
             new ShapelessOreRecipe(
                 new ItemStack(Items.gold_nugget, 1, 0),
-                new Object[] { ModItems.spawn_duck, ModItems.spawn_duck, ModItems.spawn_duck, ModItems.spawn_duck,
-                    ModItems.spawn_duck, ModItems.spawn_duck, ModItems.spawn_duck, ModItems.spawn_duck }));
+                ModItems.spawn_duck, ModItems.spawn_duck, ModItems.spawn_duck, ModItems.spawn_duck,
+                    ModItems.spawn_duck, ModItems.spawn_duck, ModItems.spawn_duck, ModItems.spawn_duck));
 
         GameRegistry.addRecipe(
-            new ShapelessOreRecipe(new ItemStack(ModBlocks.pwr_block, 8), new Object[] { ModBlocks.pwr_casing }));
+            new ShapelessOreRecipe(new ItemStack(ModBlocks.pwr_block, 8), ModBlocks.pwr_casing));
 
         GameRegistry.addRecipe(
             new ShapelessOreRecipe(
                 DictFrame.fromOne(ModItems.chunk_ore, EnumChunkType.CRYOLITE),
-                new Object[] { NA.dust(), AL.dust(), F.dust(), F.dust(), KEY_TOOL_CHEMISTRYSET }));
+                NA.dust(), AL.dust(), F.dust(), F.dust(), KEY_TOOL_CHEMISTRYSET));
     }
 
-    private static void removeRecipesByOutput(Item output, int meta) {
+    private static void removeRecipesByOutput(Item output) {
         List<IRecipe> recipes = net.minecraft.item.crafting.CraftingManager.getInstance()
             .getRecipeList();
-        List<IRecipe> toRemove = new ArrayList<IRecipe>();
+        List<IRecipe> toRemove = new ArrayList<>();
         for (IRecipe recipe : recipes) {
             ItemStack stack = recipe.getRecipeOutput();
-            if (stack != null && stack.getItem() == output && (meta == -1 || stack.getItemDamage() == meta)) {
+            if (stack != null && stack.getItem() == output) {
                 toRemove.add(recipe);
             }
         }

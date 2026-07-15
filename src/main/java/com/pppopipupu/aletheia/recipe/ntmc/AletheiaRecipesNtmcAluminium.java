@@ -41,8 +41,8 @@ public class AletheiaRecipesNtmcAluminium {
 
     public static void register() {
 
-        GenericRecipes chem = ChemicalPlantRecipes.INSTANCE;
-        GenericRecipe oldBauxite = (GenericRecipe) chem.recipeNameMap.get("chem.fp_bauxite_solution");
+        GenericRecipes<GenericRecipe> chem = ChemicalPlantRecipes.INSTANCE;
+        GenericRecipe oldBauxite = chem.recipeNameMap.get("chem.fp_bauxite_solution");
         if (oldBauxite != null) {
             chem.recipeOrderedList.remove(oldBauxite);
             chem.recipeNameMap.remove("chem.fp_bauxite_solution");

@@ -14,9 +14,7 @@ import com.pppopipupu.aletheia.recipe.AletheiaRecipes;
 public class AletheiaRecipesNtmcCrucible {
 
     public static void register() {
-        int q = MaterialShapes.QUANTUM.q(1);
         int n = MaterialShapes.NUGGET.q(1);
-        int i = MaterialShapes.INGOT.q(1);
 
         AletheiaRecipes.registerOverride(
             CrucibleRecipes.INSTANCE,

@@ -60,35 +60,35 @@ public class AletheiaRecipes {
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
                 new ItemStack(ModItems.disperser_canister_empty, 4),
-                new Object[] { " P ", "PGP", " P ", 'P', "platePlastic", 'G', ModBlocks.glass_boron }));
+                " P ", "PGP", " P ", 'P', "platePlastic", 'G', ModBlocks.glass_boron));
         GameRegistry.addRecipe(
             new ShapedOreRecipe(
                 new ItemStack(ModItems.glyphid_gland_empty, 4),
-                new Object[] { " P ", "PEP", " P ", 'P', "platePlastic", 'E', Items.emerald }));
+                " P ", "PEP", " P ", 'P', "platePlastic", 'E', Items.emerald));
 
         GameRegistry.addRecipe(
             new ItemStack(AletheiaItems.qgp_mining_bomb, 1),
-            new Object[] { "TTT", "TQT", "TTT", 'T', Blocks.tnt, 'Q', AletheiaItems.bucket_qgp });
+            "TTT", "TQT", "TTT", 'T', Blocks.tnt, 'Q', AletheiaItems.bucket_qgp);
         GameRegistry.addRecipe(
             new ItemStack(AletheiaItems.gun_pppop, 1),
-            new Object[] { " U ", " U ", "D D", 'U', ModBlocks.block_u235, 'D', ModBlocks.block_desh });
+            " U ", " U ", "D D", 'U', ModBlocks.block_u235, 'D', ModBlocks.block_desh);
         GameRegistry.addRecipe(
             new ItemStack(AletheiaItems.ams_muzzle, 1),
-            new Object[] { "PPP", " P ", " P ", 'P', ModItems.plate_schrabidium });
+            "PPP", " P ", " P ", 'P', ModItems.plate_schrabidium);
         GameRegistry.addRecipe(
             new ItemStack(AletheiaItems.ams_focus_blank, 1),
-            new Object[] { " P ", "PGP", " P ", 'P', ModItems.plate_dineutronium, 'G', Blocks.obsidian });
+            " P ", "PGP", " P ", 'P', ModItems.plate_dineutronium, 'G', Blocks.obsidian);
         GameRegistry.addShapelessRecipe(
             new ItemStack(AletheiaItems.ams_focus_limiter, 1),
-            new Object[] { AletheiaItems.ams_focus_blank, ModItems.rune_isa, Blocks.diamond_block });
+            AletheiaItems.ams_focus_blank, ModItems.rune_isa, Blocks.diamond_block);
         GameRegistry.addShapelessRecipe(
             new ItemStack(AletheiaItems.ams_focus_booster, 1),
-            new Object[] { AletheiaItems.ams_focus_blank, ModItems.rune_hagalaz, Blocks.emerald_block });
+            AletheiaItems.ams_focus_blank, ModItems.rune_hagalaz, Blocks.emerald_block);
 
         GameRegistry.addShapelessRecipe(
             new ItemStack(Items.gold_nugget, 1),
-            new Object[] { Items.golden_apple, Items.golden_apple, Items.golden_apple, Items.golden_apple,
-                Items.golden_apple, Items.golden_apple, Items.golden_apple, Items.golden_apple, Items.egg });
+            Items.golden_apple, Items.golden_apple, Items.golden_apple, Items.golden_apple,
+                Items.golden_apple, Items.golden_apple, Items.golden_apple, Items.golden_apple, Items.egg);
 
         GameRegistry.addSmelting(AletheiaItems.powder_sodium, new ItemStack(AletheiaItems.ingot_sodium), 0.0F);
         GameRegistry.addSmelting(AletheiaItems.powder_strontium, new ItemStack(AletheiaItems.ingot_strontium), 0.0F);
@@ -252,8 +252,8 @@ public class AletheiaRecipes {
                 .outputItems(new ItemStack(ModItems.ingot_tungsten_carbide))
                 .outputFluids(new FluidStack(Fluids.SPENTSTEAM, 1_000)));
 
-        GenericRecipes chem = ChemicalPlantRecipes.INSTANCE;
-        GenericRecipe oldMeat = (GenericRecipe) chem.recipeNameMap.get("chem.meatprocessing");
+        GenericRecipes<GenericRecipe> chem = ChemicalPlantRecipes.INSTANCE;
+        GenericRecipe oldMeat = chem.recipeNameMap.get("chem.meatprocessing");
         if (oldMeat != null) {
             chem.recipeOrderedList.remove(oldMeat);
             chem.recipeNameMap.remove("chem.meatprocessing");

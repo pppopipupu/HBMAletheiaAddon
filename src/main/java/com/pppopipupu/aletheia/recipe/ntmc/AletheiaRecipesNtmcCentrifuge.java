@@ -31,7 +31,7 @@ public class AletheiaRecipesNtmcCentrifuge {
         GasCentrifugeRecipes.fluidConversions.put(Fluids.WATZ, PseudoFluidType.MUD);
         GasCentrifugeRecipes.getGasCentrifugeRecipes()
             .put(
-                new FluidStack(1000, Fluids.WATZ),
+                new FluidStack(Fluids.WATZ, 1000),
                 new Object[] {
                     new ItemStack[] { new ItemStack(ModItems.powder_iron, 4), new ItemStack(ModItems.powder_lead, 4),
                         new ItemStack(ModItems.nuclear_waste_tiny, 1), new ItemStack(ModItems.dust, 8) },

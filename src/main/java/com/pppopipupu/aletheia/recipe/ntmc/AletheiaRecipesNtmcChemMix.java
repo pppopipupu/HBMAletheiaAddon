@@ -15,19 +15,19 @@ public class AletheiaRecipesNtmcChemMix {
 
     private static final class Mixer extends MixerRecipes.MixerRecipe {
 
-        private Mixer(int output, int processTime) {
-            super(output, processTime);
+        private Mixer(int output) {
+            super(output, 50);
         }
     }
 
-    private static MixerRecipes.MixerRecipe mixer(int output, int processTime) {
-        return new Mixer(output, processTime);
+    private static MixerRecipes.MixerRecipe mixer(int output) {
+        return new Mixer(output);
     }
 
     public static void register() {
 
-        GenericRecipes chem = ChemicalPlantRecipes.INSTANCE;
-        GenericRecipe oldNitric = (GenericRecipe) chem.recipeNameMap.get("chem.nitricacid");
+        GenericRecipes<GenericRecipe> chem = ChemicalPlantRecipes.INSTANCE;
+        GenericRecipe oldNitric = chem.recipeNameMap.get("chem.nitricacid");
         if (oldNitric != null) {
             chem.recipeOrderedList.remove(oldNitric);
             chem.recipeNameMap.remove("chem.nitricacid");
@@ -38,7 +38,7 @@ public class AletheiaRecipesNtmcChemMix {
                 .inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 2_000))
                 .outputFluids(new FluidStack(Fluids.NITRIC_ACID, 2_000)));
 
-        GenericRecipe oldNitricAlt = (GenericRecipe) chem.recipeNameMap.get("chem.nitricacidalt");
+        GenericRecipe oldNitricAlt = chem.recipeNameMap.get("chem.nitricacidalt");
         if (oldNitricAlt != null) {
             chem.recipeOrderedList.remove(oldNitricAlt);
             chem.recipeNameMap.remove("chem.nitricacidalt");
@@ -50,15 +50,15 @@ public class AletheiaRecipesNtmcChemMix {
                     new FluidStack(Fluids.AMMONIA, 1000, GeneralConfig.enable528PressurizedRecipes ? 1 : 0))
                 .outputFluids(new FluidStack(Fluids.NITRIC_ACID, 1_000)));
 
-        MixerRecipes.MixerRecipe mSulfuric = mixer(2000, 50);
+        MixerRecipes.MixerRecipe mSulfuric = mixer(2000);
         mSulfuric.input1 = new FluidStack(Fluids.PEROXIDE, 800);
         mSulfuric.solidInput = new OreDictStack(S.dust());
         MixerRecipes.register(Fluids.SULFURIC_ACID, mSulfuric);
 
-        MixerRecipes.MixerRecipe mNitricA = mixer(1000, 50);
+        MixerRecipes.MixerRecipe mNitricA = mixer(1000);
         mNitricA.input1 = new FluidStack(Fluids.AMMONIA, 1000);
         mNitricA.input2 = new FluidStack(Fluids.WATER, 500);
-        MixerRecipes.MixerRecipe mNitricB = mixer(2000, 50);
+        MixerRecipes.MixerRecipe mNitricB = mixer(2000);
         mNitricB.input1 = new FluidStack(Fluids.SULFURIC_ACID, 2000);
         mNitricB.solidInput = new OreDictStack(KNO.dust());
         MixerRecipes.register(Fluids.NITRIC_ACID, mNitricA, mNitricB);

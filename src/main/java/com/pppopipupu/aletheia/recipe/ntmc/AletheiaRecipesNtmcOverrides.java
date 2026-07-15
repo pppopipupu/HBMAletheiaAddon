@@ -65,9 +65,8 @@ public class AletheiaRecipesNtmcOverrides {
     }
 
     private static String aKey(AStack a) {
-        if (a instanceof OreDictStack) return "O:" + ((OreDictStack) a).name;
-        if (a instanceof ComparableStack) {
-            ComparableStack c = (ComparableStack) a;
+        if (a instanceof OreDictStack o) return "O:" + o.name;
+        if (a instanceof ComparableStack c) {
             return "C:" + Item.itemRegistry.getNameForObject(c.item) + ":" + c.meta;
         }
         return "?";
@@ -78,26 +77,26 @@ public class AletheiaRecipesNtmcOverrides {
     }
 
     private static String joinSig(List<String> in, List<String> out) {
-        List<String> i = new ArrayList<String>(in);
-        List<String> o = new ArrayList<String>(out);
+        List<String> i = new ArrayList<>(in);
+        List<String> o = new ArrayList<>(out);
         Collections.sort(i);
         Collections.sort(o);
         return String.join("+", i) + ">" + String.join("+", o);
     }
 
     private static void putTier(Map<String, Integer> map, int tier, AStack[] in, ItemStack... out) {
-        List<String> ik = new ArrayList<String>();
+        List<String> ik = new ArrayList<>();
         for (AStack a : in) ik.add(aKey(a));
-        List<String> ok = new ArrayList<String>();
+        List<String> ok = new ArrayList<>();
         for (ItemStack s : out) ok.add(outKey(s));
         map.put(joinSig(ik, ok), tier);
     }
 
     private static void putSmithing(Map<String, Integer> map, int tier, AStack left, AStack right, ItemStack out) {
-        List<String> ik = new ArrayList<String>();
+        List<String> ik = new ArrayList<>();
         ik.add(aKey(left));
         ik.add(aKey(right));
-        List<String> ok = new ArrayList<String>();
+        List<String> ok = new ArrayList<>();
         ok.add(outKey(out));
         map.put(joinSig(ik, ok), tier);
     }
@@ -114,8 +113,7 @@ public class AletheiaRecipesNtmcOverrides {
     private static void overrideConstructionTiers() {
         try {
             if (constructionTierMap == null) constructionTierMap = buildConstructionTierMap();
-            for (Object o : AnvilRecipes.constructionRecipes) {
-                AnvilConstructionRecipe r = (AnvilConstructionRecipe) o;
+            for (AnvilConstructionRecipe r : AnvilRecipes.constructionRecipes) {
                 String sig = joinSig(collectIn(r.input), collectOut(r.output));
                 Integer tier = constructionTierMap.get(sig);
                 if (tier != null) r.setTier(tier);
@@ -126,13 +124,13 @@ public class AletheiaRecipesNtmcOverrides {
     }
 
     private static List<String> collectIn(List<AStack> in) {
-        List<String> ik = new ArrayList<String>();
+        List<String> ik = new ArrayList<>();
         for (AStack a : in) ik.add(aKey(a));
         return ik;
     }
 
     private static List<String> collectOut(List<AnvilOutput> out) {
-        List<String> ok = new ArrayList<String>();
+        List<String> ok = new ArrayList<>();
         for (AnvilOutput o : out) ok.add(outKey(o.stack));
         return ok;
     }
@@ -149,13 +147,11 @@ public class AletheiaRecipesNtmcOverrides {
             rightField.setAccessible(true);
             Field outField = smithClass.getDeclaredField("output");
             outField.setAccessible(true);
-            for (Object o : AnvilRecipes.smithingRecipes) {
-                if (!(o instanceof com.hbm.inventory.recipes.anvil.AnvilSmithingRecipe)) continue;
-                com.hbm.inventory.recipes.anvil.AnvilSmithingRecipe r = (com.hbm.inventory.recipes.anvil.AnvilSmithingRecipe) o;
-                List<String> ik = new ArrayList<String>();
+            for (com.hbm.inventory.recipes.anvil.AnvilSmithingRecipe r : AnvilRecipes.smithingRecipes) {
+                List<String> ik = new ArrayList<>();
                 ik.add(aKey((AStack) leftField.get(r)));
                 ik.add(aKey((AStack) rightField.get(r)));
-                List<String> ok = new ArrayList<String>();
+                List<String> ok = new ArrayList<>();
                 ok.add(outKey((ItemStack) outField.get(r)));
                 String sig = joinSig(ik, ok);
                 Integer tier = smithingTierMap.get(sig);
@@ -190,7 +186,7 @@ public class AletheiaRecipesNtmcOverrides {
     }
 
     private static Map<String, Integer> buildConstructionTierMap() {
-        Map<String, Integer> m = new HashMap<String, Integer>();
+        Map<String, Integer> m = new HashMap<>();
 
         putTier(m, 3, new AStack[] { ods(IRON.ingot()) }, new ItemStack(ModItems.plate_iron));
         putTier(m, 3, new AStack[] { ods(GOLD.ingot()) }, new ItemStack(ModItems.plate_gold));
@@ -627,7 +623,7 @@ public class AletheiaRecipesNtmcOverrides {
     }
 
     private static Map<String, Integer> buildSmithingTierMap() {
-        Map<String, Integer> m = new HashMap<String, Integer>();
+        Map<String, Integer> m = new HashMap<>();
 
         putSmithing(m, 1, cs(ModBlocks.anvil_iron, 0), ods(STEEL.ingot(), 10), new ItemStack(ModBlocks.anvil_steel, 1));
         putSmithing(m, 1, cs(ModBlocks.anvil_iron, 0), ods(DESH.ingot(), 10), new ItemStack(ModBlocks.anvil_desh, 1));
@@ -751,7 +747,7 @@ public class AletheiaRecipesNtmcOverrides {
     }
 
     private static Map<String, Float> buildCrystallizerProdMap() {
-        Map<String, Float> m = new HashMap<String, Float>();
+        Map<String, Float> m = new HashMap<>();
 
         putCryst(m, 0.05F, ods(COAL.ore()), Fluids.PEROXIDE, new ItemStack(ModItems.crystal_coal));
         putCryst(m, 0.05F, ods(IRON.ore()), Fluids.PEROXIDE, new ItemStack(ModItems.crystal_iron));

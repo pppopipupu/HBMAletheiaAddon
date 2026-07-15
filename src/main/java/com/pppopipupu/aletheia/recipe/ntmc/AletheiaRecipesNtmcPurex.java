@@ -33,7 +33,7 @@ public class AletheiaRecipesNtmcPurex {
         while (it.hasNext()) {
             String name = it.next();
             if (name.startsWith("purex.")) {
-                GenericRecipe recipe = (GenericRecipe) purex.recipeNameMap.get(name);
+                GenericRecipe recipe = purex.recipeNameMap.get(name);
                 purex.recipeOrderedList.remove(recipe);
                 GenericRecipes.nameToRecipeGlobal.remove(name);
                 it.remove();
@@ -647,7 +647,7 @@ public class AletheiaRecipesNtmcPurex {
                 .setIconToFirstIngredient());
 
         ArrayList<ItemStack> naquadriaNuggets = OreDictionary.getOres("nuggetNaquadria");
-        if (naquadriaNuggets.size() != 0) {
+        if (!naquadriaNuggets.isEmpty()) {
             ItemStack nuggetNQR = naquadriaNuggets.get(0);
             ItemStack copy = nuggetNQR.copy();
             copy.stackSize = 12;
