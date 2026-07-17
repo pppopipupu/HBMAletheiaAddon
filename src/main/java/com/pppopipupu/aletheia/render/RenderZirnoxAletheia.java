@@ -3,17 +3,17 @@ package com.pppopipupu.aletheia.render;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.render.shader.Shader;
+import com.hbm.render.tileentity.RenderZirnox;
 import com.pppopipupu.aletheia.Aletheia;
 import com.pppopipupu.aletheia.tileentity.IAletheiaZirnox;
 
-public class RenderZirnoxAletheia extends TileEntitySpecialRenderer {
+public class RenderZirnoxAletheia extends RenderZirnox {
 
     private static Shader digammaShader = null;
     private static Shader qgpShader = null;
@@ -23,6 +23,9 @@ public class RenderZirnoxAletheia extends TileEntitySpecialRenderer {
         if (!(te instanceof IAletheiaZirnox)) {
             return;
         }
+
+        super.renderTileEntityAt(te, x, y, z, partialTicks);
+
         int mode = ((IAletheiaZirnox) te).getRodMode();
         if (mode == 0) {
             return;
@@ -90,6 +93,7 @@ public class RenderZirnoxAletheia extends TileEntitySpecialRenderer {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glDepthMask(false);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
 
         float radius = 1.4F;
         int layers = 8;
@@ -108,6 +112,8 @@ public class RenderZirnoxAletheia extends TileEntitySpecialRenderer {
             tess.draw();
         }
 
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
         GL11.glDepthMask(true);
         GL11.glEnable(GL11.GL_CULL_FACE);
         shader.stop();
