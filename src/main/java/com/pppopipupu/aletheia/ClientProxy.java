@@ -11,20 +11,25 @@ import com.google.common.collect.Maps;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.factory.LegoClient;
+import com.hbm.tileentity.machine.TileEntityReactorZirnox;
 import com.pppopipupu.aletheia.block.AletheiaBlocks;
 import com.pppopipupu.aletheia.item.AletheiaItems;
+import com.pppopipupu.aletheia.item.ItemZirnoxRodAletheia;
 import com.pppopipupu.aletheia.machine.agrichemplant.TileEntityMachineAgriChemicalPlant;
 import com.pppopipupu.aletheia.render.ItemRenderPPPOP;
 import com.pppopipupu.aletheia.render.ItemRenderQGPBucket;
 import com.pppopipupu.aletheia.render.ItemRenderQGPDisperser;
+import com.pppopipupu.aletheia.render.ItemRenderQGPFuelRod;
 import com.pppopipupu.aletheia.render.ItemRenderQGPMiningBomb;
 import com.pppopipupu.aletheia.render.ItemRenderUltimateUpgrade;
+import com.pppopipupu.aletheia.render.ItemRenderZirnoxDigamma;
 import com.pppopipupu.aletheia.render.RenderAMSBase;
 import com.pppopipupu.aletheia.render.RenderAMSEmitter;
 import com.pppopipupu.aletheia.render.RenderAMSLimiter;
 import com.pppopipupu.aletheia.render.RenderAgriChemicalPlant;
 import com.pppopipupu.aletheia.render.RenderPPPOPProjectile;
 import com.pppopipupu.aletheia.render.RenderQGPBlock;
+import com.pppopipupu.aletheia.render.RenderZirnoxAletheia;
 import com.pppopipupu.aletheia.tileentity.TileEntityAMSBase;
 import com.pppopipupu.aletheia.tileentity.TileEntityAMSEmitter;
 import com.pppopipupu.aletheia.tileentity.TileEntityAMSLimiter;
@@ -67,11 +72,25 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAMSLimiter.class, new RenderAMSLimiter());
         ClientRegistry
             .bindTileEntitySpecialRenderer(TileEntityMachineAgriChemicalPlant.class, new RenderAgriChemicalPlant());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityReactorZirnox.class, new RenderZirnoxAletheia());
 
         MinecraftForgeClient.registerItemRenderer(AletheiaItems.gun_pppop, new ItemRenderPPPOP());
         MinecraftForgeClient.registerItemRenderer(AletheiaItems.upgrade_ultimate, new ItemRenderUltimateUpgrade());
         MinecraftForgeClient.registerItemRenderer(AletheiaItems.bucket_qgp, new ItemRenderQGPBucket());
         MinecraftForgeClient.registerItemRenderer(AletheiaItems.qgp_mining_bomb, new ItemRenderQGPMiningBomb());
+        MinecraftForgeClient.registerItemRenderer(AletheiaItems.rod_zirnox_digamma, new ItemRenderZirnoxDigamma());
+        MinecraftForgeClient.registerItemRenderer(AletheiaItems.rod_zirnox_qgp, new ItemRenderQGPFuelRod());
+        MinecraftForgeClient.registerItemRenderer(AletheiaItems.rbmk_fuel_qgp, new ItemRenderQGPFuelRod());
+
+        MinecraftForgeClient
+            .registerItemRenderer(ItemZirnoxRodAletheia.rod_zirnox_qgp_depleted, new ItemRenderQGPFuelRod());
+        MinecraftForgeClient.registerItemRenderer(AletheiaItems.rbmk_pellet_qgp_depleted, new ItemRenderQGPFuelRod());
+        MinecraftForgeClient.registerItemRenderer(AletheiaItems.billet_qgp, new ItemRenderQGPFuelRod());
+        MinecraftForgeClient.registerItemRenderer(AletheiaItems.waste_qgp, new ItemRenderQGPFuelRod());
+        MinecraftForgeClient
+            .registerItemRenderer(ItemZirnoxRodAletheia.rod_zirnox_digamma_depleted, new ItemRenderZirnoxDigamma());
+        MinecraftForgeClient.registerItemRenderer(AletheiaItems.waste_digamma, new ItemRenderZirnoxDigamma());
+
         MinecraftForgeClient.registerItemRenderer(ModItems.disperser_canister, new ItemRenderQGPDisperser());
         MinecraftForgeClient.registerItemRenderer(ModItems.glyphid_gland, new ItemRenderQGPDisperser());
         MinecraftForgeClient.registerItemRenderer(

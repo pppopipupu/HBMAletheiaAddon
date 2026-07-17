@@ -66,6 +66,7 @@
 
 ## 3. 编码规约
 
+* **回复语言规范**: 必须始终使用中文回复用户，无论是正常对话、计划制定还是编写临时文档，除非用户明确要求使用其他语言。
 * **注释规范**: 不要在函数或逻辑内部编写任何的内联注释。不要在shader中编写任何注释。
 * **Mixin 规范**: 
   - **安全注入原则**：严禁滥用 `@Overwrite`。除了极其特殊、非 `@Overwrite` 不可的情况之外，必须优先使用 `@Inject`、`@ModifyVariable` 或 `@Redirect`。
@@ -74,7 +75,7 @@
     - **Early Mixin (`mixins.aletheia.json`)**：仅适用于需要尽早加载并向原版 Minecraft (`net.minecraft.*`)、Forge (`net.minecraftforge.*`) 或核心加载器 (Coremods) 注入的 Mixin。在此配置文件中的 Mixin **绝对不能**显式引用或加载普通模组的类（如 `com.hbm.*`），否则会引发 ClassNotFoundException 或提前类加载（ClassLoader Leak）导致崩溃。
     - **Late Mixin (`mixins.aletheia.late.json`)**：适用于所有向非原版/非核心模组（包括 `HBM SPACE` 等依赖模组，如 `com.hbm.*`）注入的 Mixin。大部分移植相关的 Mixin 都应该放在此处加载，以确保模组类已安全就绪。
 * **导入规范**: 绝对不要使用任何包名全称，能import包必须使用import。绝对不可以偷懒直接写全称，必须用编辑工具正常在顶部插入import。
-*   **编译与运行测试**: 每次修改完代码后，必须使用配置好 Java 25 环境的终端运行 `.\gradlew.bat compileJava` 进行编译校验，确保没有语法和编译期报错。在编译通过后，可以使用 `.\gradlew.bat runclient25` 启动客户端进行运行测试，确保没有任何运行时报错。
+*   **编译与运行测试**: 每次修改完代码后，必须使用配置好 Java 25 环境的终端运行 `.\gradlew.bat compileJava` 进行编译校验，确保没有语法和编译期报错。在编译通过后，可以使用 `.\gradlew.bat runclient25` 启动客户端进行运行测试，确保没有任何运行时报错。**在检查测试和编译的日志输出时，严禁使用 `findstr`、`select-string` 等过滤命令拦截关键信息，必须直接阅读编译与运行产生的全部日志内容，以确保能捕获任何隐性的异常、警告或潜在报错。**
 *   **日志规范**: 绝对禁止使用 `System.out` 或 `System.err` 输出调试或运行日志。在进行日志记录时，必须使用 Log4j 2 Logger，且必须只使用 `com.pppopipupu.aletheia.Aletheia.LOG`。
 *   **操作与读写限制**: 你必须只读取 `C:\Modding\NTMC` 和 `C:\Users\pppop\Desktop\HBMAletheiaAddon` 内的文件，只能修改 `C:\Users\pppop\Desktop\HBMAletheiaAddon` 内的文件，绝对不可读取或修改任何其他文件。
 *   **禁止制造临时字节码桩**: 严禁通过生成临时物理 `.class` 字节码或反编译 `.java` 文件（例如解压放入 `/com/` 或 `/libs/com/`）来蒙混通过编译。如果因调试需要临时产生了此类非项目本身的物理文件，必须在 turn 结束前彻底清除。

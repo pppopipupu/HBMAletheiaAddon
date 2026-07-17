@@ -22,6 +22,8 @@ import com.hbm.inventory.recipes.loader.GenericRecipes.ChanceOutput;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemPWRFuel.EnumPWRFuel;
 import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
+import com.pppopipupu.aletheia.fluid.AletheiaFluids;
+import com.pppopipupu.aletheia.item.AletheiaItems;
 
 public class AletheiaRecipesNtmcPurex {
 
@@ -867,6 +869,32 @@ public class AletheiaRecipesNtmcPurex {
                     new ItemStack(ModItems.nugget_cf252, 3),
                     new ItemStack(ModItems.nuclear_waste, 24))
                 .outputFluids(new FluidStack(Fluids.WATZ, 1_000))
+                .setIconToFirstIngredient());
+
+        PUREXRecipes.INSTANCE.register(
+            (PUREXRecipe) new PUREXRecipe("purex.zirnoxdigamma").setup(80, zirnoxPower)
+                .setNameWrapper("purex.recycle")
+                .setGroup(autoZirnox, PUREXRecipes.INSTANCE)
+                .inputItems(new ComparableStack(AletheiaItems.waste_digamma))
+                .inputFluids(new FluidStack(Fluids.NITRIC_ACID, 250))
+                .outputItems(
+                    new ItemStack(ModItems.particle_digamma, 1),
+                    new ItemStack(ModItems.nugget_pu239, 1),
+                    new ItemStack(ModItems.nugget_lead, 1),
+                    new ItemStack(ModItems.nuclear_waste_tiny, 2))
+                .setIconToFirstIngredient());
+
+        PUREXRecipes.INSTANCE.register(
+            (PUREXRecipe) new PUREXRecipe("purex.zirnoxqgp").setup(80, zirnoxPower)
+                .setNameWrapper("purex.recycle")
+                .setGroup(autoZirnox, PUREXRecipes.INSTANCE)
+                .inputItems(new ComparableStack(AletheiaItems.waste_qgp))
+                .inputFluids(new FluidStack(Fluids.NITRIC_ACID, 250))
+                .outputItems(
+                    new ItemStack(ModItems.nugget_schrabidium, 1),
+                    new ItemStack(ModItems.nugget_euphemium, 1),
+                    new ItemStack(ModItems.nuclear_waste_tiny, 2))
+                .outputFluids(new FluidStack(AletheiaFluids.fluid_qgp, 250))
                 .setIconToFirstIngredient());
     }
 }

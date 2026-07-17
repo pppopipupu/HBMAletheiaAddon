@@ -19,6 +19,7 @@ import com.hbm.util.CompatExternal;
 import com.pppopipupu.aletheia.block.AletheiaBlocks;
 import com.pppopipupu.aletheia.fluid.AletheiaFluids;
 import com.pppopipupu.aletheia.item.AletheiaItems;
+import com.pppopipupu.aletheia.item.ItemZirnoxRodAletheia;
 import com.pppopipupu.aletheia.machine.agrichemplant.AgriChemicalPlantRecipeHandler;
 import com.pppopipupu.aletheia.packet.AlienJellyBeamPacket;
 import com.pppopipupu.aletheia.packet.QGPDistortionPacket;
@@ -102,6 +103,42 @@ public class Aletheia {
         HazardSystem.register(AletheiaItems.powder_sodium, new HazardData().addEntry(HazardRegistry.HYDROACTIVE, 2.0F));
         HazardSystem.register(AletheiaItems.ingot_sodium, new HazardData().addEntry(HazardRegistry.HYDROACTIVE, 3.0F));
         HazardSystem.register(AletheiaBlocks.block_sodium, new HazardData().addEntry(HazardRegistry.HYDROACTIVE, 9.0F));
+
+        HazardSystem.register(
+            AletheiaItems.rbmk_pellet_qgp_depleted,
+            new HazardData().addEntry(HazardRegistry.RADIATION, 50000.0F)
+                .addEntry(HazardRegistry.DIGAMMA, 1000.0F));
+        HazardSystem.register(
+            AletheiaItems.rbmk_fuel_qgp,
+            new HazardData().addEntry(HazardRegistry.RADIATION, 5000.0F)
+                .addEntry(HazardRegistry.DIGAMMA, 100.0F));
+        HazardSystem.register(
+            ItemZirnoxRodAletheia.rod_zirnox_digamma_depleted,
+            new HazardData().addEntry(HazardRegistry.RADIATION, 800.0F)
+                .addEntry(HazardRegistry.DIGAMMA, 25.0F));
+        HazardSystem.register(
+            ItemZirnoxRodAletheia.rod_zirnox_qgp_depleted,
+            new HazardData().addEntry(HazardRegistry.RADIATION, 60000.0F)
+                .addEntry(HazardRegistry.DIGAMMA, 1500.0F));
+        HazardSystem
+            .register(AletheiaItems.rod_zirnox_digamma, new HazardData().addEntry(HazardRegistry.RADIATION, 250.0F));
+        HazardSystem.register(
+            AletheiaItems.rod_zirnox_qgp,
+            new HazardData().addEntry(HazardRegistry.RADIATION, 6000.0F)
+                .addEntry(HazardRegistry.DIGAMMA, 150.0F));
+
+        HazardSystem.register(
+            AletheiaItems.billet_qgp,
+            new HazardData().addEntry(HazardRegistry.RADIATION, 15000.0F)
+                .addEntry(HazardRegistry.DIGAMMA, 375.0F));
+        HazardSystem.register(
+            AletheiaItems.waste_digamma,
+            new HazardData().addEntry(HazardRegistry.RADIATION, 400.0F)
+                .addEntry(HazardRegistry.DIGAMMA, 12.0F));
+        HazardSystem.register(
+            AletheiaItems.waste_qgp,
+            new HazardData().addEntry(HazardRegistry.RADIATION, 30000.0F)
+                .addEntry(HazardRegistry.DIGAMMA, 750.0F));
 
         AletheiaRecipes.registerForgeRecipes();
         AletheiaRecipesNtmcOverrides.register();

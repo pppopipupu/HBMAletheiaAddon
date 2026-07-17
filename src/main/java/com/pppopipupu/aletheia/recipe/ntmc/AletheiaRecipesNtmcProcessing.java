@@ -10,11 +10,14 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.SILEXRecipes;
 import com.hbm.inventory.recipes.ShredderRecipes;
+import com.hbm.inventory.recipes.SolidificationRecipes;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
+import com.hbm.util.Tuple.Pair;
 import com.pppopipupu.aletheia.Aletheia;
+import com.pppopipupu.aletheia.fluid.AletheiaFluids;
 import com.pppopipupu.aletheia.item.AletheiaItems;
 
 public class AletheiaRecipesNtmcProcessing {
@@ -23,6 +26,7 @@ public class AletheiaRecipesNtmcProcessing {
         registerSILEX();
         registerShredder();
         registerAnvil();
+        registerSolidifier();
     }
 
     private static void registerSILEX() {
@@ -62,6 +66,18 @@ public class AletheiaRecipesNtmcProcessing {
                         .addOut(new ItemStack(ModItems.nugget_pu241), 45 - 10 * i)
                         .addOut(new ItemStack(ModItems.nugget_am_mix), 5 + 10 * i));
             }
+
+            for (int i = 0; i < 5; i++) {
+                map.put(
+                    new ComparableStack(AletheiaItems.rbmk_pellet_qgp_depleted, 1, i),
+                    new SILEXRecipes.SILEXRecipe(600, 200, EnumWavelengths.UV)
+                        .addOut(new ItemStack(ModItems.nugget_schrabidium), 25 - 4 * i)
+                        .addOut(new ItemStack(ModItems.nugget_solinium), 20 - 3 * i)
+                        .addOut(new ItemStack(ModItems.nugget_uranium), 10 + 2 * i)
+                        .addOut(new ItemStack(ModItems.nugget_pu239), 10 + 2 * i)
+                        .addOut(new ItemStack(ModItems.nugget_lead), 30 + 5 * i)
+                        .addOut(new ItemStack(ModItems.nugget_zirconium), 15 + 3 * i));
+            }
         } catch (Exception e) {
             Aletheia.LOG.error("Failed to register NTMC SILEX recipes", e);
         }
@@ -85,5 +101,10 @@ public class AletheiaRecipesNtmcProcessing {
                     new AnvilRecipes.AnvilOutput(new ItemStack(ModItems.fragment_cerium), 0.1F),
                     new AnvilRecipes.AnvilOutput(new ItemStack(AletheiaItems.fragment_neodymium), 0.5F),
                     new AnvilRecipes.AnvilOutput(new ItemStack(ModItems.fragment_niobium), 0.5F) }).setTier(2));
+    }
+
+    private static void registerSolidifier() {
+        SolidificationRecipes.recipes
+            .put(AletheiaFluids.fluid_qgp, new Pair<Integer, ItemStack>(1000, new ItemStack(AletheiaItems.billet_qgp)));
     }
 }

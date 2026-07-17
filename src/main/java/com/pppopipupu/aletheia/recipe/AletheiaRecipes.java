@@ -31,7 +31,6 @@ import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.pppopipupu.aletheia.block.AletheiaBlocks;
 import com.pppopipupu.aletheia.fluid.AletheiaFluids;
 import com.pppopipupu.aletheia.item.AletheiaItems;
-import com.pppopipupu.aletheia.machine.agrichemplant.AgriChemicalPlantRecipes;
 import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcAE2;
 import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcAluminium;
 import com.pppopipupu.aletheia.recipe.ntmc.AletheiaRecipesNtmcAnvil;
@@ -340,8 +339,6 @@ public class AletheiaRecipes {
                     new ComparableStack(Blocks.grass, 12),
                     new ComparableStack(AletheiaItems.agricultural_science, 4),
                     new ComparableStack(ModItems.plate_steel, 8)));
-
-        AgriChemicalPlantRecipes.INSTANCE.registerDefaults();
 
         AletheiaRecipesNtmcElectrolysis.register();
         AletheiaRecipesNtmcProcessing.register();

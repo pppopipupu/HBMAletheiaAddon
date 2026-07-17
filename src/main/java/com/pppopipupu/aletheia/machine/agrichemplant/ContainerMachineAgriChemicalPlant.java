@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 
 import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.inventory.SlotNonRetarded;
+import com.hbm.inventory.SlotUpgrade;
 import com.hbm.inventory.container.ContainerBase;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBlueprints;
@@ -27,8 +28,8 @@ public class ContainerMachineAgriChemicalPlant extends ContainerBase {
         // inventory-index order so that list position == inventory index, matching the JAR's
         // ModuleMachineChemplant assumption used by both the GUI ghost and shift-click transfer.
         this.addSlotToContainer(new SlotNonRetarded(chemicalPlant, 1, 8, 17));
-        this.addSlotToContainer(new SlotNonRetarded(chemicalPlant, 2, 26, 17));
-        this.addSlotToContainer(new SlotNonRetarded(chemicalPlant, 3, 44, 17));
+        this.addSlotToContainer(new SlotUpgrade(chemicalPlant, 2, 26, 17));
+        this.addSlotToContainer(new SlotUpgrade(chemicalPlant, 3, 44, 17));
         // Solid Input
         this.addSlots(chemicalPlant, 4, 8, 99, 1, 3);
         // Solid Output

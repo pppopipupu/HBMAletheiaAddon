@@ -17,6 +17,7 @@
     "machine.MixinTileEntityMachineCentrifuge",
     "machine.MixinTileEntityElectrolyser",
     "machine.MixinTileEntityMachineArcWelder",
+    "machine.MixinTileEntityReactorZirnox",
     "machine.MixinTileEntityMachineCompressorBase",
     "machine.MixinTileEntityMachineCrystallizer",
     "machine.MixinTileEntityMachineCyclotron",

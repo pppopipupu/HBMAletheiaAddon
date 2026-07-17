@@ -76,6 +76,14 @@ public class AletheiaItems {
     public static ItemRBMKRod rbmk_fuel_rs1;
     public static ItemRBMKRod rbmk_fuel_rs2;
     public static ItemRBMKRod rbmk_fuel_rs3;
+
+    public static ItemZirnoxRodAletheia rod_zirnox_digamma;
+    public static ItemZirnoxRodAletheia rod_zirnox_qgp;
+    public static ItemRBMKPellet rbmk_pellet_qgp_depleted;
+    public static ItemRBMKRod rbmk_fuel_qgp;
+    public static Item billet_qgp;
+    public static Item waste_digamma;
+    public static Item waste_qgp;
     public static Item spawn_maskman;
     public static Item recipe_icon;
 
@@ -313,6 +321,57 @@ public class AletheiaItems {
             .setUnlocalizedName("rbmk_fuel_rs3")
             .setTextureName("aletheia:rbmk_fuel_rs3");
         GameRegistry.registerItem(rbmk_fuel_rs3, "rbmk_fuel_rs3");
+
+        rod_zirnox_digamma = new ItemZirnoxRodAletheia(ItemZirnoxRodAletheia.EnumZirnoxAletheiaType.DIGAMMA);
+        GameRegistry.registerItem(rod_zirnox_digamma, "rod_zirnox_digamma");
+
+        rod_zirnox_qgp = new ItemZirnoxRodAletheia(ItemZirnoxRodAletheia.EnumZirnoxAletheiaType.QGP);
+        GameRegistry.registerItem(rod_zirnox_qgp, "rod_zirnox_qgp");
+
+        rbmk_pellet_qgp_depleted = (ItemRBMKPellet) new ItemRBMKPellet("Spent Quark-Gluon Plasma Slag").disableXenon()
+            .setUnlocalizedName("rbmk_pellet_qgp_depleted")
+            .setTextureName("aletheia:rbmk_pellet_qgp_depleted");
+        GameRegistry.registerItem(rbmk_pellet_qgp_depleted, "rbmk_pellet_qgp_depleted");
+
+        rbmk_fuel_qgp = (ItemRBMKRod) new ItemRBMKFuelQGP(rbmk_pellet_qgp_depleted).setYield(200000000D)
+            .setStats(200D, 120D)
+            .setFunction(EnumBurnFunc.EXPERIMENTAL)
+            .setDepletionFunction(EnumDepleteFunc.CF_SLOPE)
+            .setXenon(1.0D, 25D)
+            .setHeat(8.0D)
+            .setMeltingPoint(8000D)
+            .setDiffusion(0.08D)
+            .setNeutronTypes(NType.ANY, NType.FAST)
+            .setTint(0x00e5ff)
+            .setUnlocalizedName("rbmk_fuel_qgp")
+            .setTextureName("aletheia:rbmk_fuel_qgp");
+        GameRegistry.registerItem(rbmk_fuel_qgp, "rbmk_fuel_qgp");
+
+        ItemZirnoxRodAletheia.rod_zirnox_digamma_depleted = new Item().setUnlocalizedName("rod_zirnox_digamma_depleted")
+            .setTextureName("aletheia:rod_zirnox_digamma_depleted")
+            .setCreativeTab(MainRegistry.controlTab);
+        GameRegistry.registerItem(ItemZirnoxRodAletheia.rod_zirnox_digamma_depleted, "rod_zirnox_digamma_depleted");
+        ItemZirnoxRodAletheia.rod_zirnox_qgp_depleted = new Item().setUnlocalizedName("rod_zirnox_qgp_depleted")
+            .setTextureName("aletheia:rod_zirnox_qgp_depleted")
+            .setCreativeTab(MainRegistry.controlTab);
+        GameRegistry.registerItem(ItemZirnoxRodAletheia.rod_zirnox_qgp_depleted, "rod_zirnox_qgp_depleted");
+
+        billet_qgp = new Item().setUnlocalizedName("billet_qgp")
+            .setTextureName("hbm:billet_schrabidium_fuel")
+            .setCreativeTab(MainRegistry.controlTab);
+        GameRegistry.registerItem(billet_qgp, "billet_qgp");
+
+        waste_digamma = new Item().setUnlocalizedName("waste_digamma")
+            .setTextureName("hbm:waste_schrabidium")
+            .setCreativeTab(MainRegistry.controlTab);
+        GameRegistry.registerItem(waste_digamma, "waste_digamma");
+
+        waste_qgp = new Item().setUnlocalizedName("waste_qgp")
+            .setTextureName("hbm:waste_mox")
+            .setCreativeTab(MainRegistry.controlTab);
+        GameRegistry.registerItem(waste_qgp, "waste_qgp");
+
+        ItemZirnoxRodAletheia.registerFuelMap();
 
         spawn_maskman = new ItemChopper().setUnlocalizedName("spawn_maskman")
             .setMaxStackSize(1)

@@ -87,5 +87,14 @@ item.rbmk_pellet_rs3.name=Research RBMK Fuel Pellet T3
 item.rbmk_fuel_rs1.name=Research RBMK Fuel Rod T1
 item.rbmk_fuel_rs2.name=Research RBMK Fuel Rod T2
 item.rbmk_fuel_rs3.name=Research RBMK Fuel Rod T3
+item.rod_zirnox_digamma.name=ZIRNOX Digamma Rod
+item.rod_zirnox_digamma_depleted.name=Spent ZIRNOX Digamma Rod
+item.rod_zirnox_qgp.name=ZIRNOX QGP Rod
+item.rod_zirnox_qgp_depleted.name=Spent ZIRNOX QGP Rod
+item.rbmk_pellet_qgp_depleted.name=Spent QGP Fuel Slag
+item.rbmk_fuel_qgp.name=Quark-Gluon Plasma Fuel Rod
 item.spawn_maskman.name=Mask Man
+item.billet_qgp.name=QGP Fuel Billet
+item.waste_digamma.name=Digamma Fuel Waste
+item.waste_qgp.name=QGP Fuel Waste
 

@@ -1,5 +1,7 @@
 package com.pppopipupu.aletheia.machine.agrichemplant;
 
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -50,6 +52,15 @@ public class GUIMachineAgriChemicalPlant extends GuiInfoContainer {
             61,
             chemplant.power,
             chemplant.maxPower);
+
+        if (guiLeft + 26 <= mouseX && guiLeft + 26 + 36 > mouseX
+            && guiTop + 17 <= mouseY
+            && guiTop + 17 + 18 >= mouseY) {
+            List<String> info = this.getUpgradeInfo(chemplant);
+            if (info != null && !info.isEmpty()) {
+                this.drawInfo(info.toArray(new String[0]), mouseX, mouseY);
+            }
+        }
 
         if (guiLeft + 7 <= mouseX && guiLeft + 7 + 18 > mouseX
             && guiTop + 125 < mouseY
