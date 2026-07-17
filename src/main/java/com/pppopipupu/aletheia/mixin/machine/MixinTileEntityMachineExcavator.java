@@ -107,7 +107,7 @@ public abstract class MixinTileEntityMachineExcavator extends TileEntityMachineB
             int over = aletheia$overdriveSpeeds[upgradeManager.getLevel(UpgradeType.OVERDRIVE)];
             consumption = baseConsumption * (1 + speedLevel);
             consumption /= (1 + powerLevel);
-            consumption = (int) (consumption * Math.pow(0.5D, uCount));
+            consumption = (int) (consumption * ((IUpgradeManagerAccess) upgradeManager).aletheia$getPowerMult());
             if (!worldObj.isRemote) {
                 tank.setType(1, slots);
                 if (worldObj.getTotalWorldTime() % 20 == 0) {
@@ -132,7 +132,7 @@ public abstract class MixinTileEntityMachineExcavator extends TileEntityMachineB
                     power -= te.getPowerConsumption();
                     speed = te.getInstalledDrill().speed;
                     speed *= (1 + speedLevel / 2D) * over;
-                    int speedFactor = 1 + uCount * 4;
+                    int speedFactor = ((IUpgradeManagerAccess) upgradeManager).aletheia$getSpeedMult();
                     speed = speed * speedFactor;
                     int maxDepth = yCoord - 4;
                     if ((bedrockDrilling || targetDepth <= maxDepth) && tryDrill(1 + radiusLevel * 2)) {
@@ -145,7 +145,7 @@ public abstract class MixinTileEntityMachineExcavator extends TileEntityMachineB
                     targetDepth = 0;
                 }
                 if (chuteTimer > aletheia$prevChuteTimer) {
-                    int mult = 1 << uCount;
+                    int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
                     if (mult > 1) {
                         for (int s = 5; s <= 13; s++) {
                             if (slots[s] != null) {

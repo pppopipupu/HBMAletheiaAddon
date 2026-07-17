@@ -125,14 +125,11 @@ public class TileEntityMachineAgriChemicalPlant extends TileEntityMachineBase
             pow *= speedLevel + 1D;
             pow *= over;
 
-            int uCount = ((IUpgradeManagerAccess) upgradeManager).aletheia$getUltimateCount();
+            IUpgradeManagerAccess upgradeAccess = (IUpgradeManagerAccess) upgradeManager;
             ((IModuleMachineAccess) this.chemplantModule)
-                .aletheia$setHasUltimate(((IUpgradeManagerAccess) upgradeManager).aletheia$hasUltimate());
-            ((IModuleMachineAccess) this.chemplantModule).aletheia$setUltimateCount(uCount);
-            if (uCount > 0) {
-                speed = speed * (1.0D + uCount * 4.0D);
-                pow = pow * Math.pow(0.5D, uCount);
-            }
+                .aletheia$setProductionMult(upgradeAccess.aletheia$getProductionMult());
+            ((IModuleMachineAccess) this.chemplantModule).aletheia$setSpeedMult(upgradeAccess.aletheia$getSpeedMult());
+            ((IModuleMachineAccess) this.chemplantModule).aletheia$setPowerMult(upgradeAccess.aletheia$getPowerMult());
 
             this.chemplantModule.update(speed, pow, true, slots[1]);
             this.didProcess = this.chemplantModule.didProcess;

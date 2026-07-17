@@ -57,7 +57,7 @@ public abstract class MixinTileEntityMachineCentrifuge extends TileEntityMachine
                 return;
             }
 
-            int mult = 1 << uCount;
+            int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
             for (int i = 0; i < Math.min(4, out.length); i++) {
                 if (slots[i + 2] == null) continue;
 
@@ -78,7 +78,7 @@ public abstract class MixinTileEntityMachineCentrifuge extends TileEntityMachine
         int uCount = ((IUpgradeManagerAccess) upgradeManager).aletheia$getUltimateCount();
         if (uCount > 0) {
             ItemStack[] out = CentrifugeRecipes.getOutput(slots[0]);
-            int mult = 1 << uCount;
+            int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
 
             for (int i = 0; i < Math.min(4, out.length); i++) {
                 if (out[i] == null) continue;
@@ -130,8 +130,8 @@ public abstract class MixinTileEntityMachineCentrifuge extends TileEntityMachine
 
                 consumption /= (1 + upgradeManager.getLevel(UpgradeType.POWER));
 
-                speed = (speed + uCount * 4);
-                consumption = (int) (consumption * Math.pow(0.5D, uCount));
+                speed = (((IUpgradeManagerAccess) upgradeManager).aletheia$getSpeedMult() + (speed - 1));
+                consumption = (int) (consumption * ((IUpgradeManagerAccess) upgradeManager).aletheia$getPowerMult());
 
                 if (hasPower() && isProcessing()) {
                     this.power -= consumption;
@@ -152,7 +152,7 @@ public abstract class MixinTileEntityMachineCentrifuge extends TileEntityMachine
                         this.progress -= TileEntityMachineCentrifuge.processingSpeed;
 
                         ItemStack[] out = CentrifugeRecipes.getOutput(slots[0]);
-                        int mult = 1 << uCount;
+                        int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
                         for (int i = 0; i < Math.min(4, out.length); i++) {
                             if (out[i] == null) continue;
 

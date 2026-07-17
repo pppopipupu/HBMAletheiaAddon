@@ -11,8 +11,10 @@ import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.FluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.recipes.FuelPoolRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.CompatExternal;
@@ -108,10 +110,8 @@ public class Aletheia {
             AletheiaItems.rbmk_pellet_qgp_depleted,
             new HazardData().addEntry(HazardRegistry.RADIATION, 50000.0F)
                 .addEntry(HazardRegistry.DIGAMMA, 1000.0F));
-        HazardSystem.register(
-            AletheiaItems.rbmk_fuel_qgp,
-            new HazardData().addEntry(HazardRegistry.RADIATION, 5000.0F)
-                .addEntry(HazardRegistry.DIGAMMA, 100.0F));
+        HazardSystem
+            .register(AletheiaItems.rbmk_fuel_qgp, new HazardData().addEntry(HazardRegistry.RADIATION, 5000.0F));
         HazardSystem.register(
             ItemZirnoxRodAletheia.rod_zirnox_digamma_depleted,
             new HazardData().addEntry(HazardRegistry.RADIATION, 800.0F)
@@ -122,15 +122,10 @@ public class Aletheia {
                 .addEntry(HazardRegistry.DIGAMMA, 1500.0F));
         HazardSystem
             .register(AletheiaItems.rod_zirnox_digamma, new HazardData().addEntry(HazardRegistry.RADIATION, 250.0F));
-        HazardSystem.register(
-            AletheiaItems.rod_zirnox_qgp,
-            new HazardData().addEntry(HazardRegistry.RADIATION, 6000.0F)
-                .addEntry(HazardRegistry.DIGAMMA, 150.0F));
+        HazardSystem
+            .register(AletheiaItems.rod_zirnox_qgp, new HazardData().addEntry(HazardRegistry.RADIATION, 6000.0F));
 
-        HazardSystem.register(
-            AletheiaItems.billet_qgp,
-            new HazardData().addEntry(HazardRegistry.RADIATION, 15000.0F)
-                .addEntry(HazardRegistry.DIGAMMA, 375.0F));
+        HazardSystem.register(AletheiaItems.billet_qgp, new HazardData().addEntry(HazardRegistry.RADIATION, 15000.0F));
         HazardSystem.register(
             AletheiaItems.waste_digamma,
             new HazardData().addEntry(HazardRegistry.RADIATION, 400.0F)
@@ -139,6 +134,21 @@ public class Aletheia {
             AletheiaItems.waste_qgp,
             new HazardData().addEntry(HazardRegistry.RADIATION, 30000.0F)
                 .addEntry(HazardRegistry.DIGAMMA, 750.0F));
+
+        HazardSystem.register(
+            new ItemStack(ModItems.pwr_fuel, 1, 99),
+            new HazardData().addEntry(HazardRegistry.RADIATION, 6000.0F));
+        HazardSystem.register(
+            new ItemStack(ModItems.pwr_fuel_hot, 1, 99),
+            new HazardData().addEntry(HazardRegistry.RADIATION, 60000.0F)
+                .addEntry(HazardRegistry.DIGAMMA, 1500.0F));
+        HazardSystem.register(
+            new ItemStack(ModItems.pwr_fuel_depleted, 1, 99),
+            new HazardData().addEntry(HazardRegistry.RADIATION, 60000.0F)
+                .addEntry(HazardRegistry.DIGAMMA, 1500.0F));
+
+        FuelPoolRecipes.recipes
+            .put(new ComparableStack(ModItems.pwr_fuel_hot, 1, 99), new ItemStack(ModItems.pwr_fuel_depleted, 1, 99));
 
         AletheiaRecipes.registerForgeRecipes();
         AletheiaRecipesNtmcOverrides.register();

@@ -81,7 +81,7 @@ public abstract class MixinTileEntityMachineArcWelder extends TileEntityMachineB
                     return;
                 }
             }
-            int mult = 1 << uCount;
+            int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
             if (slots[3] != null) {
                 if (slots[3].getItem() != recipe.output.getItem()) {
                     cir.setReturnValue(false);
@@ -130,10 +130,11 @@ public abstract class MixinTileEntityMachineArcWelder extends TileEntityMachineB
                     processTime = recipe.duration * (4 - redLevel) / 4 / black;
                     consumption = recipe.consumption * (4 - blueLevel) / 4 * (redLevel + 1) * black;
                     intendedMaxPower = recipe.consumption * 20 * black;
-                    double powerFactor = Math.pow(0.5D, uCount);
+                    double powerFactor = ((IUpgradeManagerAccess) upgradeManager).aletheia$getPowerMult();
                     consumption = (long) (consumption * powerFactor);
-                    intendedMaxPower = intendedMaxPower * (1 + uCount * 4);
-                    int speedFactor = 1 + uCount * 4;
+                    intendedMaxPower = intendedMaxPower
+                        * (((IUpgradeManagerAccess) upgradeManager).aletheia$getSpeedMult());
+                    int speedFactor = ((IUpgradeManagerAccess) upgradeManager).aletheia$getSpeedMult();
                     for (int i = 0; i < speedFactor; i++) {
                         if (te.canProcess(recipe)) {
                             progress++;
@@ -141,7 +142,7 @@ public abstract class MixinTileEntityMachineArcWelder extends TileEntityMachineB
                             if (progress >= processTime) {
                                 progress = 0;
                                 te.consumeItems(recipe);
-                                int mult = 1 << uCount;
+                                int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
                                 if (slots[3] == null) {
                                     slots[3] = recipe.output.copy();
                                     slots[3].stackSize *= mult;

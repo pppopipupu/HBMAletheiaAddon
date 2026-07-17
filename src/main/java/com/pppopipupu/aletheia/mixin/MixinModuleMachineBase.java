@@ -57,8 +57,10 @@ public abstract class MixinModuleMachineBase implements IModuleMachineAccess {
     @Shadow
     public abstract boolean canProcess(GenericRecipe recipe, double speed, double power);
 
-    public boolean hasUltimate = false;
     public int ultimateCount = 0;
+    public int aletheia$productionMult = 1;
+    public int aletheia$speedMult = 1;
+    public double aletheia$powerMult = 1.0D;
 
     @Override
     public void aletheia$setUltimateCount(int count) {
@@ -66,8 +68,18 @@ public abstract class MixinModuleMachineBase implements IModuleMachineAccess {
     }
 
     @Override
-    public void aletheia$setHasUltimate(boolean hasUltimate) {
-        this.hasUltimate = hasUltimate;
+    public void aletheia$setProductionMult(int mult) {
+        this.aletheia$productionMult = mult;
+    }
+
+    @Override
+    public void aletheia$setSpeedMult(int mult) {
+        this.aletheia$speedMult = mult;
+    }
+
+    @Override
+    public void aletheia$setPowerMult(double mult) {
+        this.aletheia$powerMult = mult;
     }
 
     @Override
@@ -76,8 +88,18 @@ public abstract class MixinModuleMachineBase implements IModuleMachineAccess {
     }
 
     @Override
-    public boolean aletheia$hasUltimate() {
-        return this.hasUltimate;
+    public int aletheia$getProductionMult() {
+        return this.aletheia$productionMult;
+    }
+
+    @Override
+    public int aletheia$getSpeedMult() {
+        return this.aletheia$speedMult;
+    }
+
+    @Override
+    public double aletheia$getPowerMult() {
+        return this.aletheia$powerMult;
     }
 
     private Field aletheia$cachedField = null;
@@ -97,6 +119,17 @@ public abstract class MixinModuleMachineBase implements IModuleMachineAccess {
     }
 
     private int aletheia$processCount = 0;
+
+    private Object aletheia$getUpgradeManager() {
+        try {
+            if (aletheia$cachedField == null) {
+                aletheia$cachedField = this.battery.getClass()
+                    .getField("upgradeManager");
+            }
+            return aletheia$cachedField.get(this.battery);
+        } catch (Exception e) {}
+        return null;
+    }
 
     private int aletheia$findMultiplier(GenericRecipe recipe) {
         int count = 50;
@@ -124,7 +157,7 @@ public abstract class MixinModuleMachineBase implements IModuleMachineAccess {
     }
 
     private int aletheia$fitOutput(GenericRecipe recipe, int count) {
-        int factor = 1 << this.ultimateCount;
+        int factor = this.aletheia$getProductionMult();
         if (recipe.outputItem != null) {
             for (int i = 0; i < Math.min(recipe.outputItem.length, this.outputSlots.length); i++) {
                 ItemStack stack = this.slots[this.outputSlots[i]];
@@ -171,12 +204,12 @@ public abstract class MixinModuleMachineBase implements IModuleMachineAccess {
     }
 
     private void aletheia$produceItem(GenericRecipe recipe, int multi) {
-        int mult = multi * (1 << this.ultimateCount);
+        int mult = multi * this.aletheia$getProductionMult();
         if (recipe.outputItem != null) {
             for (int i = 0; i < Math.min(recipe.outputItem.length, this.outputSlots.length); i++) {
                 ItemStack collapse = recipe.outputItem[i].collapse();
                 if (collapse != null) {
-                    collapse.stackSize *= (1 << this.ultimateCount);
+                    collapse.stackSize *= this.aletheia$getProductionMult();
                     collapse.stackSize *= multi;
                     if (this.slots[this.outputSlots[i]] == null) {
                         this.slots[this.outputSlots[i]] = collapse;
@@ -240,16 +273,18 @@ public abstract class MixinModuleMachineBase implements IModuleMachineAccess {
     private void aletheia$process(GenericRecipe recipe, double speed, double power, CallbackInfo ci) {
         int uCount = aletheia$getUltimateCountFromBattery();
         this.ultimateCount = uCount;
-        this.hasUltimate = uCount > 0;
         if (uCount > 0) {
+            IUpgradeManagerAccess upgrade = (IUpgradeManagerAccess) aletheia$getUpgradeManager();
+            int speedMult = upgrade.aletheia$getSpeedMult();
+            double powerMult = upgrade.aletheia$getPowerMult();
             String name = this.battery.getClass()
                 .getSimpleName();
             if (name.contains("Factory")) {
-                speed = speed * (1.0D + uCount * 1.5D);
-                power = power * Math.pow(0.25D, uCount);
+                speed = speed * (1.0D + (speedMult - 1) * 0.375D);
+                power = power * Math.pow(powerMult, 2.0D);
             } else {
-                speed = speed * (1.0D + uCount * 4.0D);
-                power = power * Math.pow(0.5D, uCount);
+                speed = speed * speedMult;
+                power = power * powerMult;
             }
         }
         if (this.restrictedMode) speed *= 0.25;
@@ -271,7 +306,7 @@ public abstract class MixinModuleMachineBase implements IModuleMachineAccess {
 
     @Inject(method = "canFitOutput", at = @At("HEAD"), cancellable = true)
     private void aletheia$canFitOutput(GenericRecipe recipe, CallbackInfoReturnable<Boolean> cir) {
-        int factor = 1 << this.ultimateCount;
+        int factor = this.aletheia$getProductionMult();
         if (recipe.outputItem != null) {
             for (int i = 0; i < Math.min(recipe.outputItem.length, this.outputSlots.length); i++) {
                 ItemStack stack = this.slots[this.outputSlots[i]];

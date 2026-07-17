@@ -134,8 +134,10 @@ public abstract class MixinTileEntityMachineMiningLaser extends TileEntityMachin
                     int consumption = TileEntityMachineMiningLaser.consumption
                         - (TileEntityMachineMiningLaser.consumption * upgradeManager.getLevel(UpgradeType.POWER) / 16)
                         + (TileEntityMachineMiningLaser.consumption * upgradeManager.getLevel(UpgradeType.SPEED) / 16);
-                    cycles = cycles == 1 ? (1 + uCount * 4) : (cycles + uCount * 4);
-                    consumption = (int) (consumption * Math.pow(0.5D, uCount));
+                    int speedMult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getSpeedMult();
+                    cycles = speedMult == 1 ? 1 : speedMult + (cycles - 1);
+                    consumption = (int) (consumption
+                        * ((IUpgradeManagerAccess) upgradeManager).aletheia$getPowerMult());
                     for (int i = 0; i < cycles; i++) {
                         if (power < consumption) {
                             beam = false;

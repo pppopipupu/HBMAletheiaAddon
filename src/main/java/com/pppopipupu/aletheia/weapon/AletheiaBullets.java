@@ -1,5 +1,8 @@
 package com.pppopipupu.aletheia.weapon;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.world.World;
+
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.explosion.ExplosionLarge;
@@ -28,8 +31,7 @@ public class AletheiaBullets {
                     int x = (int) Math.floor(bullet.posX);
                     int y = (int) Math.floor(bullet.posY);
                     int z = (int) Math.floor(bullet.posZ);
-                    ExplosionLarge
-                        .explode(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ, 5.0F, true, false, false);
+                    explodeZOMG(bullet.worldObj, x, y, z, 5);
                     bullet.worldObj
                         .playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "hbm:entity.bombDet", 5.0F, 1.0F);
                     ExplosionLarge.spawnParticles(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ, 5);
@@ -104,5 +106,28 @@ public class AletheiaBullets {
                 }
             })
             .setDamage(0F);
+    }
+
+    public static void explodeZOMG(World world, int x, int y, int z, int bombStartStrength) {
+        int r = bombStartStrength;
+        int r2 = r * r;
+        int r22 = r2 / 2;
+        for (int xx = -r; xx < r; xx++) {
+            int X = xx + x;
+            int XX = xx * xx;
+            for (int yy = -r; yy < r; yy++) {
+                int Y = yy + y;
+                int YY = XX + yy * yy;
+                for (int zz = -r; zz < r; zz++) {
+                    int Z = zz + z;
+                    int ZZ = YY + zz * zz;
+                    if (ZZ < r22) {
+                        if (!(world.getBlock(X, Y, Z) == Blocks.bedrock && Y <= 0)) {
+                            world.setBlock(X, Y, Z, Blocks.air);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

@@ -137,10 +137,10 @@ public abstract class MixinTileEntityElectrolyser extends TileEntityMachineBase
                 this.processFluidTime = this.processFluidTime * ((4 - speedLevel) / 4);
 
                 int count = aletheia$OverdriveSpeeds[overLevel];
-                usageOre = (int) (usageOre * Math.pow(0.5D, uCount));
-                usageFluid = (int) (usageFluid * Math.pow(0.5D, uCount));
-                this.aletheia$updateDuration();
-                count = count == 1 ? (1 + uCount * 4) : (count + uCount * 4);
+                usageOre = (int) (usageOre * ((IUpgradeManagerAccess) upgradeManager).aletheia$getPowerMult());
+                usageFluid = (int) (usageFluid * ((IUpgradeManagerAccess) upgradeManager).aletheia$getPowerMult());
+                count = count == 1 ? ((IUpgradeManagerAccess) upgradeManager).aletheia$getSpeedMult()
+                    : (count + ((IUpgradeManagerAccess) upgradeManager).aletheia$getSpeedMult() - 1);
 
                 for (int i = 0; i < count; i++) {
                     if (te.canProcessFluid()) {
@@ -152,7 +152,7 @@ public abstract class MixinTileEntityElectrolyser extends TileEntityMachineBase
                             tanks[0].setFill(tanks[0].getFill() - recipe.amount);
                             tanks[1].setTankType(recipe.output1.type);
                             tanks[2].setTankType(recipe.output2.type);
-                            int mult = 1 << uCount;
+                            int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
                             tanks[1].setFill(tanks[1].getFill() + recipe.output1.fill * mult);
                             tanks[2].setFill(tanks[2].getFill() + recipe.output2.fill * mult);
 
@@ -179,7 +179,7 @@ public abstract class MixinTileEntityElectrolyser extends TileEntityMachineBase
 
                         if (this.progressOre >= this.processOreTime) {
                             ElectrolysisMetalRecipe recipe = ElectrolyserMetalRecipes.getRecipe(slots[14]);
-                            int mult = 1 << uCount;
+                            int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
                             if (recipe.output1 != null) {
                                 if (leftStack == null) {
                                     leftStack = new MaterialStack(
@@ -241,7 +241,9 @@ public abstract class MixinTileEntityElectrolyser extends TileEntityMachineBase
                         6,
                         true,
                         toCast,
-                        MaterialShapes.INGOT.q(overLevel > 0 ? overLevel * 3 : 1),
+                        MaterialShapes.INGOT.q(
+                            (overLevel > 0 ? overLevel * 3 : 1)
+                                * ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult()),
                         impact);
 
                     if (didPour != null) {
@@ -283,7 +285,9 @@ public abstract class MixinTileEntityElectrolyser extends TileEntityMachineBase
                         6,
                         true,
                         toCast,
-                        MaterialShapes.INGOT.q(overLevel > 0 ? overLevel * 3 : 1),
+                        MaterialShapes.INGOT.q(
+                            (overLevel > 0 ? overLevel * 3 : 1)
+                                * ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult()),
                         impact);
 
                     if (didPour != null) {
@@ -334,14 +338,14 @@ public abstract class MixinTileEntityElectrolyser extends TileEntityMachineBase
                 cir.setReturnValue(false);
                 return;
             }
-            int mult = 1 << uCount;
+            int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
             if (recipe.output1.type == tanks[1].getTankType()
-                && recipe.output1.fill * mult + tanks[1].getFill() > tanks[1].getMaxFill()) {
+                && recipe.output1.fill + tanks[1].getFill() > tanks[1].getMaxFill()) {
                 cir.setReturnValue(false);
                 return;
             }
             if (recipe.output2.type == tanks[2].getTankType()
-                && recipe.output2.fill * mult + tanks[2].getFill() > tanks[2].getMaxFill()) {
+                && recipe.output2.fill + tanks[2].getFill() > tanks[2].getMaxFill()) {
                 cir.setReturnValue(false);
                 return;
             }
@@ -388,13 +392,13 @@ public abstract class MixinTileEntityElectrolyser extends TileEntityMachineBase
                 return;
             }
 
-            int mult = 1 << uCount;
+            int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
             if (leftStack != null && recipe.output1 != null) {
                 if (recipe.output1.material != leftStack.material) {
                     cir.setReturnValue(false);
                     return;
                 }
-                if (recipe.output1.amount * mult + leftStack.amount > this.maxMaterial) {
+                if (recipe.output1.amount + leftStack.amount > this.maxMaterial) {
                     cir.setReturnValue(false);
                     return;
                 }
@@ -405,7 +409,7 @@ public abstract class MixinTileEntityElectrolyser extends TileEntityMachineBase
                     cir.setReturnValue(false);
                     return;
                 }
-                if (recipe.output2.amount * mult + rightStack.amount > this.maxMaterial) {
+                if (recipe.output2.amount + rightStack.amount > this.maxMaterial) {
                     cir.setReturnValue(false);
                     return;
                 }

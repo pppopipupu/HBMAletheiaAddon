@@ -33,7 +33,8 @@
     "MixinTileEntityPWRController",
     "MixinMainRegistry",
     "MixinSerializableRecipe",
-    "MixinEntityDisperserCanister"
+    "MixinEntityDisperserCanister",
+    "MixinItemPWRFuel"
   ],
   "client": [
     "MixinRenderFluidTank",

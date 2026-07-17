@@ -94,6 +94,19 @@ public class AletheiaRecipesNtmcWorkbench {
                 AletheiaItems.billet_qgp));
 
         GameRegistry.addRecipe(
+            new ShapedOreRecipe(
+                new ItemStack(ModItems.pwr_fuel, 1, 99),
+                "NFN",
+                "NIN",
+                "NFN",
+                'F',
+                AletheiaItems.billet_qgp,
+                'I',
+                ModItems.plate_polymer,
+                'N',
+                ModItems.nugget_uranium_fuel));
+
+        GameRegistry.addRecipe(
             new ShapelessOreRecipe(
                 new ItemStack(AletheiaItems.waste_digamma, 2, 1),
                 ItemZirnoxRodAletheia.rod_zirnox_digamma_depleted));

@@ -103,7 +103,7 @@ public abstract class MixinTileEntityMachineMixer extends TileEntityMachineBase 
                 cir.setReturnValue(false);
                 return;
             }
-            int mult = 1 << uCount;
+            int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
             if (recipe.output * mult + tanks[2].getFill() > tanks[2].getMaxFill()) {
                 cir.setReturnValue(false);
                 return;
@@ -134,7 +134,7 @@ public abstract class MixinTileEntityMachineMixer extends TileEntityMachineBase 
             if (recipe.input2 != null) tanks[1].setFill(tanks[1].getFill() - recipe.input2.fill);
             if (recipe.solidInput != null)
                 ((TileEntityMachineMixer) (Object) this).decrStackSize(1, recipe.solidInput.stacksize);
-            int mult = 1 << uCount;
+            int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
             tanks[2].setFill(tanks[2].getFill() + recipe.output * mult);
             ci.cancel();
         }
@@ -155,7 +155,8 @@ public abstract class MixinTileEntityMachineMixer extends TileEntityMachineBase 
                 this.consumption += speedLevel * 150;
                 this.consumption -= this.consumption * powerLevel / 4;
                 this.consumption *= over;
-                this.consumption = (int) (this.consumption * Math.pow(0.5D, uCount));
+                this.consumption = (int) (this.consumption
+                    * ((IUpgradeManagerAccess) upgradeManager).aletheia$getPowerMult());
                 for (DirPos pos : getConPos()) {
                     this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
                     if (tanks[0].getTankType() != Fluids.NONE) ((IFluidReceiverMK2) this).trySubscribe(
@@ -175,7 +176,7 @@ public abstract class MixinTileEntityMachineMixer extends TileEntityMachineBase 
                 }
                 wasOn = ((TileEntityMachineMixer) (Object) this).canProcess();
                 if (wasOn) {
-                    int speedFactor = 1 + uCount * 4;
+                    int speedFactor = ((IUpgradeManagerAccess) upgradeManager).aletheia$getSpeedMult();
                     for (int i = 0; i < speedFactor; i++) {
                         if (((TileEntityMachineMixer) (Object) this).canProcess()) {
                             progress++;
@@ -188,7 +189,7 @@ public abstract class MixinTileEntityMachineMixer extends TileEntityMachineBase 
                                 if (recipe.input2 != null) tanks[1].setFill(tanks[1].getFill() - recipe.input2.fill);
                                 if (recipe.solidInput != null) ((TileEntityMachineMixer) (Object) this)
                                     .decrStackSize(1, recipe.solidInput.stacksize);
-                                int mult = 1 << uCount;
+                                int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
                                 tanks[2].setFill(tanks[2].getFill() + recipe.output * mult);
                                 markDirty();
                             }

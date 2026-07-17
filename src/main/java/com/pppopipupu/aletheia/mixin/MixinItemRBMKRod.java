@@ -19,9 +19,19 @@ import com.hbm.items.machine.ItemRBMKRod;
 import com.hbm.items.machine.ItemRBMKRod.EnumBurnFunc;
 import com.hbm.tileentity.machine.rbmk.IRBMKFluxReceiver.NType;
 import com.hbm.util.i18n.I18nUtil;
+import com.pppopipupu.aletheia.item.ItemRBMKFuelQGP;
 
 @Mixin(value = ItemRBMKRod.class, remap = false)
 public class MixinItemRBMKRod {
+
+    @Inject(method = "reactivityFunc", at = @At("HEAD"), cancellable = true)
+    private void aletheia$reactivityFunc(double in, double enrichment, CallbackInfoReturnable<Double> cir) {
+        if ((Object) this instanceof ItemRBMKFuelQGP) {
+            double flux = in * reactivityModByEnrichment(enrichment);
+            double result = Math.pow(1.02, flux) * reactivity;
+            cir.setReturnValue(result);
+        }
+    }
 
     @Shadow(remap = false)
     public double heat;
@@ -109,7 +119,13 @@ public class MixinItemRBMKRod {
         list.add(
             EnumChatFormatting.YELLOW + I18nUtil
                 .resolveKey("trait.rbmx.fluxFunc", EnumChatFormatting.WHITE + aletheia$getFuncDescription(stack)));
-        list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.funcType", this.function.title));
+        if ((Object) this instanceof ItemRBMKFuelQGP) {
+            list.add(
+                EnumChatFormatting.YELLOW
+                    + I18nUtil.resolveKey("trait.rbmx.funcType", EnumChatFormatting.RED + "EXPONENTIAL"));
+        } else {
+            list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.funcType", this.function.title));
+        }
         list.add(
             EnumChatFormatting.YELLOW
                 + I18nUtil.resolveKey("trait.rbmx.xenonGen", EnumChatFormatting.WHITE + "x * " + xGen));
@@ -130,6 +146,31 @@ public class MixinItemRBMKRod {
     }
 
     private String aletheia$getFuncDescription(ItemStack stack) {
+        if ((Object) this instanceof ItemRBMKFuelQGP) {
+            double enrichment = getEnrichment(stack);
+            String reactivityStr = "" + this.reactivity;
+            if (enrichment < 1) {
+                enrichment = reactivityModByEnrichment(enrichment);
+                String enrichmentMod = "" + ((int) (enrichment * 1000D) / 1000D);
+                String efficiencyPer = EnumChatFormatting.GOLD + " (" + ((int) ((1.0D) * 1000D) / 10D) + "%)";
+                String flux = selfRate > 0
+                    ? "(x" + EnumChatFormatting.RED + " + " + selfRate + EnumChatFormatting.WHITE + ")"
+                    : "x";
+                return String
+                    .format(
+                        Locale.US,
+                        "1.02^(%s " + EnumChatFormatting.YELLOW + "* %s" + EnumChatFormatting.WHITE + ") * %s",
+                        flux,
+                        enrichmentMod,
+                        reactivityStr)
+                    .concat(efficiencyPer);
+            } else {
+                String flux = selfRate > 0
+                    ? "(x" + EnumChatFormatting.RED + " + " + selfRate + EnumChatFormatting.WHITE + ")"
+                    : "x";
+                return String.format(Locale.US, "1.02^%s * %s", flux, reactivityStr);
+            }
+        }
         String function;
 
         switch (this.function) {

@@ -102,8 +102,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
     }
 
     public boolean canProcess() {
-        int uCount = ((IUpgradeManagerAccess) upgradeManager).aletheia$getUltimateCount();
-        int mult = 1 << uCount;
+        int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
         return power >= consumption && slots[0] != null
             && MachineRecipes.mODE(slots[0], OreDictManager.U.ingot())
             && (slots[1] == null || (slots[1].getItem() == VersatileConfig.getTransmutatorItem()
@@ -127,8 +126,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
                 slots[0] = null;
             }
 
-            int uCount = ((IUpgradeManagerAccess) upgradeManager).aletheia$getUltimateCount();
-            int mult = 1 << uCount;
+            int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
             if (slots[1] == null) {
                 slots[1] = new ItemStack(VersatileConfig.getTransmutatorItem(), mult);
             } else {

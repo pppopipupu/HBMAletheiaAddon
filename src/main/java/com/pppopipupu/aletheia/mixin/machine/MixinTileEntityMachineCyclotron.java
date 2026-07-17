@@ -70,7 +70,7 @@ public abstract class MixinTileEntityMachineCyclotron extends TileEntityMachineB
                 cir.setReturnValue(false);
                 return;
             }
-            int mult = 1 << uCount;
+            int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
             for (int i = 0; i < 3; i++) {
                 Object[] res = CyclotronRecipes.getOutput(slots[i + 3], slots[i]);
                 if (res == null) continue;
@@ -95,7 +95,7 @@ public abstract class MixinTileEntityMachineCyclotron extends TileEntityMachineB
         int uCount = ((IUpgradeManagerAccess) upgradeManager).aletheia$getUltimateCount();
         if (uCount > 0) {
             TileEntityMachineCyclotron te = (TileEntityMachineCyclotron) (Object) this;
-            int mult = 1 << uCount;
+            int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
             for (int i = 0; i < 3; i++) {
                 Object[] res = CyclotronRecipes.getOutput(slots[i + 3], slots[i]);
                 if (res == null) continue;
@@ -129,7 +129,9 @@ public abstract class MixinTileEntityMachineCyclotron extends TileEntityMachineB
         int uCount = ((IUpgradeManagerAccess) this.upgradeManager).aletheia$getUltimateCount();
         if (uCount > 0) {
             int speed = cir.getReturnValue();
-            cir.setReturnValue(speed == 1 ? (1 + uCount * 4) : (speed + uCount * 4));
+            cir.setReturnValue(
+                speed == 1 ? (((IUpgradeManagerAccess) upgradeManager).aletheia$getSpeedMult())
+                    : (((IUpgradeManagerAccess) upgradeManager).aletheia$getSpeedMult() + (speed - 1)));
         }
     }
 
@@ -137,7 +139,8 @@ public abstract class MixinTileEntityMachineCyclotron extends TileEntityMachineB
     private void aletheia$getConsumption(CallbackInfoReturnable<Integer> cir) {
         int uCount = ((IUpgradeManagerAccess) this.upgradeManager).aletheia$getUltimateCount();
         if (uCount > 0) {
-            cir.setReturnValue((int) (cir.getReturnValue() * Math.pow(0.5D, uCount)));
+            cir.setReturnValue(
+                (int) (cir.getReturnValue() * ((IUpgradeManagerAccess) upgradeManager).aletheia$getPowerMult()));
         }
     }
 
@@ -145,7 +148,8 @@ public abstract class MixinTileEntityMachineCyclotron extends TileEntityMachineB
     private void aletheia$getCoolantConsumption(CallbackInfoReturnable<Integer> cir) {
         int uCount = ((IUpgradeManagerAccess) this.upgradeManager).aletheia$getUltimateCount();
         if (uCount > 0) {
-            cir.setReturnValue((int) (cir.getReturnValue() * Math.pow(0.5D, uCount)));
+            cir.setReturnValue(
+                (int) (cir.getReturnValue() * ((IUpgradeManagerAccess) upgradeManager).aletheia$getPowerMult()));
         }
     }
 

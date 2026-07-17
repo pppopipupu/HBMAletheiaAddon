@@ -13,6 +13,7 @@ public class AletheiaAchievements {
     public static Achievement achievementGlyphidHatch;
     public static Achievement achievementGlyphidHatchUnexpected;
     public static Achievement achievementAmsBase;
+    public static Achievement achievementPPPOP;
 
     public static void init() {
         achievementGlyphidHatch = new Achievement(
@@ -41,11 +42,21 @@ public class AletheiaAchievements {
             achievementGlyphidHatch).initIndependentStat()
                 .setSpecial()
                 .registerStat();
+        achievementPPPOP = new Achievement(
+            "achievement.pppop",
+            "pppop",
+            6,
+            0,
+            new ItemStack(AletheiaItems.gun_pppop),
+            null).initIndependentStat()
+                .setSpecial()
+                .registerStat();
         AchievementPage.registerAchievementPage(
             new AchievementPage(
                 "Aletheia",
                 achievementGlyphidHatch,
                 achievementGlyphidHatchUnexpected,
-                achievementAmsBase));
+                achievementAmsBase,
+                achievementPPPOP));
     }
 }

@@ -1,5 +1,19 @@
 # 更新日志 / Changelog
 
+## 1.4.0
+### 新增 Added
+- 移植并实现锆诺克斯（Zirnox）反应堆对夸克-胶子等离子体（QGP）燃料棒与迪伽马（Digamma）燃料棒的支持。
+- 注册 QGP 燃料棒、迪伽马燃料棒、RBMK QGP 燃料元件等物品及其对应的枯竭（Depleted）状态。
+- 新增 QGP 及迪伽马相关的化学加工、PUREX 后处理与工作台合成配方。
+- 引入 QGP 与迪伽马燃料棒的着色器（`qgp_column.frag`、`qgp_rod.frag`、`zirnox_digamma.frag`、`zirnox_digamma_column.frag`）与贴图资产。
+
+### 更改 Changed
+- 升级前置依赖 `HBM SPACE` 版本至 `1.0.27_X5758_H261`。
+- 升级 DecayLib 依赖至 `1.1.3`（支持变质 tooltip 根据剩余 tick 数量自适应组装天与小时显示）。
+
+### 修复 Fixed
+- 修复锆诺克斯堆插入 QGP 或迪伽马燃料棒时特殊渲染损坏导致透明或世界渲染崩坏的 Bug。重构使其继承 `RenderZirnox` 以绘制本体模型，并规范了特殊光柱在绘制时的 OpenGL 状态（包含主纹理 `GL_TEXTURE_2D` 的关闭与恢复，以及混合 `GL_BLEND` 的配对清理）。
+
 ## 1.3.0
 ### 新增 Added
 - 新增 NTMC 配方移植模块 `com.pppopipupu.aletheia.recipe.ntmc`，从 NTMC 源码逐字移植其更新日志中的配方改动，作为 Aletheia 对 HBM SPACE 的覆盖层（不删除任何既有配方）。

@@ -1,6 +1,7 @@
 package com.pppopipupu.aletheia.item;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -26,8 +27,10 @@ import com.hbm.items.weapon.sedna.factory.XFactoryEnergy;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.rbmk.IRBMKFluxReceiver.NType;
+import com.pppopipupu.aletheia.AletheiaCommonEventHandler;
 import com.pppopipupu.aletheia.block.AletheiaBlocks;
 import com.pppopipupu.aletheia.fluid.AletheiaFluids;
+import com.pppopipupu.aletheia.stats.AletheiaAchievements;
 import com.pppopipupu.aletheia.weapon.AletheiaBullets;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -188,6 +191,10 @@ public class AletheiaItems {
                             String snd = (currentBullet == AletheiaBullets.energy_pppop) ? "aletheia:weapon.zomgShoot"
                                 : "aletheia:weapon.osiprShoot";
                             entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, snd, 1.0F, 1.0F);
+                            if (entity instanceof EntityPlayer) {
+                                AletheiaCommonEventHandler
+                                    .grantAchievement((EntityPlayer) entity, AletheiaAchievements.achievementPPPOP);
+                            }
                         })
                         .recoil(XFactoryEnergy.LAMBDA_RECOIL_ENERGY))
                 .setupStandardConfiguration()

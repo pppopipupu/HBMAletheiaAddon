@@ -4,5 +4,9 @@ public interface IUpgradeManagerAccess {
 
     int aletheia$getUltimateCount();
 
-    boolean aletheia$hasUltimate();
+    int aletheia$getProductionMult();
+
+    int aletheia$getSpeedMult();
+
+    double aletheia$getPowerMult();
 }

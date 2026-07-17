@@ -60,6 +60,8 @@ achievement.glyphid_hatch_unexpected=Unexpected Guests
 achievement.glyphid_hatch_unexpected.desc=A Glyphid hatched inside a container or machine!
 achievement.amsBase=Project Aletheia
 achievement.amsBase.desc=Omega.
+achievement.pppop=DICK-POWERED SINGULARITY CANNON CAN DESTROY EVERYTHING
+achievement.pppop.desc=Don't ask where it gets its energy from.
 
 item.ingot_sodium.name=Sodium Ingot
 item.ingot_strontium.name=Strontium Ingot
@@ -97,4 +99,7 @@ item.spawn_maskman.name=Mask Man
 item.billet_qgp.name=QGP Fuel Billet
 item.waste_digamma.name=Digamma Fuel Waste
 item.waste_qgp.name=QGP Fuel Waste
+item.pwr_fuel.qgp.name=QGP PWR Fuel Rod
+item.pwr_fuel_hot.qgp.name=Hot QGP PWR Fuel Rod
+item.pwr_fuel_depleted.qgp.name=Spent QGP PWR Fuel Rod
 

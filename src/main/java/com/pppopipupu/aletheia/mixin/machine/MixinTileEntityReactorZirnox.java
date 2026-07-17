@@ -2,6 +2,7 @@ package com.pppopipupu.aletheia.mixin.machine;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 
@@ -14,7 +15,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.hbm.hazard.HazardSystem;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemZirnoxRod;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.TileEntityReactorZirnox;
@@ -38,6 +41,9 @@ public abstract class MixinTileEntityReactorZirnox extends TileEntityMachineBase
     public FluidTank steam;
     @Shadow
     protected int output;
+
+    @Shadow
+    abstract int getNeighbourCount(int id);
 
     private ItemZirnoxRodAletheia.EnumZirnoxAletheiaType aletheia$type(int id) {
         ItemStack stack = slots[id];
@@ -66,48 +72,26 @@ public abstract class MixinTileEntityReactorZirnox extends TileEntityMachineBase
         return aletheia$rodMode;
     }
 
-    @Redirect(
-        method = "decay",
-        at = @At(
-            value = "FIELD",
-            target = "Lcom/hbm/items/machine/ItemZirnoxRod$EnumZirnoxType;heat:I",
-            opcode = org.objectweb.asm.Opcodes.GETFIELD))
-    private int aletheia$heat(ItemZirnoxRod.EnumZirnoxType num, int id) {
-        ItemZirnoxRodAletheia.EnumZirnoxAletheiaType t = aletheia$type(id);
-        return t != null ? t.heat : num.heat;
-    }
+    @Inject(method = "decay", at = @At("HEAD"), cancellable = true)
+    private void aletheia$decay(int id, CallbackInfo ci) {
+        ItemStack stack = slots[id];
+        if (ItemZirnoxRodAletheia.isAletheiaRod(stack)) {
+            ItemZirnoxRodAletheia.EnumZirnoxAletheiaType t = ((ItemZirnoxRodAletheia) stack.getItem()).getType();
+            int decay = getNeighbourCount(id);
+            decay++;
 
-    @Redirect(
-        method = "decay",
-        at = @At(
-            value = "FIELD",
-            target = "Lcom/hbm/items/machine/ItemZirnoxRod$EnumZirnoxType;maxLife:I",
-            opcode = org.objectweb.asm.Opcodes.GETFIELD))
-    private int aletheia$maxLife(ItemZirnoxRod.EnumZirnoxType num, int id) {
-        ItemZirnoxRodAletheia.EnumZirnoxAletheiaType t = aletheia$type(id);
-        return t != null ? t.maxLife : num.maxLife;
-    }
+            for (int i = 0; i < decay; i++) {
+                this.heat += t.heat;
+                ItemZirnoxRod.incrementLifeTime(stack);
 
-    @Redirect(
-        method = "decay",
-        at = @At(
-            value = "FIELD",
-            target = "Lcom/hbm/items/machine/ItemZirnoxRod$EnumZirnoxType;breeding:Z",
-            opcode = org.objectweb.asm.Opcodes.GETFIELD))
-    private boolean aletheia$breedingDecay(ItemZirnoxRod.EnumZirnoxType num, int id) {
-        ItemZirnoxRodAletheia.EnumZirnoxAletheiaType t = aletheia$type(id);
-        return t != null ? false : num.breeding;
-    }
-
-    @Redirect(
-        method = "hasFuelRod",
-        at = @At(
-            value = "FIELD",
-            target = "Lcom/hbm/items/machine/ItemZirnoxRod$EnumZirnoxType;breeding:Z",
-            opcode = org.objectweb.asm.Opcodes.GETFIELD))
-    private boolean aletheia$breedingHasFuel(ItemZirnoxRod.EnumZirnoxType num, int id) {
-        ItemZirnoxRodAletheia.EnumZirnoxAletheiaType t = aletheia$type(id);
-        return t != null ? false : num.breeding;
+                if (ItemZirnoxRod.getLifeTime(stack) > t.maxLife) {
+                    slots[id] = TileEntityReactorZirnox.fuelMap.get(new ComparableStack(getStackInSlot(id)))
+                        .copy();
+                    break;
+                }
+            }
+            ci.cancel();
+        }
     }
 
     @Inject(method = "isItemValidForSlot", at = @At("HEAD"), cancellable = true)
@@ -175,5 +159,16 @@ public abstract class MixinTileEntityReactorZirnox extends TileEntityMachineBase
     @Inject(method = "deserialize", at = @At("RETURN"))
     private void aletheia$deserialize(ByteBuf buf, CallbackInfo ci) {
         aletheia$rodMode = buf.readByte();
+    }
+
+    @Redirect(
+        method = "updateEntity",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
+    private Item aletheia$dummyGetItem(ItemStack stack) {
+        Item item = stack.getItem();
+        if (item instanceof ItemZirnoxRodAletheia) {
+            return ModItems.rod_zirnox;
+        }
+        return item;
     }
 }

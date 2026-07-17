@@ -96,7 +96,7 @@ public abstract class MixinTileEntityMachineCrystallizer extends TileEntityMachi
                 cir.setReturnValue(false);
                 return;
             }
-            int mult = 1 << uCount;
+            int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
             if (slots[2] != null && (slots[2].getItem() != result.output.getItem()
                 || slots[2].getItemDamage() != result.output.getItemDamage())) {
                 cir.setReturnValue(false);
@@ -117,7 +117,7 @@ public abstract class MixinTileEntityMachineCrystallizer extends TileEntityMachi
             CrystallizerRecipe result = CrystallizerRecipes.getOutput(slots[0], tank.getTankType());
             if (result == null) return;
             ItemStack stack = result.output.copy();
-            int mult = 1 << uCount;
+            int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
             stack.stackSize *= mult;
             if (slots[2] == null) {
                 slots[2] = stack;
@@ -146,9 +146,10 @@ public abstract class MixinTileEntityMachineCrystallizer extends TileEntityMachi
                 tank.setType(7, slots);
                 tank.loadTank(3, 4, slots);
                 int cycles = (int) te.getCycleCount();
-                cycles = cycles == 1 ? (1 + uCount * 4) : (cycles + uCount * 4);
+                int speedMult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getSpeedMult();
+                cycles = speedMult == 1 ? 1 : speedMult + (cycles - 1);
                 int powerReq = te.getPowerRequired();
-                powerReq = (int) (powerReq * Math.pow(0.5D, uCount));
+                powerReq = (int) (powerReq * ((IUpgradeManagerAccess) upgradeManager).aletheia$getPowerMult());
                 duration = te.getDuration();
                 for (int i = 0; i < cycles; i++) {
                     if (canProcess()) {

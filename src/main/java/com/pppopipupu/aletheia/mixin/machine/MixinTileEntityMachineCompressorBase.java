@@ -78,7 +78,7 @@ public abstract class MixinTileEntityMachineCompressorBase extends TileEntityMac
             }
             CompressorRecipe recipe = CompressorRecipes.recipes
                 .get(new Pair(tanks[0].getTankType(), tanks[0].getPressure()));
-            int mult = 1 << uCount;
+            int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
             if (recipe == null) {
                 cir.setReturnValue(
                     tanks[0].getFill() >= 1000 && tanks[1].getFill() + 1000 * mult <= tanks[1].getMaxFill());
@@ -96,7 +96,7 @@ public abstract class MixinTileEntityMachineCompressorBase extends TileEntityMac
         if (uCount > 0) {
             CompressorRecipe recipe = CompressorRecipes.recipes
                 .get(new Pair(tanks[0].getTankType(), tanks[0].getPressure()));
-            int mult = 1 << uCount;
+            int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
             if (recipe == null) {
                 tanks[0].setFill(tanks[0].getFill() - 1000);
                 tanks[1].setFill(tanks[1].getFill() + 1000 * mult);
@@ -131,9 +131,10 @@ public abstract class MixinTileEntityMachineCompressorBase extends TileEntityMac
                 processTime = timeBase / speed / over;
                 powerRequirement = TileEntityMachineCompressorBase.powerRequirementBase / (powerLevel + 1);
                 powerRequirement = powerRequirement * speed * over;
-                powerRequirement = (int) (powerRequirement * Math.pow(0.5D, uCount));
+                powerRequirement = (int) (powerRequirement
+                    * ((IUpgradeManagerAccess) upgradeManager).aletheia$getPowerMult());
                 if (processTime <= 0) processTime = 1;
-                int speedFactor = 1 + uCount * 4;
+                int speedFactor = ((IUpgradeManagerAccess) upgradeManager).aletheia$getSpeedMult();
                 for (int i = 0; i < speedFactor; i++) {
                     if (te.canProcess()) {
                         progress++;

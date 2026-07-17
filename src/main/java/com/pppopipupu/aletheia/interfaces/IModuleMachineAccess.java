@@ -4,9 +4,17 @@ public interface IModuleMachineAccess {
 
     void aletheia$setUltimateCount(int count);
 
-    void aletheia$setHasUltimate(boolean hasUltimate);
+    void aletheia$setProductionMult(int mult);
+
+    void aletheia$setSpeedMult(int mult);
+
+    void aletheia$setPowerMult(double mult);
 
     int aletheia$getUltimateCount();
 
-    boolean aletheia$hasUltimate();
+    int aletheia$getProductionMult();
+
+    int aletheia$getSpeedMult();
+
+    double aletheia$getPowerMult();
 }

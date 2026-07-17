@@ -88,7 +88,7 @@ public abstract class MixinTileEntityMachineSolidifier extends TileEntityMachine
                     cir.setReturnValue(false);
                     return;
                 }
-                int mult = 1 << uCount;
+                int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
                 if (slots[0].stackSize + stack.stackSize * mult > slots[0].getMaxStackSize()) {
                     cir.setReturnValue(false);
                     return;
@@ -109,7 +109,7 @@ public abstract class MixinTileEntityMachineSolidifier extends TileEntityMachine
                 int req = out.getKey();
                 ItemStack stack = out.getValue();
                 tank.setFill(tank.getFill() - req);
-                int mult = 1 << uCount;
+                int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
                 if (slots[0] == null) {
                     slots[0] = stack.copy();
                     slots[0].stackSize *= mult;
@@ -141,8 +141,8 @@ public abstract class MixinTileEntityMachineSolidifier extends TileEntityMachine
                 int over = aletheia$overdriveSpeeds[upgradeManager.getLevel(UpgradeType.OVERDRIVE)];
                 processTime = TileEntityMachineSolidifier.processTimeBase * (4 - speed) / 4 / over;
                 usage = TileEntityMachineSolidifier.usageBase * (speed + 1) * over / (powerLvl + 1);
-                usage = (int) (usage * Math.pow(0.5D, uCount));
-                int speedFactor = 1 + uCount * 4;
+                usage = (int) (usage * ((IUpgradeManagerAccess) upgradeManager).aletheia$getPowerMult());
+                int speedFactor = ((IUpgradeManagerAccess) upgradeManager).aletheia$getSpeedMult();
                 for (int i = 0; i < speedFactor; i++) {
                     if (((TileEntityMachineSolidifier) (Object) this).canProcess()) {
                         progress++;
@@ -153,7 +153,7 @@ public abstract class MixinTileEntityMachineSolidifier extends TileEntityMachine
                             int req = out.getKey();
                             ItemStack stack = out.getValue();
                             tank.setFill(tank.getFill() - req);
-                            int mult = 1 << uCount;
+                            int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
                             if (slots[0] == null) {
                                 slots[0] = stack.copy();
                                 slots[0].stackSize *= mult;

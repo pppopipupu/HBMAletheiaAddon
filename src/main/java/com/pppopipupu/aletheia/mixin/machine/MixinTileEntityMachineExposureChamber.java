@@ -83,7 +83,7 @@ public abstract class MixinTileEntityMachineExposureChamber extends TileEntityMa
                 consumption /= (powerLevel + 1);
                 processTime /= overdrive;
                 consumption *= overdrive;
-                consumption = (int) (consumption * Math.pow(0.5D, uCount));
+                consumption = (int) (consumption * ((IUpgradeManagerAccess) upgradeManager).aletheia$getPowerMult());
                 if (slots[1] == null && slots[0] != null && slots[3] != null && savedParticles <= 0) {
                     ExposureChamberRecipe recipe = te.getRecipe(slots[0], slots[3]);
                     if (recipe != null) {
@@ -110,10 +110,10 @@ public abstract class MixinTileEntityMachineExposureChamber extends TileEntityMa
                     }
                 }
                 if (slots[1] != null && savedParticles > 0 && power >= consumption) {
-                    int speedFactor = 1 + uCount * 4;
+                    int speedFactor = ((IUpgradeManagerAccess) upgradeManager).aletheia$getSpeedMult();
                     for (int i = 0; i < speedFactor; i++) {
                         ExposureChamberRecipe recipe = te.getRecipe(slots[1], slots[3]);
-                        int mult = 1 << uCount;
+                        int mult = ((IUpgradeManagerAccess) upgradeManager).aletheia$getProductionMult();
                         if (power >= consumption && recipe != null
                             && (slots[4] == null || (slots[4].getItem() == recipe.output.getItem()
                                 && slots[4].getItemDamage() == recipe.output.getItemDamage()

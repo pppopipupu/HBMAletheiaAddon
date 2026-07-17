@@ -896,5 +896,18 @@ public class AletheiaRecipesNtmcPurex {
                     new ItemStack(ModItems.nuclear_waste_tiny, 2))
                 .outputFluids(new FluidStack(AletheiaFluids.fluid_qgp, 250))
                 .setIconToFirstIngredient());
+
+        PUREXRecipes.INSTANCE.register(
+            (PUREXRecipe) new PUREXRecipe("purex.pwrqgp").setup(120, zirnoxPower)
+                .setNameWrapper("purex.recycle")
+                .setGroup(autoZirnox, PUREXRecipes.INSTANCE)
+                .inputItems(new ComparableStack(ModItems.pwr_fuel_depleted, 1, 99))
+                .inputFluids(new FluidStack(Fluids.NITRIC_ACID, 1000))
+                .outputItems(
+                    new ItemStack(ModItems.nugget_schrabidium, 2),
+                    new ItemStack(ModItems.nugget_euphemium, 1),
+                    new ItemStack(ModItems.nuclear_waste_tiny, 4))
+                .outputFluids(new FluidStack(AletheiaFluids.fluid_qgp, 500))
+                .setIconToFirstIngredient());
     }
 }
