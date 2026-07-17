@@ -58,19 +58,6 @@ public class MixinItemPWRFuel {
         }
     }
 
-    @Inject(
-        method = "getUnlocalizedName(Lnet/minecraft/item/ItemStack;)Ljava/lang/String;",
-        at = @At("HEAD"),
-        cancellable = true,
-        require = 0,
-        expect = 0)
-    private void aletheia$getUnlocalizedName(ItemStack stack, CallbackInfoReturnable<String> cir) {
-        if (stack.getItemDamage() == 99) {
-            Item thisItem = (Item) (Object) this;
-            cir.setReturnValue(thisItem.getUnlocalizedName() + ".qgp");
-        }
-    }
-
     @Inject(method = "getSubItems", at = @At("TAIL"), require = 0, expect = 0)
     private void aletheia$getSubItems(Item item, CreativeTabs tab, List list, CallbackInfo ci) {
         list.add(new ItemStack(item, 1, 99));
