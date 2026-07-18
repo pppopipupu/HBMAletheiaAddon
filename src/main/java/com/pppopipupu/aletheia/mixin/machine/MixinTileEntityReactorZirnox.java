@@ -94,14 +94,14 @@ public abstract class MixinTileEntityReactorZirnox extends TileEntityMachineBase
         }
     }
 
-    @Inject(method = "isItemValidForSlot", at = @At("HEAD"), cancellable = true)
+    @Inject(method = { "isItemValidForSlot", "func_94041_b" }, at = @At("HEAD"), cancellable = true)
     private void aletheia$isItemValidForSlot(int i, ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (i < 24 && ItemZirnoxRodAletheia.isAletheiaRod(stack)) {
             cir.setReturnValue(true);
         }
     }
 
-    @Inject(method = "canExtractItem", at = @At("HEAD"), cancellable = true)
+    @Inject(method = { "canExtractItem", "func_102007_a" }, at = @At("HEAD"), cancellable = true)
     private void aletheia$canExtractItem(int i, ItemStack stack, int j, CallbackInfoReturnable<Boolean> cir) {
         if (i < 24 && ItemZirnoxRodAletheia.isAletheiaRod(stack)) {
             cir.setReturnValue(false);
@@ -110,7 +110,8 @@ public abstract class MixinTileEntityReactorZirnox extends TileEntityMachineBase
 
     @Inject(
         method = "updateEntity",
-        at = @At(value = "INVOKE", target = "Lcom/hbm/tileentity/machine/TileEntityReactorZirnox;checkIfMeltdown()V"))
+        at = @At(value = "INVOKE", target = "Lcom/hbm/tileentity/machine/TileEntityReactorZirnox;checkIfMeltdown()V"),
+        remap = true)
     private void aletheia$updateEffects(CallbackInfo ci) {
         int[] counts = aletheia$countRods();
         int digamma = counts[0];
@@ -163,7 +164,8 @@ public abstract class MixinTileEntityReactorZirnox extends TileEntityMachineBase
 
     @Redirect(
         method = "updateEntity",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"),
+        remap = true)
     private Item aletheia$dummyGetItem(ItemStack stack) {
         Item item = stack.getItem();
         if (item instanceof ItemZirnoxRodAletheia) {

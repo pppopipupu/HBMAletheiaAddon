@@ -18,7 +18,7 @@ public abstract class MixinEntityNukeExplosionMK5 extends Entity {
         super(world);
     }
 
-    @Inject(method = "onUpdate", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "onUpdate", at = @At("HEAD"), cancellable = true, remap = true)
     private void aletheia$onUpdateHead(CallbackInfo ci) {
         if (ExplosionFilter.shouldBlock(this.worldObj, this.posX, this.posY, this.posZ)) {
             this.setDead();

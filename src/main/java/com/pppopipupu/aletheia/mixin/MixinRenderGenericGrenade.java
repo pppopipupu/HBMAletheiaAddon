@@ -30,7 +30,7 @@ public abstract class MixinRenderGenericGrenade extends Render {
     private static Shader aletheia$qgpShader;
     private static Shader aletheia$rainbowTntShader;
 
-    @Inject(method = "getEntityTexture", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getEntityTexture", at = @At("HEAD"), cancellable = true, remap = true)
     private void aletheia$getEntityTexture(Entity entity, CallbackInfoReturnable<ResourceLocation> cir) {
         if (entity instanceof EntityGrenadeBouncyGeneric) {
             EntityGrenadeBouncyGeneric bouncy = (EntityGrenadeBouncyGeneric) entity;
@@ -43,7 +43,7 @@ public abstract class MixinRenderGenericGrenade extends Render {
         }
     }
 
-    @Inject(method = "doRender", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "doRender", at = @At("HEAD"), cancellable = true, remap = true)
     private void aletheia$doRender(Entity entity, double x, double y, double z, float f0, float f1, CallbackInfo ci) {
         boolean disperser = entity instanceof EntityDisperserCanister;
         boolean isMiningBomb = false;

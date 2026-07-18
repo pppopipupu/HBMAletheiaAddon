@@ -108,7 +108,7 @@ public abstract class MixinTileEntityMachineCompressorBase extends TileEntityMac
         }
     }
 
-    @Inject(method = "updateEntity", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "updateEntity", at = @At("HEAD"), cancellable = true, remap = true)
     private void aletheia$updateEntity(CallbackInfo ci) {
         TileEntityMachineCompressorBase te = (TileEntityMachineCompressorBase) (Object) this;
         if (!worldObj.isRemote) {

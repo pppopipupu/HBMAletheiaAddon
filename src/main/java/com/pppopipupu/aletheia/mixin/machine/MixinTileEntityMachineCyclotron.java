@@ -153,7 +153,7 @@ public abstract class MixinTileEntityMachineCyclotron extends TileEntityMachineB
         }
     }
 
-    @Inject(method = "updateEntity", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "updateEntity", at = @At("HEAD"), cancellable = true, remap = true)
     private void aletheia$updateEntity(CallbackInfo ci) {
         if (!worldObj.isRemote) {
             upgradeManager.checkSlots(slots, 10, 11);

@@ -26,7 +26,7 @@ public class MixinItemPWRFuel {
     @Unique
     private IIcon aletheia$iconQGP;
 
-    @Inject(method = "addInformation", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "addInformation", at = @At("HEAD"), cancellable = true, remap = true)
     private void aletheia$addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool,
         CallbackInfo ci) {
         if (stack.getItemDamage() == 99) {
@@ -39,7 +39,7 @@ public class MixinItemPWRFuel {
         }
     }
 
-    @Inject(method = "registerIcons", at = @At("TAIL"), require = 0, expect = 0)
+    @Inject(method = { "registerIcons", "func_94581_a" }, at = @At("TAIL"), require = 0, expect = 0)
     private void aletheia$registerIcons(IIconRegister reg, CallbackInfo ci) {
         Item thisItem = (Item) (Object) this;
         if (thisItem == ModItems.pwr_fuel) {
@@ -51,14 +51,19 @@ public class MixinItemPWRFuel {
         }
     }
 
-    @Inject(method = "getIconFromDamage", at = @At("HEAD"), cancellable = true, require = 0, expect = 0)
+    @Inject(
+        method = { "getIconFromDamage", "func_77617_a" },
+        at = @At("HEAD"),
+        cancellable = true,
+        require = 0,
+        expect = 0)
     private void aletheia$getIconFromDamage(int meta, CallbackInfoReturnable<IIcon> cir) {
         if (meta == 99) {
             cir.setReturnValue(aletheia$iconQGP);
         }
     }
 
-    @Inject(method = "getSubItems", at = @At("TAIL"), require = 0, expect = 0)
+    @Inject(method = { "getSubItems", "func_150895_a" }, at = @At("TAIL"), require = 0, expect = 0)
     private void aletheia$getSubItems(Item item, CreativeTabs tab, List list, CallbackInfo ci) {
         list.add(new ItemStack(item, 1, 99));
     }

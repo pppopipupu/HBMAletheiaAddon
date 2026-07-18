@@ -93,7 +93,7 @@ public abstract class MixinTileEntityMachineMiningLaser extends TileEntityMachin
         }
     }
 
-    @Inject(method = "updateEntity", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "updateEntity", at = @At("HEAD"), cancellable = true, remap = true)
     private void aletheia$updateEntity(CallbackInfo ci) {
         if (!worldObj.isRemote) {
             upgradeManager.checkSlots(this, slots, 1, 8);

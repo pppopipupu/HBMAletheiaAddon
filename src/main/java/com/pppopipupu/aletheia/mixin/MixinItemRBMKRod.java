@@ -88,7 +88,7 @@ public class MixinItemRBMKRod {
         return 0;
     }
 
-    @Inject(method = "addInformation", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "addInformation", at = @At("HEAD"), cancellable = true, remap = true)
     private void aletheia$addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool,
         CallbackInfo ci) {
         if ((Object) this != ModItems.rbmk_fuel_drx) return;

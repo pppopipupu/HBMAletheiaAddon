@@ -96,7 +96,7 @@ public abstract class MixinTileEntityMachineExcavator extends TileEntityMachineB
 
     private int aletheia$prevChuteTimer;
 
-    @Inject(method = "updateEntity", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "updateEntity", at = @At("HEAD"), cancellable = true, remap = true)
     private void aletheia$updateEntity(CallbackInfo ci) {
         upgradeManager.checkSlots(slots, 2, 3);
         int uCount = ((IUpgradeManagerAccess) upgradeManager).aletheia$getUltimateCount();

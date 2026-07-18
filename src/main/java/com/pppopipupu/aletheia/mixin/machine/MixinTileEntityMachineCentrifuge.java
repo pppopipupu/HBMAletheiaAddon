@@ -98,7 +98,7 @@ public abstract class MixinTileEntityMachineCentrifuge extends TileEntityMachine
         }
     }
 
-    @Inject(method = "updateEntity", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "updateEntity", at = @At("HEAD"), cancellable = true, remap = true)
     private void aletheia$updateEntity(CallbackInfo ci) {
         TileEntityMachineCentrifuge te = (TileEntityMachineCentrifuge) (Object) this;
         if (!te.getWorldObj().isRemote) {

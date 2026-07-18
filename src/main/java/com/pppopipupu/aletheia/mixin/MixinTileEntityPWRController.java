@@ -44,6 +44,7 @@ public class MixinTileEntityPWRController {
 
     @Redirect(
         method = "updateEntity",
+        remap = true,
         at = @At(
             value = "INVOKE",
             target = "Lcom/hbm/util/EnumUtil;grabEnumSafely(Ljava/lang/Class;I)Ljava/lang/Enum;"))
@@ -56,6 +57,7 @@ public class MixinTileEntityPWRController {
 
     @Redirect(
         method = "updateEntity",
+        remap = true,
         at = @At(
             value = "FIELD",
             target = "Lcom/hbm/items/machine/ItemPWRFuel$EnumPWRFuel;function:Lcom/hbm/util/function/Function;",
@@ -69,6 +71,7 @@ public class MixinTileEntityPWRController {
 
     @Redirect(
         method = "updateEntity",
+        remap = true,
         at = @At(
             value = "FIELD",
             target = "Lcom/hbm/items/machine/ItemPWRFuel$EnumPWRFuel;heatEmission:D",
@@ -82,6 +85,7 @@ public class MixinTileEntityPWRController {
 
     @Redirect(
         method = "updateEntity",
+        remap = true,
         at = @At(
             value = "FIELD",
             target = "Lcom/hbm/items/machine/ItemPWRFuel$EnumPWRFuel;yield:D",

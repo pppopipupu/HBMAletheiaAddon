@@ -100,7 +100,7 @@ public abstract class MixinTileEntityMachineArcWelder extends TileEntityMachineB
         }
     }
 
-    @Inject(method = "updateEntity", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "updateEntity", at = @At("HEAD"), cancellable = true, remap = true)
     private void aletheia$updateEntity(CallbackInfo ci) {
         TileEntityMachineArcWelder te = (TileEntityMachineArcWelder) (Object) this;
         if (!te.getWorldObj().isRemote) {

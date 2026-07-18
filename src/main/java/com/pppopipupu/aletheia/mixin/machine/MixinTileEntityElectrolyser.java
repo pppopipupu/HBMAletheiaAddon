@@ -85,7 +85,7 @@ public abstract class MixinTileEntityElectrolyser extends TileEntityMachineBase
         this.processFluidTime = fluid != null ? fluid.duration : 100;
     }
 
-    @Inject(method = "updateEntity", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "updateEntity", at = @At("HEAD"), cancellable = true, remap = true)
     private void aletheia$updateEntity(CallbackInfo ci) {
         TileEntityElectrolyser te = (TileEntityElectrolyser) (Object) this;
         if (!te.getWorldObj().isRemote) {

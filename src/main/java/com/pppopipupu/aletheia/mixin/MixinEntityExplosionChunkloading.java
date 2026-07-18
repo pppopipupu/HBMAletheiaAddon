@@ -18,7 +18,7 @@ public abstract class MixinEntityExplosionChunkloading extends Entity {
         super(world);
     }
 
-    @Inject(method = "onUpdate", at = @At("HEAD"), cancellable = true)
+    @Inject(method = { "onUpdate", "func_70071_h_" }, at = @At("HEAD"), cancellable = true)
     private void aletheia$onUpdateHead(CallbackInfo ci) {
         if (ExplosionFilter.shouldBlock(this.worldObj, this.posX, this.posY, this.posZ)) {
             this.setDead();
