@@ -1,6 +1,7 @@
 package com.pppopipupu.aletheia.mixin.machine;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
@@ -318,6 +319,14 @@ public abstract class MixinTileEntityElectrolyser extends TileEntityMachineBase
                 this.networkPackNT(50);
                 ci.cancel();
             }
+        }
+    }
+
+    @Inject(method = "getValidUpgrades", at = @At("RETURN"))
+    private void aletheia$getValidUpgrades(CallbackInfoReturnable<HashMap<UpgradeType, Integer>> cir) {
+        HashMap<UpgradeType, Integer> upgrades = cir.getReturnValue();
+        if (upgrades != null && !upgrades.containsKey(UpgradeType.OVERDRIVE)) {
+            upgrades.put(UpgradeType.OVERDRIVE, 9);
         }
     }
 

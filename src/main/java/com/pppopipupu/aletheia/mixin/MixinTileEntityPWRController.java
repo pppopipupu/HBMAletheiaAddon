@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import net.minecraft.block.Block;
 
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -14,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.machine.ItemPWRFuel.EnumPWRFuel;
 import com.hbm.tileentity.machine.TileEntityPWRController;
+import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.function.Function;
 import com.hbm.util.function.Function.FunctionSqrt;
@@ -43,9 +45,21 @@ public class MixinTileEntityPWRController {
     @Redirect(
         method = "updateEntity",
         at = @At(
+            value = "INVOKE",
+            target = "Lcom/hbm/util/EnumUtil;grabEnumSafely(Ljava/lang/Class;I)Ljava/lang/Enum;"))
+    private Enum aletheia$grabEnumSafely(Class enumClass, int meta) {
+        if (enumClass == EnumPWRFuel.class && meta == 99) {
+            return EnumPWRFuel.HES327;
+        }
+        return EnumUtil.grabEnumSafely(enumClass, meta);
+    }
+
+    @Redirect(
+        method = "updateEntity",
+        at = @At(
             value = "FIELD",
             target = "Lcom/hbm/items/machine/ItemPWRFuel$EnumPWRFuel;function:Lcom/hbm/util/function/Function;",
-            opcode = org.objectweb.asm.Opcodes.GETFIELD))
+            opcode = Opcodes.GETFIELD))
     private Function aletheia$pwrFunction(EnumPWRFuel fuel) {
         if (this.typeLoaded == 99) {
             return new FunctionSqrt(50.0);
@@ -58,7 +72,7 @@ public class MixinTileEntityPWRController {
         at = @At(
             value = "FIELD",
             target = "Lcom/hbm/items/machine/ItemPWRFuel$EnumPWRFuel;heatEmission:D",
-            opcode = org.objectweb.asm.Opcodes.GETFIELD))
+            opcode = Opcodes.GETFIELD))
     private double aletheia$pwrHeatEmission(EnumPWRFuel fuel) {
         if (this.typeLoaded == 99) {
             return 30.0D;
@@ -71,7 +85,7 @@ public class MixinTileEntityPWRController {
         at = @At(
             value = "FIELD",
             target = "Lcom/hbm/items/machine/ItemPWRFuel$EnumPWRFuel;yield:D",
-            opcode = org.objectweb.asm.Opcodes.GETFIELD))
+            opcode = Opcodes.GETFIELD))
     private double aletheia$pwrYield(EnumPWRFuel fuel) {
         if (this.typeLoaded == 99) {
             return 1500000000.0D;

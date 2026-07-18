@@ -70,8 +70,9 @@
 * **注释规范**: 不要在函数或逻辑内部编写任何的内联注释。不要在shader中编写任何注释。
 * **Mixin 规范**: 
   - **安全注入原则**：严禁滥用 `@Overwrite`。除了极其特殊、非 `@Overwrite` 不可的情况之外，必须优先使用 `@Inject`、`@ModifyVariable` 或 `@Redirect`。
+  - **客户端服务端分离准则** 在编写mixin时一定要注意mixin目标类/目标方法是否为仅客户端类，如果是加到mixin配置的client列表里，一定不要混淆。
   - **善用 UniMixins 与 MixinExtras**：UniMixins 支持先进的 MixinExtras 特性（如 `@ModifyReceiver`、`@WrapOperation`、`@Local`、`@Share` 等）。在进行复杂拦截或局部变量修改时，应积极采用 MixinExtras 的高级操作符，避免使用脆弱的 `@Inject` 在方法头部强制 `cancel()`，更不要使用暴力 `@Overwrite`，以提高代码的兼容性与健壮性。
-  - **双阶段配置文件分配原则**：
+  - **Mixin配置文件分配原则**：
     - **Early Mixin (`mixins.aletheia.json`)**：仅适用于需要尽早加载并向原版 Minecraft (`net.minecraft.*`)、Forge (`net.minecraftforge.*`) 或核心加载器 (Coremods) 注入的 Mixin。在此配置文件中的 Mixin **绝对不能**显式引用或加载普通模组的类（如 `com.hbm.*`），否则会引发 ClassNotFoundException 或提前类加载（ClassLoader Leak）导致崩溃。
     - **Late Mixin (`mixins.aletheia.late.json`)**：适用于所有向非原版/非核心模组（包括 `HBM SPACE` 等依赖模组，如 `com.hbm.*`）注入的 Mixin。大部分移植相关的 Mixin 都应该放在此处加载，以确保模组类已安全就绪。
 * **导入规范**: 绝对不要使用任何包名全称，能import包必须使用import。绝对不可以偷懒直接写全称，必须用编辑工具正常在顶部插入import。
