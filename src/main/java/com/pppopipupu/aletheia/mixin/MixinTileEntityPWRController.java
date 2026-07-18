@@ -47,7 +47,8 @@ public class MixinTileEntityPWRController {
         remap = true,
         at = @At(
             value = "INVOKE",
-            target = "Lcom/hbm/util/EnumUtil;grabEnumSafely(Ljava/lang/Class;I)Ljava/lang/Enum;"))
+            target = "Lcom/hbm/util/EnumUtil;grabEnumSafely(Ljava/lang/Class;I)Ljava/lang/Enum;",
+            remap = false))
     private Enum aletheia$grabEnumSafely(Class enumClass, int meta) {
         if (enumClass == EnumPWRFuel.class && meta == 99) {
             return EnumPWRFuel.HES327;
@@ -61,7 +62,8 @@ public class MixinTileEntityPWRController {
         at = @At(
             value = "FIELD",
             target = "Lcom/hbm/items/machine/ItemPWRFuel$EnumPWRFuel;function:Lcom/hbm/util/function/Function;",
-            opcode = Opcodes.GETFIELD))
+            opcode = Opcodes.GETFIELD,
+            remap = false))
     private Function aletheia$pwrFunction(EnumPWRFuel fuel) {
         if (this.typeLoaded == 99) {
             return new FunctionSqrt(50.0);
@@ -75,7 +77,8 @@ public class MixinTileEntityPWRController {
         at = @At(
             value = "FIELD",
             target = "Lcom/hbm/items/machine/ItemPWRFuel$EnumPWRFuel;heatEmission:D",
-            opcode = Opcodes.GETFIELD))
+            opcode = Opcodes.GETFIELD,
+            remap = false))
     private double aletheia$pwrHeatEmission(EnumPWRFuel fuel) {
         if (this.typeLoaded == 99) {
             return 30.0D;
@@ -89,7 +92,8 @@ public class MixinTileEntityPWRController {
         at = @At(
             value = "FIELD",
             target = "Lcom/hbm/items/machine/ItemPWRFuel$EnumPWRFuel;yield:D",
-            opcode = Opcodes.GETFIELD))
+            opcode = Opcodes.GETFIELD,
+            remap = false))
     private double aletheia$pwrYield(EnumPWRFuel fuel) {
         if (this.typeLoaded == 99) {
             return 1500000000.0D;

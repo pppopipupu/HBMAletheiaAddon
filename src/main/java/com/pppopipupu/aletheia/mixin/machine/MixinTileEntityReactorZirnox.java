@@ -110,7 +110,10 @@ public abstract class MixinTileEntityReactorZirnox extends TileEntityMachineBase
 
     @Inject(
         method = "updateEntity",
-        at = @At(value = "INVOKE", target = "Lcom/hbm/tileentity/machine/TileEntityReactorZirnox;checkIfMeltdown()V"),
+        at = @At(
+            value = "INVOKE",
+            target = "Lcom/hbm/tileentity/machine/TileEntityReactorZirnox;checkIfMeltdown()V",
+            remap = false),
         remap = true)
     private void aletheia$updateEffects(CallbackInfo ci) {
         int[] counts = aletheia$countRods();
