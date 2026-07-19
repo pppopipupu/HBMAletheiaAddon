@@ -346,7 +346,7 @@ public class AletheiaItems {
             .setDepletionFunction(EnumDepleteFunc.CF_SLOPE)
             .setXenon(1.0D, 25D)
             .setHeat(8.0D)
-            .setMeltingPoint(8000D)
+            .setMeltingPoint(1.8e12D)
             .setDiffusion(0.08D)
             .setNeutronTypes(NType.ANY, NType.FAST)
             .setTint(0x00e5ff)
