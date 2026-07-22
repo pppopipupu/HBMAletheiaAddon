@@ -14,7 +14,6 @@ import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.ResourceManager;
 import com.pppopipupu.aletheia.item.AletheiaItems;
@@ -100,8 +99,15 @@ public class EntityGlyphidQGP extends EntityGlyphidBehemoth {
         }
         this.entityDropItem(new ItemStack(ModItems.ingot_bakelite, 1 + this.rand.nextInt(3 + looting)), 1.0F);
         this.entityDropItem(new ItemStack(ModItems.ingot_pc, 1 + this.rand.nextInt(2 + looting)), 1.0F);
+        this.entityDropItem(new ItemStack(ModItems.egg_glyphid, 20), 1.0F);
+
         if (this.rand.nextInt(100) < 25 + looting * 10) {
-            this.entityDropItem(ItemFluidIcon.make(Fluids.SCHRABIDIC, 1000), 1.0F);
+            this.entityDropItem(
+                new ItemStack(
+                    ModItems.fluid_tank_lead_full,
+                    1 + this.rand.nextInt(2 + looting),
+                    Fluids.SCHRABIDIC.getID()),
+                1.0F);
         }
         super.dropFewItems(byPlayer, looting);
     }

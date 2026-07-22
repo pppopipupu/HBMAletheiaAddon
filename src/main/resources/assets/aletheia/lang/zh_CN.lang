@@ -128,3 +128,7 @@ achievement.qgp_quench=给夸克汤加点冰块
 achievement.qgp_quench.desc=在强相互作用崩溃前夕，你保住了你的热巧克力。
 achievement.qgp_blackhole=基岩也不过是强相互作用的幻象
 achievement.qgp_blackhole.desc=连夏威夷吸蜜鸟的歌声也被黑洞吸进去了。
+
+entity.entity_glyphid_qgp.name=QGP 终极异虫
+entity.aletheia.entity_glyphid_qgp.name=QGP 终极异虫
+item.monsterPlacer.entity_glyphid_qgp.name=刷怪蛋：QGP 终极异虫

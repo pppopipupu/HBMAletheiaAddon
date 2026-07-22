@@ -128,3 +128,7 @@ achievement.qgp_quench=PUT SOME ICE IN THE QUARK SOUP
 achievement.qgp_quench.desc=Before strong interaction collapsed, you saved your hot chocolate.
 achievement.qgp_blackhole=BEDROCK IS MERELY AN ILLUSION
 achievement.qgp_blackhole.desc=Even the Kauai O'o's song was swallowed by the black hole.
+
+entity.entity_glyphid_qgp.name=QGP Ultimate Glyphid
+entity.aletheia.entity_glyphid_qgp.name=QGP Ultimate Glyphid
+item.monsterPlacer.entity_glyphid_qgp.name=Spawn QGP Ultimate Glyphid
