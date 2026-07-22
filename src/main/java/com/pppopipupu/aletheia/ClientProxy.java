@@ -13,22 +13,34 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.factory.LegoClient;
 import com.hbm.tileentity.machine.TileEntityReactorZirnox;
 import com.pppopipupu.aletheia.block.AletheiaBlocks;
+import com.pppopipupu.aletheia.entity.EntityGlyphidQGP;
+import com.pppopipupu.aletheia.entity.EntityQGPSingularity;
 import com.pppopipupu.aletheia.item.AletheiaItems;
 import com.pppopipupu.aletheia.item.ItemZirnoxRodAletheia;
 import com.pppopipupu.aletheia.machine.agrichemplant.TileEntityMachineAgriChemicalPlant;
 import com.pppopipupu.aletheia.render.ItemRenderPPPOP;
+import com.pppopipupu.aletheia.render.ItemRenderQGPApple;
 import com.pppopipupu.aletheia.render.ItemRenderQGPBucket;
+import com.pppopipupu.aletheia.render.ItemRenderQGPChitin;
+import com.pppopipupu.aletheia.render.ItemRenderQGPCladding;
 import com.pppopipupu.aletheia.render.ItemRenderQGPDisperser;
+import com.pppopipupu.aletheia.render.ItemRenderQGPDrill;
 import com.pppopipupu.aletheia.render.ItemRenderQGPFuelRod;
+import com.pppopipupu.aletheia.render.ItemRenderQGPItemShader;
 import com.pppopipupu.aletheia.render.ItemRenderQGPMiningBomb;
+import com.pppopipupu.aletheia.render.ItemRenderQGPSingularityCore;
+import com.pppopipupu.aletheia.render.ItemRenderQuarkMicroSingularity;
+import com.pppopipupu.aletheia.render.ItemRenderSQGPBomb;
 import com.pppopipupu.aletheia.render.ItemRenderUltimateUpgrade;
 import com.pppopipupu.aletheia.render.ItemRenderZirnoxDigamma;
 import com.pppopipupu.aletheia.render.RenderAMSBase;
 import com.pppopipupu.aletheia.render.RenderAMSEmitter;
 import com.pppopipupu.aletheia.render.RenderAMSLimiter;
 import com.pppopipupu.aletheia.render.RenderAgriChemicalPlant;
+import com.pppopipupu.aletheia.render.RenderGlyphidQGP;
 import com.pppopipupu.aletheia.render.RenderPPPOPProjectile;
 import com.pppopipupu.aletheia.render.RenderQGPBlock;
+import com.pppopipupu.aletheia.render.RenderQGPSingularity;
 import com.pppopipupu.aletheia.render.RenderZirnoxAletheia;
 import com.pppopipupu.aletheia.tileentity.TileEntityAMSBase;
 import com.pppopipupu.aletheia.tileentity.TileEntityAMSEmitter;
@@ -78,6 +90,7 @@ public class ClientProxy extends CommonProxy {
         MinecraftForgeClient.registerItemRenderer(AletheiaItems.upgrade_ultimate, new ItemRenderUltimateUpgrade());
         MinecraftForgeClient.registerItemRenderer(AletheiaItems.bucket_qgp, new ItemRenderQGPBucket());
         MinecraftForgeClient.registerItemRenderer(AletheiaItems.qgp_mining_bomb, new ItemRenderQGPMiningBomb());
+        MinecraftForgeClient.registerItemRenderer(AletheiaItems.sqgp_mining_bomb, new ItemRenderQGPMiningBomb());
         MinecraftForgeClient.registerItemRenderer(AletheiaItems.rod_zirnox_digamma, new ItemRenderZirnoxDigamma());
         MinecraftForgeClient.registerItemRenderer(AletheiaItems.rod_zirnox_qgp, new ItemRenderQGPFuelRod());
         MinecraftForgeClient.registerItemRenderer(AletheiaItems.rbmk_fuel_qgp, new ItemRenderQGPFuelRod());
@@ -90,6 +103,23 @@ public class ClientProxy extends CommonProxy {
         MinecraftForgeClient
             .registerItemRenderer(ItemZirnoxRodAletheia.rod_zirnox_digamma_depleted, new ItemRenderZirnoxDigamma());
         MinecraftForgeClient.registerItemRenderer(AletheiaItems.waste_digamma, new ItemRenderZirnoxDigamma());
+
+        MinecraftForgeClient.registerItemRenderer(AletheiaItems.qgp_drill, new ItemRenderQGPDrill());
+        MinecraftForgeClient.registerItemRenderer(AletheiaItems.qgp_apple, new ItemRenderQGPApple());
+        MinecraftForgeClient.registerItemRenderer(AletheiaItems.qgp_cladding, new ItemRenderQGPCladding());
+        MinecraftForgeClient.registerItemRenderer(AletheiaItems.qgp_chitin, new ItemRenderQGPChitin());
+
+        ItemRenderQGPItemShader qgpShaderRenderer = new ItemRenderQGPItemShader();
+        MinecraftForgeClient
+            .registerItemRenderer(AletheiaItems.qgp_singularity_core, new ItemRenderQGPSingularityCore());
+        MinecraftForgeClient
+            .registerItemRenderer(AletheiaItems.quark_micro_singularity, new ItemRenderQuarkMicroSingularity());
+        MinecraftForgeClient.registerItemRenderer(AletheiaItems.qgp_fuel_slag, qgpShaderRenderer);
+        MinecraftForgeClient.registerItemRenderer(AletheiaItems.solidified_quark, qgpShaderRenderer);
+        MinecraftForgeClient.registerItemRenderer(AletheiaItems.sqgp_mining_bomb, new ItemRenderSQGPBomb());
+
+        RenderingRegistry.registerEntityRenderingHandler(EntityGlyphidQGP.class, new RenderGlyphidQGP());
+        RenderingRegistry.registerEntityRenderingHandler(EntityQGPSingularity.class, new RenderQGPSingularity());
 
         MinecraftForgeClient.registerItemRenderer(ModItems.disperser_canister, new ItemRenderQGPDisperser());
         MinecraftForgeClient.registerItemRenderer(ModItems.glyphid_gland, new ItemRenderQGPDisperser());

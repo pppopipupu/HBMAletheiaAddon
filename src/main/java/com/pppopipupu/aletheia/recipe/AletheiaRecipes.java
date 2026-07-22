@@ -134,6 +134,36 @@ public class AletheiaRecipes {
             Items.golden_apple,
             Items.egg);
 
+        GameRegistry.addShapelessRecipe(
+            new ItemStack(AletheiaItems.qgp_apple, 1),
+            ModItems.apple_schrabidium,
+            AletheiaItems.billet_qgp,
+            AletheiaItems.billet_qgp,
+            AletheiaItems.billet_qgp,
+            AletheiaItems.billet_qgp);
+
+        GameRegistry.addShapedRecipe(
+            new ItemStack(AletheiaItems.qgp_drill, 1),
+            " B ",
+            " D ",
+            " S ",
+            'B',
+            AletheiaItems.billet_qgp,
+            'D',
+            AletheiaItems.upgrade_ultimate,
+            'S',
+            AletheiaItems.billet_qgp);
+
+        GameRegistry.addShapedRecipe(
+            new ItemStack(AletheiaItems.qgp_cladding, 1),
+            "BBB",
+            "BCB",
+            "BBB",
+            'B',
+            AletheiaItems.billet_qgp,
+            'C',
+            ModItems.cladding_ghiorsium);
+
         GameRegistry.addSmelting(AletheiaItems.powder_sodium, new ItemStack(AletheiaItems.ingot_sodium), 0.0F);
         GameRegistry.addSmelting(AletheiaItems.powder_strontium, new ItemStack(AletheiaItems.ingot_strontium), 0.0F);
         GameRegistry.addSmelting(AletheiaItems.powder_neodymium, new ItemStack(AletheiaItems.ingot_neodymium), 0.0F);
@@ -218,6 +248,14 @@ public class AletheiaRecipes {
                     new OreDictStack(RUBBER.ingot(), 8),
                     new ComparableStack(ModItems.battery_pack, 1, EnumBatteryPack.BATTERY_LEAD.ordinal()),
                     new ComparableStack(ModItems.circuit, 2, EnumCircuitType.ADVANCED.ordinal())));
+
+        AssemblyMachineRecipes.INSTANCE.register(
+            new GenericRecipe("ass.sqgp_mining_bomb").setup(300, 1000)
+                .outputItems(new ItemStack(AletheiaItems.sqgp_mining_bomb, 1))
+                .inputItems(
+                    new ComparableStack(AletheiaItems.qgp_mining_bomb, 1),
+                    new ComparableStack(ModItems.glyphid_meat, 20),
+                    new ComparableStack(AletheiaItems.qgp_chitin, 1)));
 
         ChemicalPlantRecipes.INSTANCE.register(
             new GenericRecipe("chem.ams_base").setup(200, 5000)

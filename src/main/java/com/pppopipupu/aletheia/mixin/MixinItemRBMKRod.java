@@ -28,7 +28,7 @@ public class MixinItemRBMKRod {
     private void aletheia$reactivityFunc(double in, double enrichment, CallbackInfoReturnable<Double> cir) {
         if ((Object) this instanceof ItemRBMKFuelQGP) {
             double flux = in * reactivityModByEnrichment(enrichment);
-            double result = Math.pow(1.02, flux) * reactivity;
+            double result = (Math.pow(1.01, flux) / 2.0D) / 100.0D * reactivity;
             cir.setReturnValue(result);
         }
     }
@@ -156,19 +156,18 @@ public class MixinItemRBMKRod {
                 String flux = selfRate > 0
                     ? "(x" + EnumChatFormatting.RED + " + " + selfRate + EnumChatFormatting.WHITE + ")"
                     : "x";
-                return String
-                    .format(
-                        Locale.US,
-                        "1.02^(%s " + EnumChatFormatting.YELLOW + "* %s" + EnumChatFormatting.WHITE + ") * %s",
-                        flux,
-                        enrichmentMod,
-                        reactivityStr)
+                return String.format(
+                    Locale.US,
+                    "(1.01^(%s " + EnumChatFormatting.YELLOW + "* %s" + EnumChatFormatting.WHITE + ") / 2) * %s / 100",
+                    flux,
+                    enrichmentMod,
+                    reactivityStr)
                     .concat(efficiencyPer);
             } else {
                 String flux = selfRate > 0
                     ? "(x" + EnumChatFormatting.RED + " + " + selfRate + EnumChatFormatting.WHITE + ")"
                     : "x";
-                return String.format(Locale.US, "1.02^%s * %s", flux, reactivityStr);
+                return String.format(Locale.US, "(1.01^%s / 2) * %s / 100", flux, reactivityStr);
             }
         }
         String function;

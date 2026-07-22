@@ -14,6 +14,9 @@ public class AletheiaAchievements {
     public static Achievement achievementGlyphidHatchUnexpected;
     public static Achievement achievementAmsBase;
     public static Achievement achievementPPPOP;
+    public static Achievement achievementQgpMeltdown;
+    public static Achievement achievementQgpQuench;
+    public static Achievement achievementQgpBlackhole;
 
     public static void init() {
         achievementGlyphidHatch = new Achievement(
@@ -51,12 +54,46 @@ public class AletheiaAchievements {
             null).initIndependentStat()
                 .setSpecial()
                 .registerStat();
+
+        achievementQgpMeltdown = new Achievement(
+            "achievement.qgp_meltdown",
+            "qgp_meltdown",
+            0,
+            3,
+            new ItemStack(AletheiaItems.rbmk_fuel_qgp),
+            null).initIndependentStat()
+                .setSpecial()
+                .registerStat();
+
+        achievementQgpQuench = new Achievement(
+            "achievement.qgp_quench",
+            "qgp_quench",
+            2,
+            3,
+            new ItemStack(AletheiaItems.qgp_singularity_core),
+            achievementQgpMeltdown).initIndependentStat()
+                .setSpecial()
+                .registerStat();
+
+        achievementQgpBlackhole = new Achievement(
+            "achievement.qgp_blackhole",
+            "qgp_blackhole",
+            4,
+            3,
+            new ItemStack(AletheiaItems.quark_micro_singularity),
+            achievementQgpMeltdown).initIndependentStat()
+                .setSpecial()
+                .registerStat();
+
         AchievementPage.registerAchievementPage(
             new AchievementPage(
                 "Aletheia",
                 achievementGlyphidHatch,
                 achievementGlyphidHatchUnexpected,
                 achievementAmsBase,
-                achievementPPPOP));
+                achievementPPPOP,
+                achievementQgpMeltdown,
+                achievementQgpQuench,
+                achievementQgpBlackhole));
     }
 }

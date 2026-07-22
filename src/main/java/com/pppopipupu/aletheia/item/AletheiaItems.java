@@ -43,6 +43,7 @@ public class AletheiaItems {
     public static Item bucket_modified_cold_gel;
     public static Item bucket_hot_modified_cold_gel;
     public static Item qgp_mining_bomb;
+    public static Item sqgp_mining_bomb;
     public static Item upgrade_ultimate;
     public static Item gun_pppop;
 
@@ -87,6 +88,14 @@ public class AletheiaItems {
     public static Item billet_qgp;
     public static Item waste_digamma;
     public static Item waste_qgp;
+    public static Item qgp_drill;
+    public static Item qgp_apple;
+    public static Item qgp_cladding;
+    public static Item qgp_chitin;
+    public static Item qgp_singularity_core;
+    public static Item quark_micro_singularity;
+    public static Item qgp_fuel_slag;
+    public static Item solidified_quark;
     public static Item spawn_maskman;
     public static Item recipe_icon;
 
@@ -124,6 +133,10 @@ public class AletheiaItems {
         qgp_mining_bomb = new ItemQGPMiningBomb(4).setUnlocalizedName("qgp_mining_bomb")
             .setTextureName("tnt_side");
         GameRegistry.registerItem(qgp_mining_bomb, "qgp_mining_bomb");
+
+        sqgp_mining_bomb = new ItemQGPMiningBomb(4, true).setUnlocalizedName("sqgp_mining_bomb")
+            .setTextureName("tnt_side");
+        GameRegistry.registerItem(sqgp_mining_bomb, "sqgp_mining_bomb");
 
         upgrade_ultimate = new ItemMachineUpgrade(UpgradeType.OVERDRIVE, 2).setUnlocalizedName("upgrade_ultimate")
             .setTextureName("hbm:upgrade_overdrive_3");
@@ -377,6 +390,40 @@ public class AletheiaItems {
             .setTextureName("hbm:waste_mox")
             .setCreativeTab(MainRegistry.controlTab);
         GameRegistry.registerItem(waste_qgp, "waste_qgp");
+
+        qgp_drill = new ItemQGPDrill();
+        GameRegistry.registerItem(qgp_drill, "qgp_drill");
+
+        qgp_apple = new ItemQGPApple();
+        GameRegistry.registerItem(qgp_apple, "qgp_apple");
+
+        qgp_cladding = new ItemQGPCladding();
+        GameRegistry.registerItem(qgp_cladding, "qgp_cladding");
+
+        qgp_chitin = new Item().setUnlocalizedName("qgp_chitin")
+            .setTextureName("hbm:plate_titanium")
+            .setCreativeTab(MainRegistry.controlTab);
+        GameRegistry.registerItem(qgp_chitin, "qgp_chitin");
+
+        qgp_singularity_core = new Item().setUnlocalizedName("qgp_singularity_core")
+            .setTextureName("aletheia:qgp_singularity_core")
+            .setCreativeTab(MainRegistry.controlTab);
+        GameRegistry.registerItem(qgp_singularity_core, "qgp_singularity_core");
+
+        quark_micro_singularity = new Item().setUnlocalizedName("quark_micro_singularity")
+            .setTextureName("aletheia:quark_micro_singularity")
+            .setCreativeTab(MainRegistry.controlTab);
+        GameRegistry.registerItem(quark_micro_singularity, "quark_micro_singularity");
+
+        qgp_fuel_slag = new Item().setUnlocalizedName("qgp_fuel_slag")
+            .setTextureName("aletheia:qgp_fuel_slag")
+            .setCreativeTab(MainRegistry.controlTab);
+        GameRegistry.registerItem(qgp_fuel_slag, "qgp_fuel_slag");
+
+        solidified_quark = new Item().setUnlocalizedName("solidified_quark")
+            .setTextureName("aletheia:solidified_quark")
+            .setCreativeTab(MainRegistry.controlTab);
+        GameRegistry.registerItem(solidified_quark, "solidified_quark");
 
         ItemZirnoxRodAletheia.registerFuelMap();
 

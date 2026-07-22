@@ -34,7 +34,11 @@
     "MixinMainRegistry",
     "MixinSerializableRecipe",
     "MixinEntityDisperserCanister",
-    "MixinModItems"
+    "MixinModItems",
+    "MixinArmorUtil",
+    "MixinBlockGlyphidSpawner",
+    "machine.MixinTileEntityRBMKRod",
+    "machine.MixinTileEntityRBMKBase"
   ],
   "client": [
     "MixinRenderFluidTank",

@@ -26,8 +26,15 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemQGPMiningBomb extends ItemGenericGrenade {
 
+    private final boolean isSuper;
+
     public ItemQGPMiningBomb(int fuse) {
+        this(fuse, false);
+    }
+
+    public ItemQGPMiningBomb(int fuse, boolean isSuper) {
         super(fuse);
+        this.isSuper = isSuper;
     }
 
     @Override
@@ -45,15 +52,24 @@ public class ItemQGPMiningBomb extends ItemGenericGrenade {
         int blockX = (int) Math.floor(x);
         int blockY = (int) Math.floor(y);
         int blockZ = (int) Math.floor(z);
-        int chunkX = blockX >> 4;
-        int chunkZ = blockZ >> 4;
+        int centerChunkX = blockX >> 4;
+        int centerChunkZ = blockZ >> 4;
 
-        int minX = chunkX * 16;
-        int maxX = minX + 15;
-        int minZ = chunkZ * 16;
-        int maxZ = minZ + 15;
+        int minChunkX = centerChunkX;
+        int maxChunkX = isSuper ? centerChunkX + 1 : centerChunkX;
+        int minChunkZ = centerChunkZ;
+        int maxChunkZ = isSuper ? centerChunkZ + 1 : centerChunkZ;
 
-        List<ItemStack> collectedOres = new ArrayList<ItemStack>();
+        int minX = minChunkX * 16;
+        int maxX = maxChunkX * 16 + 15;
+        int minZ = minChunkZ * 16;
+        int maxZ = maxChunkZ * 16 + 15;
+
+        int oreMultiplier = isSuper ? 5 : 2;
+        int radonGasCount = isSuper ? 20 : 5;
+        int distortionDuration = isSuper ? 120 : 60;
+
+        List<ItemStack> collectedItems = new ArrayList<ItemStack>();
 
         for (int ix = minX; ix <= maxX; ix++) {
             for (int iz = minZ; iz <= maxZ; iz++) {
@@ -63,6 +79,14 @@ public class ItemQGPMiningBomb extends ItemGenericGrenade {
                         continue;
                     }
                     int meta = world.getBlockMetadata(ix, iy, iz);
+
+                    if (block == Blocks.bedrock) {
+                        if (isSuper) {
+                            collectedItems.add(new ItemStack(Item.getItemFromBlock(Blocks.bedrock), 1, meta));
+                        }
+                        continue;
+                    }
+
                     Item item = Item.getItemFromBlock(block);
                     if (item != null) {
                         ItemStack checkStack = new ItemStack(item, 1, meta);
@@ -77,17 +101,17 @@ public class ItemQGPMiningBomb extends ItemGenericGrenade {
                             }
                         }
                         if (isOre) {
-                            collectedOres.add(new ItemStack(item, 2, meta));
+                            collectedItems.add(new ItemStack(item, oreMultiplier, meta));
                         }
                     }
                 }
             }
         }
 
-        List<ItemStack> mergedOres = new ArrayList<ItemStack>();
-        for (ItemStack stack : collectedOres) {
+        List<ItemStack> mergedItems = new ArrayList<ItemStack>();
+        for (ItemStack stack : collectedItems) {
             boolean found = false;
-            for (ItemStack merged : mergedOres) {
+            for (ItemStack merged : mergedItems) {
                 if (merged.getItem() == stack.getItem() && merged.getItemDamage() == stack.getItemDamage()) {
                     merged.stackSize += stack.stackSize;
                     found = true;
@@ -95,12 +119,12 @@ public class ItemQGPMiningBomb extends ItemGenericGrenade {
                 }
             }
             if (!found) {
-                mergedOres.add(stack);
+                mergedItems.add(stack);
             }
         }
 
         List<ItemStack> finalSlots = new ArrayList<ItemStack>();
-        for (ItemStack stack : mergedOres) {
+        for (ItemStack stack : mergedItems) {
             int total = stack.stackSize;
             while (total > 0) {
                 int count = Math.min(total, stack.getMaxStackSize());
@@ -121,9 +145,10 @@ public class ItemQGPMiningBomb extends ItemGenericGrenade {
             }
         }
 
-        for (int i = 0; i < 5; i++) {
-            int rx = minX + world.rand.nextInt(16);
-            int rz = minZ + world.rand.nextInt(16);
+        int chunkSpan = (maxChunkX - minChunkX + 1) * 16;
+        for (int i = 0; i < radonGasCount; i++) {
+            int rx = minX + world.rand.nextInt(chunkSpan);
+            int rz = minZ + world.rand.nextInt(chunkSpan);
             int ry = 1 + world.rand.nextInt(250);
             world.setBlock(rx, ry, rz, ModBlocks.gas_radon, 0, 3);
         }
@@ -133,13 +158,14 @@ public class ItemQGPMiningBomb extends ItemGenericGrenade {
 
         int targetY = Math.max(1, Math.min(254, blockY));
         if (totalCrates == 0) {
-            int targetX = minX + 8;
-            int targetZ = minZ + 8;
-            world.setBlock(targetX, targetY, targetZ, ModBlocks.crate_desh, 0, 3);
+            world.setBlock(blockX, targetY, blockZ, ModBlocks.crate_desh, 0, 3);
         } else {
+            int gridWidth = (int) Math.ceil(Math.sqrt(totalCrates));
             for (int crateIdx = 0; crateIdx < totalCrates; crateIdx++) {
-                int targetX = minX + 8 + (crateIdx - totalCrates / 2);
-                int targetZ = minZ + 8;
+                int offsetX = (crateIdx % gridWidth) - (gridWidth / 2);
+                int offsetZ = (crateIdx / gridWidth) - (gridWidth / 2);
+                int targetX = blockX + offsetX;
+                int targetZ = blockZ + offsetZ;
                 world.setBlock(targetX, targetY, targetZ, ModBlocks.crate_desh, 0, 3);
                 TileEntityCrateDesh tile = (TileEntityCrateDesh) world.getTileEntity(targetX, targetY, targetZ);
                 if (tile != null) {
@@ -159,20 +185,24 @@ public class ItemQGPMiningBomb extends ItemGenericGrenade {
                 EntityPlayer player = (EntityPlayer) pObj;
                 int pChunkX = ((int) Math.floor(player.posX)) >> 4;
                 int pChunkZ = ((int) Math.floor(player.posZ)) >> 4;
-                if (Math.abs(pChunkX - chunkX) <= 4 && Math.abs(pChunkZ - chunkZ) <= 4) {
+                int rangeCheck = isSuper ? 6 : 4;
+                if (Math.abs(pChunkX - centerChunkX) <= rangeCheck && Math.abs(pChunkZ - centerChunkZ) <= rangeCheck) {
                     if (player instanceof EntityPlayerMP) {
-                        PacketDispatcher.wrapper.sendTo(new QGPDistortionPacket(60), (EntityPlayerMP) player);
+                        PacketDispatcher.wrapper
+                            .sendTo(new QGPDistortionPacket(distortionDuration), (EntityPlayerMP) player);
                     }
                 }
             }
         }
 
+        float soundVolume = isSuper ? 6.0F : 4.0F;
+        float soundPitch = isSuper ? 0.5F : 0.7F;
         world.playSoundEffect(
             x,
             y,
             z,
             "random.explode",
-            4.0F,
-            (1.0F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F) * 0.7F);
+            soundVolume,
+            (1.0F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F) * soundPitch);
     }
 }

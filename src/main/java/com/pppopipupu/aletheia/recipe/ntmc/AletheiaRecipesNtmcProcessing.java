@@ -5,9 +5,11 @@ import java.util.HashMap;
 
 import net.minecraft.item.ItemStack;
 
+import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.recipes.CrystallizerRecipes;
 import com.hbm.inventory.recipes.SILEXRecipes;
 import com.hbm.inventory.recipes.ShredderRecipes;
 import com.hbm.inventory.recipes.SolidificationRecipes;
@@ -27,6 +29,7 @@ public class AletheiaRecipesNtmcProcessing {
         registerShredder();
         registerAnvil();
         registerSolidifier();
+        registerCrystallizer();
     }
 
     private static void registerSILEX() {
@@ -106,5 +109,19 @@ public class AletheiaRecipesNtmcProcessing {
     private static void registerSolidifier() {
         SolidificationRecipes.recipes
             .put(AletheiaFluids.fluid_qgp, new Pair<Integer, ItemStack>(1000, new ItemStack(AletheiaItems.billet_qgp)));
+        SolidificationRecipes.recipes
+            .put(AletheiaFluids.qgp_mutagen, new Pair<Integer, ItemStack>(500, new ItemStack(AletheiaItems.qgp_apple)));
+    }
+
+    private static void registerCrystallizer() {
+        CrystallizerRecipes.registerRecipe(
+            new ComparableStack(ModItems.egg_glyphid),
+            new CrystallizerRecipes.CrystallizerRecipe(new ItemStack(AletheiaItems.alien_jelly, 4), 120),
+            new FluidStack(Fluids.SULFURIC_ACID, 250));
+
+        CrystallizerRecipes.registerRecipe(
+            new ComparableStack(AletheiaItems.bio_crystal),
+            new CrystallizerRecipes.CrystallizerRecipe(new ItemStack(AletheiaItems.agricultural_science, 2), 240),
+            new FluidStack(Fluids.NITRIC_ACID, 500));
     }
 }

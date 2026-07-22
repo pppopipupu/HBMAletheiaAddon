@@ -6,6 +6,7 @@ import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.hbm.entity.ModEntityList;
 import com.hbm.hazard.HazardData;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
@@ -19,6 +20,8 @@ import com.hbm.items.ModItems;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.CompatExternal;
 import com.pppopipupu.aletheia.block.AletheiaBlocks;
+import com.pppopipupu.aletheia.entity.EntityGlyphidQGP;
+import com.pppopipupu.aletheia.entity.EntityQGPSingularity;
 import com.pppopipupu.aletheia.fluid.AletheiaFluids;
 import com.pppopipupu.aletheia.item.AletheiaItems;
 import com.pppopipupu.aletheia.item.ItemZirnoxRodAletheia;
@@ -39,6 +42,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.relauncher.Side;
 
 @Mod(
@@ -75,6 +79,10 @@ public class Aletheia {
 
         AletheiaAchievements.init();
         AletheiaDecayRegistry.register();
+
+        ModEntityList.registerEntity(EntityGlyphidQGP.class, "entity_glyphid_qgp", 300, instance, 0x110022, 0xb000ff);
+        EntityRegistry
+            .registerModEntity(EntityQGPSingularity.class, "entity_qgp_singularity", 301, instance, 120, 1, true);
 
         MinecraftForge.EVENT_BUS.register(new AletheiaCommonEventHandler());
         MinecraftForge.EVENT_BUS.register(new AletheiaDecayEventHandler());

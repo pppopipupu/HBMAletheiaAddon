@@ -104,5 +104,27 @@ public class AgriChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
                     new ComparableStack(ModItems.egg_glyphid, 1))
                 .inputFluids(new FluidStack(Fluids.WATER, 1_000))
                 .outputItems(new ItemStack(AletheiaItems.agricultural_science, 4)));
+
+        /// PETROCHEMICAL & HBM LINKAGE: PETROLEUM MUTAGEN SYNTHESIS ///
+        this.register(
+            new GenericRecipe("agri.qgp_mutagen").setupNamed(300, 150)
+                .setIcon(AletheiaItems.agricultural_science)
+                .inputItems(
+                    new ComparableStack(AletheiaItems.agricultural_science, 2),
+                    new ComparableStack(AletheiaItems.bio_crystal, 2),
+                    new ComparableStack(ModItems.fluorite, 1))
+                .inputFluids(
+                    new FluidStack(com.pppopipupu.aletheia.fluid.AletheiaFluids.fluid_qgp, 500),
+                    new FluidStack(Fluids.OIL, 1_000))
+                .outputFluids(new FluidStack(com.pppopipupu.aletheia.fluid.AletheiaFluids.qgp_mutagen, 500))
+                .outputItems(new ItemStack(Items.glass_bottle, 2)));
+
+        /// PETROCHEMICAL POLYMER REFINING WITH BIO-CRYSTAL ///
+        this.register(
+            new GenericRecipe("agri.polymer_bio").setupNamed(250, 120)
+                .setIcon(ModItems.ingot_polymer)
+                .inputItems(new ComparableStack(AletheiaItems.bio_crystal, 1), new ComparableStack(Items.coal, 2))
+                .inputFluids(new FluidStack(Fluids.NAPHTHA, 500), new FluidStack(Fluids.SULFURIC_ACID, 200))
+                .outputItems(new ItemStack(ModItems.ingot_polymer, 8)));
     }
 }

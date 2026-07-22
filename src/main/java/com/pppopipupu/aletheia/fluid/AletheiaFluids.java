@@ -22,6 +22,7 @@ public class AletheiaFluids implements IFluidRegisterListener {
     public static FluidType fluid_thermal_colloid;
     public static FluidType fluid_modified_cold_gel;
     public static FluidType fluid_hot_modified_cold_gel;
+    public static FluidType qgp_mutagen;
 
     public static void init() {
         fluid_qgp = CompatFluidRegistry
@@ -119,5 +120,19 @@ public class AletheiaFluids implements IFluidRegisterListener {
             .setTemp(2000)
             .addTraits(Fluids.LIQUID);
         fluid_hot_modified_cold_gel.addTraits(new FT_VentRadiation(0.5F));
+
+        qgp_mutagen = CompatFluidRegistry
+            .registerFluid(
+                "qgp_mutagen",
+                1005,
+                0xb000ff,
+                4,
+                0,
+                2,
+                EnumSymbol.ACID,
+                new ResourceLocation("aletheia:textures/fluid/qgp.png"))
+            .setTemp(5000)
+            .addContainers(new CD_Canister(0xb000ff))
+            .addTraits(Fluids.LIQUID, Fluids.VISCOUS, Fluids.LEADCON);
     }
 }

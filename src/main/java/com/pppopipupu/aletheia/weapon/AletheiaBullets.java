@@ -1,6 +1,7 @@
 package com.pppopipupu.aletheia.weapon;
 
 import net.minecraft.init.Blocks;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 import com.hbm.entity.effect.EntityCloudFleija;
@@ -17,6 +18,8 @@ public class AletheiaBullets {
     public static BulletConfig energy_pppop_steel;
 
     public static void init() {
+        BulletConfig.configs = new BulletConfigList(BulletConfig.configs);
+
         energy_pppop = new BulletConfig().setItem(ModItems.ingot_euphemium)
             .setVel(12.0F)
             .setSpread(0.05F)
@@ -100,12 +103,13 @@ public class AletheiaBullets {
             .setOnEntityHit((bullet, mop) -> {
                 if (mop.entityHit != null) {
                     float dmg = 35F + bullet.worldObj.rand.nextFloat() * 10F;
-                    mop.entityHit.attackEntityFrom(
-                        net.minecraft.util.DamageSource.causeThrownDamage(bullet, bullet.getThrower()),
-                        dmg);
+                    mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(bullet, bullet.getThrower()), dmg);
                 }
             })
             .setDamage(0F);
+
+        energy_pppop.id = 9001;
+        energy_pppop_steel.id = 9002;
     }
 
     public static void explodeZOMG(World world, int x, int y, int z, int bombStartStrength) {
